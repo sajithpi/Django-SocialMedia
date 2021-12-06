@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+homepage 22222
+
+{% block title %}
+    Home page
+{% endblock title %}
+
+
+{% block body %}
+  
+  {% for post in posts  %}
+      {{post.text}} written at {{post.date_time}}
+      <hr>
+  {% endfor %}
+      
+{% endblock body %}
+    
+    
