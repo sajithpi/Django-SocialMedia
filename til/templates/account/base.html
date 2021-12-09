@@ -8,18 +8,19 @@
   </head>
   <body> -->
 {% block body %}
-
+{% block content%}
     {% if messages %}
         <div>
         <strong>Messages:</strong>
         <ul>
+    
             {% for message in messages %}
-            <li>{{message}}</li>
+            <li>dsfds{{message}}</li>
             {% endfor %}
         </ul>
         </div>
     {% endif %}
-    {% block content %} {% endblock %}
+  {% endblock content %}
 {% endblock %}
   <!-- </body>
 </html> -->
