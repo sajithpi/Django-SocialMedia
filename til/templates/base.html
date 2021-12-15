@@ -76,26 +76,39 @@
 
   
    <!-- component -->
-<div class="min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover js-model hidden"  id="modal-id">
-  <div class="absolute bg-black opacity-75 inset-0 z-0"></div>
-  <div class="p-3 relative mx-auto my-auto rounded-xl shadow-lg  bg-white ">
+<div class="min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover  hidden js-model"  id="modal-id">
+  <div class="absolute bg-black opacity-75 inset-0 z-0 w-100"></div>
+  <div class="p-3 relative  mx-auto my-auto rounded-xl shadow-lg  bg-white w-2/5">
    <!--content-->
-    <div class="">
+    <div class="w-full m-auto">
      <!--body-->
-        <div class="text-center p-5 flex-auto justify-center w-72">
-          <i class='bx bx-upload text-5xl text-blue-500'></i>
+     <!-- <i class='bx bx-upload text-5xl text-blue-500 text-center'></i> -->
+        <div class="text-center pt-5 flex-auto justify-center ">
+        
             <!-- TODO:Add the ajax form -->
-                        <h2 class="text-xl font-bold py-4 ">Are you sure?</h3>
-                        <p class="text-sm text-gray-500 px-8">Do you really want to delete your account?
-                This process cannot be undone</p>    
+
+              <p><label for="id_photo">Photo:</label> <input type="file" class="js-post-photo" name="photo" required id="id_photo"></p>
+              <div id="img-box"></div>
+           
+            
+            <textarea class="js-post-text border-2 border-blue-500 mt-4 w-3/5"  rows="2" maxlength="255"  required id="id_text" data-post-url="{% url 'feed:new_post' %}" >
+            </textarea>
+                     
+               
         </div>
      <!--footer-->
-        <div class="p-3  mt-2 text-center space-x-1 md:block">
-          <button class="mb-2 md:mb-0 bg-blue-500 border border-blue-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-blue-700 js-submit" type="button">Post</button>
+        <div class="  text-center space-x-1 md:block">
+          <button class="js-submit bg-white text-gray-800 font-bold rounded border-b-2 border-green-500 hover:border-green-600 hover:bg-green-500 hover:text-white shadow-md py-1 px-3 inline-flex items-center text-sm mt-4 " type="button">
+            <span class="mr-2">Create Post</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path fill="currentcolor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+            </svg>
+        </button>
           <button class="js-toggle-model mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100">
             Cancel
           </button>
         </div>
+        <div id="alert-box"></div>
       </div>
   </div>
 </div>
