@@ -60,7 +60,7 @@ photos.addEventListener("change",function(e){
           if (file) {
             reader.readAsDataURL(img_data);
           }
-          imgbox.innerHTML = `<img src="${url}" width="315px" height="315px" style="margin:auto; padding-top:1rem">`
+          imgbox.innerHTML = `<img src="${url}" width="auto" height="auto" style="margin:auto; position:absolute; padding-top:1rem margin-bottom:3rem">`
           fd.append('photo',photos.files[0])
          
 
@@ -125,6 +125,35 @@ $(document).on("click",".js-toggle-model",function(e){
         processData:false,
     });
 
+})
+
+.on("click",".js-follow",function(e) {
+    e.preventDefault();
+    console.log("Clicked")
+    const action = $(this).attr("data-action")
+    $.ajax({
+        type: 'POST',
+        url: $(this).data("url"),
+        enctype:'multipart/form-data',
+        data: {
+            action: action,
+            username: $(this).data("username"),
+        },  
+        success: (data) => {
+           $(".js-follow-text").text(data.wording)
+           if(action == "follow"){
+               $(this).attr("data-action","unfollow")
+           }else{
+            $(this).attr("data-action","follow")
+           }
+    
+            
+        },
+        error: (error) => {
+            console.warn(error)
+      
+        },
+    });
 })
 
     

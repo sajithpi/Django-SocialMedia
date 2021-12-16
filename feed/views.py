@@ -1,21 +1,44 @@
 from django.forms import forms
 from django.http import request
-from django.views.generic import ListView
-from django.views.generic.detail import DetailView
+from django.views.generic import TemplateView
+from django.views.generic.detail import  DetailView
 from django.views.generic.edit import CreateView
 from .models import Post
 from django.shortcuts import render
 from feed import models
 from django.contrib.auth.mixins import LoginRequiredMixin
+from followers.models import Follower
 
 # Create your views here.
 
-class HomePage(ListView):
+class HomePage(TemplateView):
     http_method_names = ["get"]
     template_name = "feed/homepage.html"
-    model = Post
-    context_object_name = "posts"
-    queryset = Post.objects.all().order_by('-id')[0:30]
+    # model = Post
+    # context_object_name = "posts"
+    # queryset = Post.objects.all().order_by('-id')[0:30]
+
+    def dispatch(self, request, *args, **kwargs):
+        self.request = request
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        # context['posts'] = Post.objects.all()
+        if self.request.user.is_authenticated:
+
+            following = list(
+                Follower.objects.filter(followed_by=self.request.user).values_list('following', flat=True)
+            
+            )
+            if not following:
+                  posts= Post.objects.all().order_by('-id')[0:30]
+            else:
+                posts= Post.objects.filter(author__in=following).order_by('-id')[0:30]
+        else:
+            posts= Post.objects.all().order_by('-id')[0:30]
+        context['posts'] = posts
+        return context
 
 
 class PostDetailView(DetailView):
@@ -58,7 +81,8 @@ class UploadPost(LoginRequiredMixin,CreateView):
         )
 
 
-
-    
+class ProfileView(DetailView):
+    http_method_names = ["get"]
+    template_name = "feed/profile.html"
     
 

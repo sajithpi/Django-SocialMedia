@@ -1,9 +1,8 @@
 from django.contrib import admin
+from .models import Profile
 
-from profiles.models import Profile
 
-# Register your models here.
 class ProfileAdmin(admin.ModelAdmin):
     pass
 
-admin.site.register(Profile,ProfileAdmin)
+admin.site.register(Profile, ProfileAdmin)
