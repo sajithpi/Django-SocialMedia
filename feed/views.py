@@ -1,7 +1,6 @@
-from django.forms import forms
-from django.http import request
+
 from django.views.generic import TemplateView
-from django.views.generic.detail import  DetailView
+from django.views.generic import  DetailView
 from django.views.generic.edit import CreateView
 from .models import Post
 from django.shortcuts import render
@@ -84,5 +83,6 @@ class UploadPost(LoginRequiredMixin,CreateView):
 class ProfileView(DetailView):
     http_method_names = ["get"]
     template_name = "feed/profile.html"
-    
+
+
 

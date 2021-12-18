@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+homepage 22222
+
+{% block title %}
+    Home page
+{% endblock title %}
+<h1 class="text-3xl py-3 text-blue-500">Welcome {{user.username}}</h1>
+
+{% block body %}
+  
+  {% if request.user.is_authenticated %}
+    <div id="posts-container">
+          {% for post in posts  %}
+
+		{% include 'includes/post.html' with post=post show_detail_link=True %}
+
+
+
+
+    {% endfor %}
+    </div>
+
+  {% else %}
+    Signin
+  {% endif %}
+    
+
+      
+{% endblock body %}
+
+    
+    

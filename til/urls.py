@@ -19,7 +19,7 @@ from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.urls import path
 from feed import urls as feed_urls
-from profiles import urls as profiles_urls
+from profiles import urls as profiles_urls, views
 
 
 
@@ -30,6 +30,7 @@ urlpatterns = [
     path("",include(profiles_urls, namespace="profiles")),
     url("",include("allauth.urls")),
     path('accounts/', include('allauth.urls')),
+   
 
 ]
 

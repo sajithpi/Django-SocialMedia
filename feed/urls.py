@@ -11,5 +11,6 @@ urlpatterns = [
     path("<int:pk>/",views.PostDetailView.as_view(),name="detail"),
     path("uploadPost/",views.UploadPost.as_view(),name="new_post"),
     path("profile/",views.ProfileView.as_view(),name="profile"),
+   
 ]
 urlpatterns += static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)

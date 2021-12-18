@@ -1,0 +1,123 @@
+
+
+{% load thumbnail %}
+
+<!-- {% block title %}{{ user.username }}{% endblock title %} -->
+
+{% block body %}
+
+<title>{{ user.username }}</title>
+<div class="flex  bg-gray-100">
+    <div class="flex sticky w-24 -ml-7 md:ml-0 sm:w-auto z-30 md:z-40 ">{% include "base.html" %}</div>
+    <div class="overflow-hidden shadow w-full h-fit z-50 md:z-30 my-3 bg-gray-100">
+        <div class="w-auto bg-cover bg-center h-48" style="background-image: url('https://images.unsplash.com/photo-1593642532454-e138e28a63f4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=869&q=80');">
+        </div>
+          <!-- <img src="https://images.unsplash.com/photo-1593642532454-e138e28a63f4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=869&q=80" class="bg-cover" /> -->
+        <div class="flex justify-center -mt-8">
+            {% thumbnail user.profile.image "100x100" crop="center" as im %}
+                <img src="{{ im.url }}" class="rounded-full border-solid border-white border-2 -mt-3">
+            {% endthumbnail %}
+        </div>
+        <div class="text-center px-3 pb-6 pt-2">
+            <h3 class="text-black text-sm bold font-sans capitalize">{{ user.username }}</h3>
+            {% if request.user.is_authenticated %}
+                {% if request.user != user %}
+                    <div class="mt-3">
+                        <button class="bg-white text-gray-800 font-bold rounded border-b-2 border-green-500 hover:border-green-600 hover:bg-green-500 hover:text-white shadow-md py-1 px-3 text-xs inline-flex items-center js-follow" data-username="{{ user.username }}" data-action="{% if you_follow %}un{% endif %}follow" data-url="{% url 'profiles:follow' user.username %}" type="button">
+                            <span class="mr-2 js-follow-text">
+                                {% if you_follow %}
+                                    Unfollow
+                                {% else %}
+                                    Follow
+                                {% endif %}
+                            </span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <path fill="currentcolor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                {% endif %}
+            {% else %}
+                <div class="mt-3 text-sm">Login to follow this user</div>
+            {% endif %}
+        </div>
+          <div class="flex justify-center pb-3 text-grey-dark">
+          <div class="text-center mr-3 border-r pr-3">
+            <h2 class="text-md md:text-xl">{{ total_posts }}</h2>
+            <span class="text-md md:text-md">Posts</span>
+          </div>
+          <div class="text-center">
+            <h2 class="text-md md:text-xl">{{ total_followers }}</h2>
+            <span class="text-md md:text-md">Followers</span>
+          </div>
+          </div>
+
+          
+          <!-- TODO:About -->
+          <div class="my-3 text-gray-700">
+             <div class="flex justify-between items-center">
+                <h1 class="text-sm md:text-2xl p-1 md:p-3 pl-3">User Primary Details</h1>
+                <a  class="text-end md:text-cente"   href=""><span class="text-sm md:text-base">Update Details</span></a>
+             </div> 
+             <hr>
+            <div class="grid md:grid-cols-2 text-sm">
+                <div class="grid grid-cols-2">
+                    <div class="px-4 py-2 font-semibold">User Name</div>
+                    <div class="px-4 py-2 text-sm md:text-base">{{user.username}}</div>
+                </div>
+                <div class="grid grid-cols-2">
+                    <div class="px-4 py-2 font-semibold">First Name</div>
+                    <div class="px-4 py-2 text-sm md:text-base">{{user.first_name}}</div>
+                </div>
+                <div class="grid grid-cols-2">
+                    <div class="px-4 py-2 font-semibold">Last Name</div>
+                    <div class="px-4 py-2 text-sm md:text-base">{{user.last.name}}</div>
+                </div>
+                <div class="grid grid-cols-2">
+                    <div class="px-4 py-2 font-semibold">Email.</div>
+                    <div class="px-1 md:px-4 py-2">
+                        <a class="text-sm md:text-base text-blue-800 px-1 break-words" href="mailto:{{user.email}}">{{user.email}}</a>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="flex justify-between items-center">
+                <h1 class="text-sm md:text-2xl p-1 md:p-3">Personal Details</h1>
+                <a class="text-end md:text-center px-2 md:px-3" href=""><span class="text-sm md:text-base px-0 md:px-3 ">Update Details</span></a>
+            </div>
+            <hr>
+            <div class="grid md:grid-cols-2 text-sm">
+                <div class="grid grid-cols-2">
+                    <div class="px-4 py-2 font-semibold">Gender</div>
+                    <div class="px-4 py-2 text-sm md:text-base">Female</div>
+                </div>
+                <div class="grid grid-cols-2">
+                    <div class="px-4 py-2 font-semibold">Contact No.</div>
+                    <div class="px-4 py-2 text-sm md:text-base">+11 998001001</div>
+                </div>
+                <div class="grid grid-cols-2">
+                    <div class="px-4 py-2 font-semibold">Current Address</div>
+                    <div class="px-4 py-2 text-sm md:text-base">Beech Creek, PA, Pennsylvania</div>
+                </div>
+                <div class="grid grid-cols-2">
+                    <div class="px-4 py-2 font-semibold">Permanant Address</div>
+                    <div class="px-4 py-2 text-sm md:text-base">Arlington Heights, IL, Illinois</div>
+                </div>
+               
+                <div class="grid grid-cols-2">
+                    <div class="px-4 py-2 font-semibold">Birthday</div>
+                    <div class="px-4 py-2 text-sm md:text-base">Feb 06, 1998</div>
+                </div>
+            </div>
+
+
+
+
+
+
+    </div>  
+
+  
+<!-- <div class="bg-cover bg-center w-full" style="background-image: url('https://images.unsplash.com/photo-1593642532454-e138e28a63f4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=869&q=80');"></div> -->
+
+{% endblock body %}
