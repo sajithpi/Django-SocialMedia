@@ -38,21 +38,12 @@
       {% if request.user.is_authenticated %}
               <li>
    
-                  <a href="{% url 'profiles:user' user.username %}" class="flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 ">
+                  <a href="{% url 'profiles:update' user.id %}" class="flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 ">
                     <span class="inline-flex items-center content-start md:content-center  h-12 w-7 text-lg text-gray-400"><i class="bx bx-user"></i></span>
                     <div class="text-xs md:text-sm font-medium  visible hover:invisible">Profile</div>
                   </a>
                   
-              </li>
-              <li>
-    
-                <a href="{% url 'profiles:update' user.id %}" class="flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 ">
-                  <span class="inline-flex items-center content-start md:content-center  h-12 w-7 text-lg text-gray-400"><i class="bx bx-user"></i></span>
-                  <div class="text-xs md:text-sm font-medium  visible hover:invisible">Update</div>
-                </a>
-                
-            </li>
-           
+              </li>   
               <li>
 
 

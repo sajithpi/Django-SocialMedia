@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.contrib import messages
 from django.views.generic import DetailView, View, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import JsonResponse, HttpResponseBadRequest
+from django.http import JsonResponse, HttpResponseBadRequest, request
 from django.views.generic.base import TemplateView
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.forms import PasswordChangeForm
@@ -43,7 +43,7 @@ class UserDetailView(TemplateView):
 
 class ProfileDetailView(DetailView):
     http_method_names = ["get"]
-    template_name = "profiles/detail.html"
+    template_name = "profiles/update.html"
     model = User
     context_object_name = "user"
     slug_field = "username"
@@ -76,6 +76,8 @@ class ProfilePersonalUpdate(UpdateView):
     def dispatch(self, request, *args, **kwargs):
         self.request = request
         return super().dispatch(request,*args,**kwargs)
+
+  
 
     def form_valid(self, form):
         messages.add_message(self.request ,messages.SUCCESS,'User Details Updated Successfully')
