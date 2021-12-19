@@ -92,7 +92,7 @@ background-image: linear-gradient(315deg, #ffffff 0%, #d7e1ec 74%);">
             <p class="hidden"><label for="id_user">User:</label>
               <select name="user" required id="id_user">
                 <option value="">---------</option>
-                <option value="1" selected>{{user.profile.user}}</option>
+                <option value="{{user.id}}" selected>{{user.profile.user}}</option>
 
 
 
@@ -132,7 +132,7 @@ background-image: linear-gradient(315deg, #ffffff 0%, #d7e1ec 74%);">
 
 
 
-            <!-- <input class="text-sm md:text-base px-0 md:px-3 " value="Update Details" type="submit" /> -->
+           
           </div>
           <div class="grid mt-3 justify-center self-center">
             <button

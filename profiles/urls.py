@@ -6,7 +6,7 @@ app_name = "profiles"
 urlpatterns = [
  
     
-    path("profile/<str:id>", views.ProfilePersonalUpdate.as_view(), name="update"),
+    path("profile/<str:user_id>", views.ProfilePersonalUpdate.as_view(), name="update"),
 
     path("profile/<str:id>", views.ProfileLoginUpdate.as_view(), name="updatelogin"),
    

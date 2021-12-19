@@ -14,7 +14,7 @@ class Profile(models.Model):
     image = ImageField(upload_to='profiles')
     gender = models.CharField(max_length=100)
     # dob = models.DateTimeField(auto_created=True)
-    contact = models.IntegerField()
+    contact = models.IntegerField(default=1)
     place = models.CharField(max_length=100)
    
     country = models.CharField(max_length=100)

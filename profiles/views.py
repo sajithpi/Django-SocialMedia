@@ -71,18 +71,18 @@ class ProfilePersonalUpdate(UpdateView):
     # form_class = UserForm
     fields = "__all__"
     success_url = "/"
-    slug_field = "id"
-    slug_url_kwarg = "id"
+    slug_field = "user_id"
+    slug_url_kwarg = "user_id"
     def dispatch(self, request, *args, **kwargs):
         self.request = request
         return super().dispatch(request,*args,**kwargs)
 
-    def get_context_data(self, **kwargs):
-        user = self.request.user
-        context = super().get_context_data(**kwargs)
-        context['total_posts'] = Post.objects.filter(author = user).count()
-        context['total_followers'] = Follower.objects.filter(following = user).count()
-        return context
+    # def get_context_data(self, **kwargs):
+    #     user = self.request.user
+    #     context = super().get_context_data(**kwargs)
+    #     context['total_posts'] = Post.objects.filter(author = user).count()
+    #     context['total_followers'] = Follower.objects.filter(following = user).count()
+    #     return context
 
     def form_valid(self, form):
         messages.add_message(self.request ,messages.SUCCESS,'User Details Updated Successfully')
