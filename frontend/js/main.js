@@ -132,6 +132,36 @@ $(document).on("click",".js-toggle-model",function(e){
 })
 
     
+.on("click",".js-follow",function(e) {
+    e.preventDefault();
+    console.log("Clicked")
+    const action = $(this).attr("data-action")
+    $.ajax({
+        type: 'POST',
+        url: $(this).data("url"),
+        enctype:'multipart/form-data',
+        data: {
+            action: action,
+            username: $(this).data("username"),
+        },  
+        success: (data) => {
+           $(".js-follow-text").text(data.wording)
+           if(action == "follow"){
+               $(this).attr("data-action","unfollow")
+           }else{
+            $(this).attr("data-action","follow")
+           }
+    
+            
+        },
+        error: (error) => {
+            console.warn(error)
+      
+        },
+    });
+})
+
+    
 
 
 
