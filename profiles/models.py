@@ -11,13 +11,13 @@ class Profile(models.Model):
         on_delete=models.CASCADE,
         related_name="profile"
     )
-    image = ImageField(upload_to='profiles')
-    gender = models.CharField(max_length=100)
+    image = ImageField(default="profiles/user.png",upload_to='profiles')
+    gender = models.CharField(null=True,blank=True,max_length=100)
     # dob = models.DateTimeField(auto_created=True)
-    contact = models.IntegerField(default=1)
-    place = models.CharField(max_length=100)
+    contact = models.IntegerField(null=True,blank=True,default=1)
+    place = models.CharField(null=True,blank=True,max_length=100)
    
-    country = models.CharField(max_length=100)
+    country = models.CharField(null=True,blank=True,max_length=100)
    
 
     def __str__(self):
