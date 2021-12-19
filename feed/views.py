@@ -1,7 +1,11 @@
 
+from django.contrib.auth.models import User
+from django.db.models.base import Model
 from django.views.generic import TemplateView
 from django.views.generic import  DetailView
 from django.views.generic.edit import CreateView
+
+from profiles.models import Profile
 from .models import Post
 from django.shortcuts import render
 from feed import models
@@ -9,6 +13,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from followers.models import Follower
 
 # Create your views here.
+
 
 class HomePage(TemplateView):
     http_method_names = ["get"]
@@ -79,10 +84,16 @@ class UploadPost(LoginRequiredMixin,CreateView):
             content_type="application/html"
         )
 
-
-class ProfileView(DetailView):
-    http_method_names = ["get"]
-    template_name = "feed/profile.html"
+class FindFriends(TemplateView):
+ 
+    template_name = "feed/findfriends.html"
+    # context_object_name = "user"
+    # queryset = Profile.objects.all().order_by('-id')[0:30]
+    
+    def get_context_data(self, **kwargs):
+        context =  super().get_context_data(**kwargs)
+        context['user_details'] = Profile.objects.all()
+        return context
 
 
 

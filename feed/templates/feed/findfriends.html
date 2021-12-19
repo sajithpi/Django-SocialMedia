@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+homepage 22222
+
+{% block title %}
+    Find Friends
+{% endblock title %}
+
+
+{% block body %}
+ {% include 'includes/fonts.html' %}   
+<h1 class="text-3xl py-3 text-blue-500">Find Friends</h1>
+
+          {% for user in user_details %}
+        
+            <p>{{user.username}}</p>
+            {% include 'includes/users.html' with user=user  %}
+
+
+
+        {% endfor %} 
+
+
+      
+{% endblock body %}
+
+    
+    

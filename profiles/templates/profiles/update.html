@@ -11,9 +11,11 @@
 
 
 {% if request.user.is_authenticated %}
-<div class="flex ">
-  <div class="flex sticky w-24 -ml-7 md:ml-0 sm:w-auto z-30 md:z-40 ">{% include "base.html" %}</div>
-  <div class="overflow-hidden shadow w-full h-fit z-50 md:z-30 my-3 ">
+<div class="flex  "  style="background-color: #ffffff;
+background-image: linear-gradient(315deg, #ffffff 0%, #d7e1ec 74%);">
+  
+  <div class="flex sticky w-24 -ml-7 md:ml-0 sm:w-auto z-30 md:z-40  ">{% include "base.html" %}</div>
+  <div class="overflow-hidden  w-full h-fit z-50 md:z-30 my-3 backdrop-blur-sm bg-white/30 " style="backdrop-filter: blur(20px);">
     <div class="w-auto bg-cover bg-center h-48"
       style="background-image: url('https://images.unsplash.com/photo-1593642532454-e138e28a63f4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=869&q=80');">
     </div>

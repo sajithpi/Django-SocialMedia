@@ -1,127 +1,155 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Base file{% endblock title%}</title>
-    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> 
-    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" />
-</head>
-<style>
-    a{
-        text-decoration:none
-    }
-  
-</style>
 
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Base file{% endblock title%}</title>
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" />
+</head>
+
+{% include 'includes/fonts.html' %}
 <body>
 
-<!-- component -->
+  <!-- component -->
 
 
-<div class="min-h-screen flex flex-row bg-gray-100 ">
-  <!-- <div class="flex flex-col w-4/5 md:w-1/5 md:pr-0 pr-1 bg-white rounded-r-3xl overflow-hidden"> -->
-    <div class="flex flex-col px-0 md:px-3 w-32 md:w-48 lg:w-64 h-screen md:px-1 bg-white rounded-r-3xl overflow-hidden sticky top-0 left-0 right-0">
-    <div class="flex items-center justify-center h-20 ">
-      <h1 class="text-2xl md:text-3xl uppercase text-indigo-500 -ml-4 md:ml-4">TIL</h1>
+  <div class="min-h-screen flex flex-row bg-gray-100 ">
+    <!-- <div class="flex flex-col w-4/5 md:w-1/5 md:pr-0 pr-1 bg-white rounded-r-3xl overflow-hidden"> -->
+    <div
+      class="flex flex-col px-0 md:px-3 w-32 md:w-48 lg:w-64 h-screen md:px-1 bg-white rounded-r-3xl overflow-hidden sticky top-0 left-0 right-0">
+      <div class="flex items-center justify-center h-20 ">
+        <h1 class="text-2xl md:text-3xl uppercase text-indigo-500 -ml-4 md:ml-4">TIL</h1>
+      </div>
+      <ul class="flex flex-col py-4 px-0 md:px-3 text-decoration:none -ml-0 md:ml-4">
+        <li class="text-decoration: none   ">
+          <a href="{% url 'feed:home' %} "
+            class="flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 ">
+            <span class="inline-flex items-center content-start md:content-center  h-12 w-7 text-lg text-gray-400"><i
+                class="bx bx-home"></i></span>
+            <div class="text-xs md:text-sm font-medium  visible hover:invisible">Home</div>
+          </a>
+        </li>
+        {% if request.user.is_authenticated %}
+        <li>
+
+          <a href="{% url 'profiles:update' user.id %}"
+            class="flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 ">
+            <span class="inline-flex items-center content-start md:content-center  h-12 w-7 text-lg text-gray-400"><i
+                class="bx bx-user"></i></span>
+            <div class="text-xs md:text-sm font-medium  visible hover:invisible">Profile</div>
+          </a>
+
+        </li>
+        <li>
+          <a href="{% url 'feed:new_post' %}"
+            class="js-toggle-model  flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 ">
+            <span class="inline-flex items-center content-start md:content-center  h-12 w-7 text-lg text-gray-400"><i
+                class="bx bx-upload"></i></span>
+            <div class="text-xs md:text-sm font-medium  visible hover:invisible">Upload</div>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'feed:find' %}"
+            class="flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 ">
+            <span class="inline-flex items-center content-start md:content-center  h-12 w-7 text-lg text-gray-400"><i
+                class="bx bx-upload"></i></span>
+            <div class="text-xs md:text-sm font-medium  visible hover:invisible">Find Friends</div>
+          </a>
+        </li>
+
+        <li>
+
+          <a href="{% url 'account_logout' %}"
+            class="flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 ">
+            <span class="inline-flex items-center content-start md:content-center  h-12 w-7 text-lg text-gray-400"><i
+                class="bx bx-log-out"></i></span>
+            <div class="text-xs md:text-sm font-medium  visible hover:invisible">Logout</div>
+          </a>
+
+        </li>
+        {% else %}
+        <li>
+          <a href="{% url 'account_login' %}"
+            class="flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 ">
+            <span class="inline-flex items-center content-start md:content-center  h-12 w-7 text-lg text-gray-400"><i
+                class="bx bx-log-in"></i></span>
+            <div class="text-xs md:text-sm font-medium  visible hover:invisible">Login</div>
+          </a>
+
+        </li>
+        {% endif %}
+
+
+      </ul>
     </div>
-    <ul class="flex flex-col py-4 px-0 md:px-3 text-decoration:none -ml-0 md:ml-4">
-      <li class="text-decoration: none   ">
-        <a href="{% url 'feed:home' %} " class="flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 ">
-          <span class="inline-flex items-center content-start md:content-center  h-12 w-7 text-lg text-gray-400"><i class="bx bx-home"></i></span>
-          <div class="text-xs md:text-sm font-medium  visible hover:invisible">Home</div>
-        </a>
-      </li>
-      {% if request.user.is_authenticated %}
-              <li>
-   
-                  <a href="{% url 'profiles:update' user.id %}" class="flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 ">
-                    <span class="inline-flex items-center content-start md:content-center  h-12 w-7 text-lg text-gray-400"><i class="bx bx-user"></i></span>
-                    <div class="text-xs md:text-sm font-medium  visible hover:invisible">Profile</div>
-                  </a>
-                  
-              </li>   
-              <li>
+
+    <div class="m-auto">
+
+      {% block body %}
+
+      {% block content %}
+
+      {% endblock content %}
+      {% endblock body %}
+
+    </div>
 
 
-                <a  href="{% url 'feed:new_post' %}"class="js-toggle-model  flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 ">
-                  <span class="inline-flex items-center content-start md:content-center  h-12 w-7 text-lg text-gray-400"><i class="bx bx-upload"></i></span>
-                  <div class="text-xs md:text-sm font-medium  visible hover:invisible">Upload</div>
-                </a>
-               
-            </li>
-          
-            <li>
-
-                <a href="{% url 'account_logout' %}" class="flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 ">
-                  <span class="inline-flex items-center content-start md:content-center  h-12 w-7 text-lg text-gray-400"><i class="bx bx-log-out"></i></span>
-                  <div class="text-xs md:text-sm font-medium  visible hover:invisible">Logout</div>
-                </a>
-
-            </li>
-      {% else %}
-             <li>
-              <a href="{% url 'account_login' %}" class="flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 ">
-                <span class="inline-flex items-center content-start md:content-center  h-12 w-7 text-lg text-gray-400"><i class="bx bx-log-in"></i></span>
-                <div class="text-xs md:text-sm font-medium  visible hover:invisible">Login</div>
-              </a>
-      
-            </li>
-      {% endif %}
-    
-     
-    </ul>
-  </div>
- 
-   <div class="m-auto">
-  
-        {% block body %}
-        
-             {% block content %}
-            
-             {% endblock content %}
-        {% endblock body %}
-    
-   </div>  
+    {% if request.user.is_authenticated %}
 
 
-{% if request.user.is_authenticated %}
-  
 
-  
-   <!-- component -->
+    <!-- component -->
 <div class="min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover  hidden js-model"  id="modal-id">
   <div class="absolute bg-black opacity-75 inset-0 z-0 w-100"></div>
-  <div class="relative mx-auto my-auto rounded-xl shadow-lg  bg-white  w-auto h-auto md:w-2/5 p-1 md:p-3">
+  <div class="relative mx-auto my-auto rounded-xl shadow-lg  bg-white  w-fit h-auto md:w-2/5 p-1 md:p-3">
    <!--content-->
     <div class=" m-auto">
      <!--body-->
      <!-- <i class='bx bx-upload text-5xl text-blue-500 text-center'></i> -->
-        <div class="text-center pt-1 md:pt-5 flex-auto justify-center ">
+        <div class="text-center pt-1 md:pt-5  flex-auto justify-center ">
         
             <!-- TODO:Add the ajax form -->
 
-              <p class="flex flex-col md:flex-row pt-3 px-0 md:px-3"><label  for="id_photo"  class="flex flex-col md:flex-row">Photo:</label> <input type="file" class="js-post-photo text-center flex flex-col md:flex-row" name="photo" required id="id_photo"></p>
-              <div id="img-box"  class="w-20 h-12 md:h-1/4 md:w-1/2 relative mx-auto"></div>
-           
+              <div class="md:flex-row pt-3 px-0 md:px-3     " style="text-align: -webkit-center;">
+                <div class=" flex flex-col md:flex-row w-3/5 items-baseline "><label  for="id_photo"  class="text-xs md:text-sm text-center">Photo:</label> </div>
+                <input type="file" class="js-post-photo text-center flex flex-col md:flex-row text-xs md:text-sm w-3/5 items-baseline mb-2" name="photo" required id="id_photo"></div>
+              <!-- <div id="img-box"  class="w-1/2 h-12 md:h-1/4 md:w-1/2 relative mx-auto"></div> -->
+              <img id="img-box"  alt="Upload Photo" class="w-22 h-16 md:w-48 md:h-32 border relative mx-auto ext-xs md:text-sm "></img>
             
-            <textarea class="js-post-text border-2 border-blue-500 mt-2 md:mt-4 w-3/5"  rows="2" placeholder="Description" maxlength="255"  required id="id_text" data-post-url="{% url 'feed:new_post' %}" >
-            </textarea>
+            <textarea class="js-post-text  text-xs md:text-sm border-2 border-blue-500 mt-2 md:mt-4 w-3/5 h-9 md:h-11"  rows="2" placeholder="Post Description" maxlength="255"  required id="id_text" data-post-url="{% url 'feed:new_post' %}" ></textarea>
                      
                
         </div>
      <!--footer-->
-        <div class="  text-center space-x-1 md:block">
-          <button class="js-submit bg-white text-gray-800 font-bold rounded border-b-2 border-green-500 hover:border-green-600 hover:bg-green-500 hover:text-white shadow-md py-1 px-3 inline-flex items-center text-sm mt-4 " type="button">
-            <span class="mr-2">Create Post</span>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <div class="  text-center space-x-1 md:block  mt-4">
+          <!-- <button class="js-submit bg-blue-500 text-white font-bold rounded border-b-2 border-green-500 
+                       hover:border-green-600 hover:bg-green-500 hover:text-white
+                       shadow-md  inline-flex items-center 
+                       text-sm px-5 py-1 md-py-2 tracking-wider rounded-full" type="button">
+
+            <span class="text-xs md:text-sm mr-2">Create Post</span>
+          
+        
+        </button> -->
+        <button class="js-submit  bg-blue-500 text-white font-semibold mb-2 md:mb-0 px-3 py-1 
+                      md-py-2 border-b-2 border-green-500 shadow-sm font-medium tracking-wider border 
+                      rounded-full hover:shadow-lg hover:bg-gray-100 mr-2 hover:border-green-600 hover:bg-green-500 hover:text-white
+                      shadow-md inline-flex text-xs md:text-sm mr-2">
+                      Create Post
+             <!-- <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24">
                 <path fill="currentcolor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
-            </svg>
+            </svg> -->
         </button>
-          <button class="js-toggle-model mb-2 md:mb-0 bg-white px-5 py-1 md-py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100">
+        
+          <button class="js-toggle-model text-xs md:text-sm mb-2 md:mb-0 px-3 py-1 md-py-2  bg-white text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg  ">
             Cancel
           </button>
         </div>
@@ -144,11 +172,12 @@
 
 
 
-
-    
-<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="{% static 'js/main.js' %}"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+    integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="{% static 'js/main.js' %}"></script>
 
 </body>
+
 </html>

@@ -1,0 +1,20 @@
+{% load thumbnail %}
+<div class="flex flex-col p-8 bg-white shadow-md hover:shodow-lg rounded-2xl w-96">
+	<div class="flex items-center justify-between">
+		<div class="flex items-center">
+            <a href="">
+                {% thumbnail user.image "59x59" crop="center" as im %}
+                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"
+                    class="rounded-full object-scale-down">
+                {% endthumbnail %}
+            </a>
+			<div class="flex flex-col ml-3">
+				<div class="font-medium leading-none uppercase">{{user.user}}</div>
+			
+                <p class="text-sm text-gray-600 leading-none mt-1">{{user.gender}}</p>
+                <p class="text-sm text-gray-600 leading-none mt-1">{{user.country}}</p>
+			</div>
+		</div>
+		<button  class="flex-no-shrink bg-blue-500 px-5 ml-4 py-2 text-sm shadow-sm hover:shadow-lg font-medium tracking-wider border-2 border-blue-500 text-white rounded-full">Follow</button>
+	</div>
+</div>
