@@ -105,6 +105,7 @@ $(document).on("click",".js-toggle-model",function(e){
         success: (dataHtml) => {
            
             $("#posts-container").prepend(dataHtml);
+            $("#posts-container-user").prepend(dataHtml)
             $btn.prop("disabled", false).text("Create Post");
         
             handleAlerts('success','Succesfully saved','green')

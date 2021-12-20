@@ -24,8 +24,8 @@
     <!-- <div class="flex flex-col w-4/5 md:w-1/5 md:pr-0 pr-1 bg-white rounded-r-3xl overflow-hidden"> -->
     <div
       class="flex flex-col px-0 md:px-3 w-32 md:w-48 lg:w-64 h-screen md:px-1 bg-white rounded-r-3xl overflow-hidden sticky top-0 left-0 right-0">
-      <div class="flex items-center justify-center h-20 ">
-        <h1 class="text-2xl md:text-3xl uppercase text-indigo-500 -ml-4 md:ml-4">TIL</h1>
+      <div class="flex items-center justify-start h-20 pt-5 visible md:visible">
+        <h1 class="text-lg md:text-xl capitalize text-indigo-500 -ml-4 md:ml-4">SocialBook</h1>
       </div>
       <ul class="flex flex-col py-4 px-0 md:px-3 text-decoration:none -ml-0 md:ml-4">
         <li class="text-decoration: none   ">
@@ -109,7 +109,7 @@
     <!-- component -->
 <div class="min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover  hidden js-model"  id="modal-id">
   <div class="absolute bg-black opacity-75 inset-0 z-0 w-100"></div>
-  <div class="relative mx-auto my-auto rounded-xl shadow-lg  bg-white  w-fit h-auto md:w-2/5 p-1 md:p-3">
+  <div class="relative mx-auto my-auto rounded-xl shadow-lg  bg-white  w-fit h-auto md:w-2/5 p-1 md:p-3 ">
    <!--content-->
     <div class=" m-auto">
      <!--body-->
@@ -124,29 +124,19 @@
               <!-- <div id="img-box"  class="w-1/2 h-12 md:h-1/4 md:w-1/2 relative mx-auto"></div> -->
               <img id="img-box"  alt="Upload Photo" class="w-22 h-16 md:w-48 md:h-32 border relative mx-auto ext-xs md:text-sm "></img>
             
-            <textarea class="js-post-text  text-xs md:text-sm border-2 border-blue-500 mt-2 md:mt-4 w-3/5 h-9 md:h-11"  rows="2" placeholder="Post Description" maxlength="255"  required id="id_text" data-post-url="{% url 'feed:new_post' %}" ></textarea>
+            <textarea class="js-post-text  text-xs md:text-sm border-2 border-blue-500 mt-2 md:mt-4 w-3/5 h-9 md:h-11"  rows="2" placeholder="Post Description" maxlength="255"  required id="id_text" data-post-url="{% url 'feed:new_post' %} " ></textarea>
                      
                
         </div>
      <!--footer-->
         <div class="  text-center space-x-1 md:block  mt-4">
-          <!-- <button class="js-submit bg-blue-500 text-white font-bold rounded border-b-2 border-green-500 
-                       hover:border-green-600 hover:bg-green-500 hover:text-white
-                       shadow-md  inline-flex items-center 
-                       text-sm px-5 py-1 md-py-2 tracking-wider rounded-full" type="button">
 
-            <span class="text-xs md:text-sm mr-2">Create Post</span>
-          
-        
-        </button> -->
         <button class="js-submit  bg-blue-500 text-white font-semibold mb-2 md:mb-0 px-3 py-1 
                       md-py-2 border-b-2 border-green-500 shadow-sm font-medium tracking-wider border 
                       rounded-full hover:shadow-lg hover:bg-gray-100 mr-2 hover:border-green-600 hover:bg-green-500 hover:text-white
                       shadow-md inline-flex text-xs md:text-sm mr-2">
                       Create Post
-             <!-- <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24">
-                <path fill="currentcolor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
-            </svg> -->
+         
         </button>
         
           <button class="js-toggle-model text-xs md:text-sm mb-2 md:mb-0 px-3 py-1 md-py-2  bg-white text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg  ">
