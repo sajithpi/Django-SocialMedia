@@ -111,8 +111,8 @@
                         {% if request.user.is_authenticated %}
                         {% if request.user != user %}
                             <div class="mt-3">
-                                <button class="bg-white text-gray-800 font-bold rounded border-b-2 border-green-500 hover:border-green-600 hover:bg-blue-500 hover:text-gray-400 shadow-md py-1 px-3 text-xs inline-flex items-center js-follow" data-username="{{ user.username }}" data-action="{% if you_follow %}un{% endif %}follow" data-url="{% url 'profiles:follow' user.username %}" type="button">
-                                    <span class="mr-2 js-follow-text">
+                                <button  class="bg-white text-gray-800 font-bold rounded border-b-2 border-green-500 hover:border-green-600 hover:bg-blue-500 hover:text-gray-400 shadow-md py-1 px-3 text-xs inline-flex items-center js-follow" data-username="{{ user.username }}" data-action="{% if you_follow %}un{% endif %}follow" data-url="{% url 'profiles:follow' user.username %}" type="button" onclick="updateFollower()">
+                                    <span id="follow-button" class="mr-2 js-follow-text" >
                                         {% if you_follow %}
                                             Unfollow
                                         {% else %}
@@ -131,20 +131,20 @@
 
                     </div>
 
-                    <div class="text-left pl-4 pt-3 px-3">
+                    <div class="text-left pl-4 pt-3 px-3" id="follow-container">
                         <span class="text-base font-semibold text-gray-700 mr-2">
-                            <b>{{total_posts}}</b> Posts
+                            <span id="posts" class="font-bold px-1">{{total_posts}} </span>Posts
                         </span>
-                        <span class="text-base font-semibold text-gray-700 mr-2">
-                            <b>{{total_followers}}</b> Followers
+                        <span class="text-base font-semibold text-gray-700 mr-2" >
+                            <span id="follower" class="font-bold px-1">{{total_followers}}</span> Followers
                         </span>
-                        <span class="text-base font-semibold text-gray-700">
-                            <b>xx</b> Following
+                        <span class="text-base font-semibold text-gray-700 font-bold px-1" >
+                            <span id="followers" class="font-bold px-1">{{total_following}} </span>Following
                         </span>
                     </div>
 
                     <div class="text-left pl-4 pt-3">
-                        <span class="text-base font-bold text-gray-700 mr-2">{{user.profile.country}}</span>
+                        <span class="text-base font-bold text-gray-700 mr-2 capitalize">{{user.profile.country}}</span>
                     </div>
 
                     <div class="text-left pl-4 pt-3 px-2">
@@ -252,12 +252,12 @@
             </div>
 
             <!--post images-->
-            <div id="posts-container-user">
-            <div class="flex pt-4 flex-wrap w-3/4 justify-end">
+            <div id="posts-container-user" class="flex mx-auto">
+            <div class="flex pt-4 flex-wrap w-full pl-auto xs:pl-4 md:pl-10">
             {% for post in posts %}
             
-                    <div class="flex text-center px-1 ">
-                        <img class="w-32 h-32 md:w-48 md:h-48 border-2 border-gray-300 objject-scale-down"
+                    <div class="flex text-center px-1 my-1 md:my-2">
+                        <img class="w-20 h-auto md:w-42 md:h-auto lg:w-48 lg:h-auto object-scale-down"
                             src="{{post.photo.url}}" />
                     </div>
                 
@@ -276,3 +276,18 @@
 
 
 {% endblock body%}
+
+<script>
+    
+    function updateFollower(){
+        const text= document.getElementById("follow-button").innerText
+        const follow_value = document.getElementById("follower").innerText
+
+        if( text === "Follow" ){
+            document.getElementById("follower").innerText = Number(follow_value) + 1
+        } else{
+            document.getElementById("follower").innerText = Number(follow_value) - 1
+        }
+      
+    }
+</script>

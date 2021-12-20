@@ -81,7 +81,9 @@ $(document).on("click",".js-toggle-model",function(e){
     e.preventDefault()
     const text = $(".js-post-text").val().trim()
     const imgLength = $(".js-post-photo").val()
+    const number_of_posts = $("#posts").text()
     const $btn = $(this)
+    const $fvalue = $(".js-follower-text")
     console.log(imgLength.length)
     if(!imgLength.length){
         handleAlerts('Danger','Please upload any image','red')
@@ -105,9 +107,8 @@ $(document).on("click",".js-toggle-model",function(e){
         success: (dataHtml) => {
            
             $("#posts-container").prepend(dataHtml);
-            $("#posts-container-user").prepend(dataHtml)
             $btn.prop("disabled", false).text("Create Post");
-        
+            document.getElementById("posts").innerText = Number(number_of_posts) + 1
             handleAlerts('success','Succesfully saved','green')
             setTimeout(()=>{
                 alertBox.innerHTML=""
@@ -139,6 +140,7 @@ $(document).on("click",".js-toggle-model",function(e){
     const action = $(this).attr("data-action")
     $.ajax({
         type: 'POST',
+        // url: $(this).data("follow-url"),
         url: $(this).data("url"),
         enctype:'multipart/form-data',
         data: {
@@ -149,10 +151,13 @@ $(document).on("click",".js-toggle-model",function(e){
            $(".js-follow-text").text(data.wording)
            if(action == "follow"){
                $(this).attr("data-action","unfollow")
+              
+                
            }else{
+            $("#follow-container").prepend(data)
             $(this).attr("data-action","follow")
            }
-    
+          
             
         },
         error: (error) => {
