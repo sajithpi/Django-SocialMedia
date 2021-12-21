@@ -47,6 +47,7 @@ var img_data = ""
 var file = ""
 let photos = document.getElementById('id_photo')
 const fd = new FormData()
+// TODO:Photo listener
 photos.addEventListener("change",function(e){
     e.preventDefault()
         img_data = photos.files[0]
@@ -76,7 +77,7 @@ $(document).on("click",".js-toggle-model",function(e){
     console.log("I was clicked")
     $(".js-model").toggleClass("hidden")
 })
-
+// TODO:Upload
 .on("click",".js-submit",function(e){
     e.preventDefault()
     const text = $(".js-post-text").val().trim()
@@ -133,7 +134,7 @@ $(document).on("click",".js-toggle-model",function(e){
 
 })
 
-    
+// TODO:Follow Unfollow
 .on("click",".js-follow",function(e) {
     e.preventDefault();
     console.log("Clicked")
@@ -154,7 +155,7 @@ $(document).on("click",".js-toggle-model",function(e){
               
                 
            }else{
-            $("#follow-container").prepend(data)
+            // $("#follow-container").prepend(data)
             $(this).attr("data-action","follow")
            }
           
@@ -167,7 +168,8 @@ $(document).on("click",".js-toggle-model",function(e){
     });
 })
 
-    
+
+
 
 
 

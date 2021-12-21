@@ -13,7 +13,12 @@ class Post(models.Model):
         on_delete=models.CASCADE,
 
     )
+    likes = models.ManyToManyField(User, related_name="likes")
+    
 
 
     def __str__(self):
         return self.text[0:100]
+
+    def total_like(self):
+        return self.likes.count()
