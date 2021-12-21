@@ -28,6 +28,10 @@ $.ajaxSetup({
     },
 });
 
+
+
+
+
 const txt = document.getElementById('id_text')
 const photo = document.getElementById('id_photo')
 const alertBox = document.getElementById('alert-box')
@@ -170,8 +174,44 @@ $(document).on("click",".js-toggle-model",function(e){
 
 
 
+.on("click",".js-like",function(e){
+    e.preventDefault()
+    console.log("Clicked SuccessFully")
+    const action = $(this).attr("data-actions")
+$.ajax({
+    type: 'POST',
+    url: $(this).data("link"),
+    enctype:'multipart/form-data',
+    data: {
+        // action: action,
+        pk: $(this).data("pk"),
+    },  
+    success: (data) => {
+       $(".js-like-text").text(data.wording)
+    //    if(action == "like"){
+    //        $(this).attr("data-actions","dislike")
+    //        console.log("Successfully Disliked")
+          
+            
+    //    }else{
+  
+    //     $(this).attr("data-actions","like")
+    //     console.log("Successfully Disliked")
+    //    }
+       console.log("Successfull")
+        
+    },
+    error: (error) => {
+        console.warn(error)
+  
+    },
+});
+})
+
 
 
 
 
     
+
+

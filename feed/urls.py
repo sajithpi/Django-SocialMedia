@@ -12,7 +12,7 @@ urlpatterns = [
     path("<int:pk>/",views.PostDetailView.as_view(),name="detail"),
     path("find/",views.FindFriends.as_view(),name="find"),
     path("uploadPost/",views.UploadPost.as_view(),name="new_post"),
-    path("like/<str:pk>",views.likeView,name="like")
+    path("like/<str:pk>",views.likeViews.as_view(),name="like")
 
    
 ]

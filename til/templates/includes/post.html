@@ -1,5 +1,7 @@
+
 {% load thumbnail %}
 {% load post_tags %}
+{% load static %}
 <script defer src="https://unpkg.com/alpinejs@3.1.1/dist/cdn.min.js"></script>
 <style>
 	@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
@@ -180,111 +182,42 @@
 					</div>
 
 					<!-- System Like and tools Feed -->
-					<div class="flex justify-between items-start p-2 py-">
-						<div class="flex space-x-2 items-center">
-							<form method="post" action="{% url 'feed:like' post.id %}">
-								{% csrf_token %}
-								<button  class="text-gray-800 font-bold text-2xl
+					<div class="flex justify-between items-start px-2">
+						<div class="flex space-x-2 items-center ">
+								
+								<button id="js-like" class=" js-like text-gray-800 font-bold text-2xl
 										rounded hover:text-blue-500  
-										py-1 px-3 text-xs inline-flex items-center" name="post_id" type="submit" value="{{post.id}}">
-									<!-- {% if liked %}
-									<i class='bx bx-dislike'></i>
-									{% else %}
-									<i class='bx bx-like'></i>
-									{% endif %} -->
-
-									{% if post.likes.all %}
-										{% for data in post.likes.all %}
-											
-											{% if request.user == data %}
-												{% setvar "Unlike" as action %}
-											{% else %}
-												{% setvar "Like" as action %}
-
-											{% endif %}
-											{% if forloop.last == True %}
-											
-												{% if action == "Unlike" %}
-													
-													<i class="bx bx-dislike"></i>
-												{% elif action == "Like" %}
-													
-													<i class="bx bx-like"></i>
-												{% endif %}
-											{% endif %}		
-										{% endfor %}
-									{% else %}
-										<i class="bx bx-like"></i>
-									{% endif %}
-
-
+										py-1 px-3 text-xs inline-flex items-center" 
+										data-pk="{{ post.id }}" data-actions="{% if you_like %}un{% endif %}like"
+										data-link="{% url 'feed:like' post.id %}" type="button">
+							
+										<span class="js-like-text">
+											{% if you_like %}
+                                            	Dislike
+                                        	{% else %}
+                                           	 	Like
+                                        	{% endif %}
+										</span>
 								</button>
-
-							</form>
+								<!-- <button class="js-like">Js test</button> -->
+							
 						</button>
-							<button type="button" class="focus:outline-none Comment" @click="comment = !comment"><svg
-									class="w-8 h-8 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-									xmlns="http://www.w3.org/2000/svg">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"
-										d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z">
-									</path>
-								</svg>
+							<button type="button" class="text-gray-800 font-bold text-2xl
+							rounded hover:text-blue-500  
+							py-1 px-3 text-xs inline-flex items-center" name="post_id" type="submit" value="{{post.id}}">
+								<i class='bx bx-comment'></i>
 							</button>
 						
 						</div>
-						<div class="flex space-x-2 items-center">
-							<button type="button" class="focus:outline-none Like"><svg class="w-8 h-8 text-gray-600"
-									fill="none" stroke="currentColor" viewBox="0 0 24 24"
-									xmlns="http://www.w3.org/2000/svg">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"
-										d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
-								</svg></button>
-						</div>
 					</div>
-					<div class="p-2 flex flex-col space-y-3">
-						<div class="w-full">
-							<!-- {% if total_likes >= 1 %} -->
-							<p class="font-bold text-sm text-gray-700 font-bold">
-							<!-- {% endif %} -->
-	
-							
-						
-								 {% for data in post.likes.all %}
-										
-									{% if request.user == data %}
-										{% setvar "Unlike" as action %}
-									{% else %}
-										{% setvar "Like" as action %}
+					<div class="p-2 flex flex-col ">
+						<div class="w-full h-5 ">
+							<p class="font-bold text-sm text-gray-700 font-bold">	
 
-									{% endif %}
-									<p><b>{{forloop.last}}</b>{{data}}</p>
-									{% if forloop.last == True %}
-									
-										{% if action == "Unlike" %}
-											<p>Last item yey{{action}}</p>
-											<i class="bx bx-dislike"></i>
-										{% elif action == "Like" %}
-											<p>yoo{{action}}</p>
-											<i class="bx bx-like"></i>
-										{% endif %}
-
-
-									{% endif %}
-									
-									
-								{% endfor %}	
-									
-								<p >{% show_likes %}</p>
-
-							
-					
-						<!-- <span id="state_value"></span> -->
-							{{post.likes.all.count}} <span>Likes</span></p>
+							{{post.likes.all.count}} Likes</p>
 						</div>
-						<div class="w-full">
-							<!-- Time -->
-
-							<p class="font-normal text-xs text-gray-500">{{post.date_time}}</p>
+						<div class="w-full h-4">
+							<p class="font-normal text-xs text-gray-500">{{post.date_time | timesince}} ago</p>
 						</div>
 					</div>
 					<!-- End System Like and tools Feed -->

@@ -7,7 +7,3 @@ def setvar(val=None):
 
     return val
 
-@register.inclusion_tag("like.html")
-def show_likes():
-    posts = Post.objects.all()
-    return {'posts':posts}

@@ -140,35 +140,31 @@ def likeView(request, pk):
 
 
 
+class likeViews(LoginRequiredMixin, View):
+    http_method_names = ["post"]
 
+    def post(self, request, *args, **kwargs):
+        # post = request.POST.dict()
+        post = get_object_or_404(Post,id = request.POST.get('pk'))
+        liked = False  
+        # if "action" not in post or "pk" not in post:
+        #         return HttpResponseBadRequest("Missing data")
 
-
-# class LikeView(LoginRequiredMixin,View):
-#     http_method_names = ["post"]
-
-#     def post(self, request, *args, **kwargs):
-#         data = request.POST.get('like')
-
-#         if "actionLike" not in data or "username" not in data:
-#             return HttpResponseBadRequest("Missing data")
         
-#         if data['actionLike'] == "like":
-#             #like
-#             like, created = Post.objects.get_or_create(
-#                 like = request.user,
-#             )
-#         else:
-#             #unlike
-#             try:
-#                 like = Post.objects.get(
-#                     like = request.user
-#                 )
-#             except Post.DoesNotExist:
-#                 like = None
-#         return JsonResponse({
-#             'success' : True,
-#             'wording' : "Unlike" if data['actionLike'] == "follow" else "Follow" 
+        # if data['action'] == "like":
+            # Like
+        # if post['action'] == "like":
+        if post.likes.filter(id=request.user.id).exists():
+                post.likes.remove(request.user)
+                liked = False  
 
-#         })
-    
+        else:
+            # Dislike
+            post.likes.add(request.user)
+            liked = True
 
+        return JsonResponse({
+            'success': True,
+            # 'wording': "Dislike" if post['action'] == "like" else "Like"
+            
+        })
