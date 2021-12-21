@@ -184,30 +184,69 @@
 					<!-- System Like and tools Feed -->
 					<div class="flex justify-between items-start px-2">
 						<div class="flex space-x-2 items-center ">
+							{% if post.likes.all %}
+								{% for data in post.likes.all %}
+
 								
-								<button id="js-like" class=" js-like text-gray-800 font-bold text-2xl
-										rounded hover:text-blue-500  
-										py-1 px-3 text-xs inline-flex items-center" 
-										data-pk="{{ post.id }}" data-actions="{% if you_like %}un{% endif %}like"
-										data-link="{% url 'feed:like' post.id %}" type="button">
-							
-										<span class="js-like-text">
-											{% if you_like %}
-                                            	Dislike
-                                        	{% else %}
-                                           	 	Like
-                                        	{% endif %}
-										</span>
+									{% if request.user == data %}
+										{% setvar "liked" as action %}
+
+
+									{% endif %}
+									{% if forloop.last %}
+								
+										{% if action == "liked" %}
+											
+											<i class="bx bx-like text-blue-500"></i>
+										{% else %}
+										
+										<i class="bx bx-like "></i>
+										{% endif %}
+									{% endif %}		
+								{% endfor %}
+						{% else %}
+							<i class="bx bx-like" > </i>
+						{% endif %}
+					
+							{% if request.user not in post.likes.all %}
+									<button id="js-like" class=" js-like text-gray-800 bg-blue-500 px-2 font-bold text-2xl
+											rounded hover:text-blue-500  
+											py-1 px-3 text-xs inline-flex items-center" 
+											data-pk="{{ post.id }}" data-actions="disliked"
+											data-link="{% url 'feed:like' post.id %}" type="button">
+											<span id="js-like-text" class="text-white">like</span>
+										
+										</button>
+										<div id="like-box"><i class="bx bx-like "></i></div>
+											
+											
+							{% else %}	
+									<button id="js-like" class=" js-like text-gray-800 bg-red-500 px-2 font-bold text-2xl
+											rounded hover:text-blue-500  
+											py-1 px-3 text-xs inline-flex items-center" 
+											data-pk="{{ post.id }}" data-actions="liked"
+											data-link="{% url 'feed:like' post.id %}" type="button">
+											<span id="js-like-text" class="text-white">
+												liked
+											</span>
+									
 								</button>
+								<div id="js-like-text"><i class="bx bx-like text-blue-500"></i></div>
+							{% endif %}			
+								
+								
+						
+							
 								<!-- <button class="js-like">Js test</button> -->
 							
-						</button>
+					
 							<button type="button" class="text-gray-800 font-bold text-2xl
 							rounded hover:text-blue-500  
 							py-1 px-3 text-xs inline-flex items-center" name="post_id" type="submit" value="{{post.id}}">
 								<i class='bx bx-comment'></i>
 							</button>
 						
+					
 						</div>
 					</div>
 					<div class="p-2 flex flex-col ">
@@ -220,6 +259,8 @@
 							<p class="font-normal text-xs text-gray-500">{{post.date_time | timesince}} ago</p>
 						</div>
 					</div>
+	
+				
 					<!-- End System Like and tools Feed -->
 					<div class="z-50">
 						<form>

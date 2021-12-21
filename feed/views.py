@@ -47,7 +47,8 @@ class HomePage(TemplateView):
                 posts= Post.objects.filter(author__in=following).order_by('-id')[0:30]
         else:
             posts= Post.objects.all().order_by('-id')[0:30]
-        
+         
+     
   
         # for post in posts:
         #     id = posts.id
@@ -145,26 +146,29 @@ class likeViews(LoginRequiredMixin, View):
 
     def post(self, request, *args, **kwargs):
         # post = request.POST.dict()
+        action = request.POST.get('action')
         post = get_object_or_404(Post,id = request.POST.get('pk'))
         liked = False  
         # if "action" not in post or "pk" not in post:
         #         return HttpResponseBadRequest("Missing data")
 
-        
+        print(action)
         # if data['action'] == "like":
             # Like
         # if post['action'] == "like":
+       
         if post.likes.filter(id=request.user.id).exists():
                 post.likes.remove(request.user)
                 liked = False  
+                action = "disliked"
 
         else:
             # Dislike
             post.likes.add(request.user)
             liked = True
-
+            action = "liked"
         return JsonResponse({
             'success': True,
-            # 'wording': "Dislike" if post['action'] == "like" else "Like"
+            'wording': action,
             
         })

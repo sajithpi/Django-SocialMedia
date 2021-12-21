@@ -13,8 +13,12 @@ homepage 22222
       {% for post in posts  %}
           
 		            {% include 'includes/post.html' with post=post  show_detail_link=True %}
-         
-             
+
+                {% if request.user not in post.likes.all %}
+                    <button class="bg-green-500">Like</button>                    
+                {% else %}
+                    <button class="bg-red-500">Dislike</button>
+                {% endif %}
         {{total_likes}}
 
 

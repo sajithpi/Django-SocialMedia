@@ -28,7 +28,7 @@
                     class="bg-white text-gray-800 font-bold rounded border-b-2 border-green-500 hover:border-green-600 hover:bg-green-500 hover:text-white shadow-md py-1 px-3 text-xs inline-flex items-center js-follow"
                     data-username="{{ user.username }}" data-action="{% if you_follow %}un{% endif %}follow"
                     data-url="{% url 'profiles:follow' user.username %}" type="button">
-                    <span class="mr-2 js-follow-text">
+                    <span idclass="mr-2 js-follow-text">
                         {% if you_follow %}
                         Unfollow
                         {% else %}
