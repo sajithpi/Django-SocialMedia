@@ -162,38 +162,46 @@ $(document)
     });
   })
 
-  // TODO:Liking Disliking
-  .on("click", ".js-like", function (e) {
-    e.preventDefault();
-    console.log("Clicked SuccessFully");
-    const action = $(this).attr("data-actions");
-    $.ajax({
-      type: "POST",
-      url: $(this).data("link"),
-      enctype: "multipart/form-data",
-      data: {
-        action: action,
-        pk: $(this).data("pk"),
-      },
-      success: (data) => {
-         $(".js-like").text(data.wording)
-         likebox.innerHTML = `<i class="bx bx-like text-blue-500"></i>`
-        console.log("action:", action);
-        if (data.wording == "liked") {
-          $(this).attr("data-actions", "liked");
-          liketext.text = "Liked";
-          console.log("Successfully liked");
-        } else {
-          $(this).attr("data-actions", "disliked");
-          likebox.innerHTML = `<i class="bx bx-like"></i>`
-          console.log("Successfully disliked");
+ $(".like-form").submit(function(e){
+   e.preventDefault()
+   console.log("Works")
+   const post_id = $(this).attr('id')
+   const like_text = $(`.like-button${post_id}`).text()
+   const trimmed_text = $.trim(like_text)
+   const url = $(this).attr('action')
+   const like_img = document.getElementById(`like-box${post_id}`)
+   console.log(url)
+   let res;
+   const like_count = $(`.like-count${post_id}`).text()
+   const trim_count = parseInt(like_count)
+   console.log(trim_count)
+      $.ajax({
+        type :  'POST',
+        url : url,
+        data : {
+          'csrfmiddlewaretoken' : $('input[name=csrfmiddlewaretoken]').val(),
+          'post_id':post_id,
 
-          liketext.text = "DisLiked";
-        }
-        console.log("Successfull");
-      },
-      error: (error) => {
-        console.warn(error);
-      },
-    });
-  });
+        },
+        success:function(response){
+          if(trimmed_text ==='Dislike'){
+              $(`.like-button${post_id}`).text('Like')
+              like_img.innerHTML = '<i class="bx bx-like"></i>'
+              
+              res = trim_count - 1
+          }
+          else {
+              $(`.like-button${post_id}`).text('Dislike')
+              like_img.innerHTML = '<i class="bx bx-dislike text-blue-500"></i>'
+              res = trim_count + 1
+          }
+          $(`.like-count${post_id}`).text(res)
+        },
+        error:function(response){
+          console.log('error',response)
+        },
+       
+      })
+
+ })
+

@@ -1,19 +1,20 @@
 
 from django.contrib.auth.models import User
 from django.db.models.base import Model
-from django.http import HttpResponseRedirect 
+from django.http import HttpResponseRedirect, request 
 from django.http.response import HttpResponseBadRequest, JsonResponse
 from django.views.generic import TemplateView
 from django.views.generic import  DetailView, View
 from django.views.generic.edit import CreateView
 
 from profiles.models import Profile
-from .models import Post
+from .models import Post,Like
 from django.shortcuts import get_object_or_404, redirect, render
 from feed import models
 from django.contrib.auth.mixins import LoginRequiredMixin
 from followers.models import Follower
 from django.urls import reverse
+from django.http import JsonResponse
 
 # Create your views here.
 
@@ -52,8 +53,9 @@ class HomePage(TemplateView):
   
         # for post in posts:
         #     id = posts.id
-     
+  
         context['posts'] = posts
+        
         # context['total_likes'] = total_likes
         return context
 
@@ -125,50 +127,29 @@ class FindFriends(TemplateView):
         return context
 
 
-def likeView(request, pk):
+def Like_post(request):
+    user = request.user
+    if request.method == 'POST':
+        post_id = request.POST.get('post_id')
+        post_object = Post.objects.get(id=post_id)
 
-    post = get_object_or_404(Post,id = request.POST.get('post_id'))
-    liked = False
-    if post.likes.filter(id=request.user.id).exists():
-        post.likes.remove(request.user)
-        liked = False
-    else:
-        post.likes.add(request.user)
-        liked = True
-    
-    return redirect('feed:detail',pk = pk)
-
-
-
-
-class likeViews(LoginRequiredMixin, View):
-    http_method_names = ["post"]
-
-    def post(self, request, *args, **kwargs):
-        # post = request.POST.dict()
-        action = request.POST.get('action')
-        post = get_object_or_404(Post,id = request.POST.get('pk'))
-        liked = False  
-        # if "action" not in post or "pk" not in post:
-        #         return HttpResponseBadRequest("Missing data")
-
-        print(action)
-        # if data['action'] == "like":
-            # Like
-        # if post['action'] == "like":
-       
-        if post.likes.filter(id=request.user.id).exists():
-                post.likes.remove(request.user)
-                liked = False  
-                action = "disliked"
-
+        if user in post_object.likes.all():
+            post_object.likes.remove(user)
         else:
-            # Dislike
-            post.likes.add(request.user)
-            liked = True
-            action = "liked"
-        return JsonResponse({
-            'success': True,
-            'wording': action,
-            
-        })
+            post_object.likes.add(user)
+
+        like, created = Like.objects.get_or_create(user=user,post_id=post_id)
+        if not created:
+            if like.value == 'Like':
+                like.value = 'Dislike'
+            else:
+                like.value = "Like"
+        like.save()
+
+        data = {
+            'value':like.value,
+            'likes':post_object.likes.all().count()
+        }
+        return JsonResponse(data, safe=False)
+
+    return redirect('feed:home')

@@ -182,80 +182,57 @@
 					</div>
 
 					<!-- System Like and tools Feed -->
-					<div class="flex justify-between items-start px-2">
-						<div class="flex space-x-2 items-center ">
-							{% if post.likes.all %}
-								{% for data in post.likes.all %}
-
-								
-									{% if request.user == data %}
-										{% setvar "liked" as action %}
-
-
-									{% endif %}
-									{% if forloop.last %}
-								
-										{% if action == "liked" %}
-											
-											<i class="bx bx-like text-blue-500"></i>
-										{% else %}
-										
-										<i class="bx bx-like "></i>
-										{% endif %}
-									{% endif %}		
-								{% endfor %}
-						{% else %}
-							<i class="bx bx-like" > </i>
-						{% endif %}
-					
-							{% if request.user not in post.likes.all %}
-									<button id="js-like" class=" js-like text-gray-800 bg-blue-500 px-2 font-bold text-2xl
-											rounded hover:text-blue-500  
-											py-1 px-3 text-xs inline-flex items-center" 
-											data-pk="{{ post.id }}" data-actions="disliked"
-											data-link="{% url 'feed:like' post.id %}" type="button">
-											<span id="js-like-text" class="text-white">like</span>
-										
-										</button>
-										<div id="like-box"><i class="bx bx-like "></i></div>
-											
-											
-							{% else %}	
-									<button id="js-like" class=" js-like text-gray-800 bg-red-500 px-2 font-bold text-2xl
-											rounded hover:text-blue-500  
-											py-1 px-3 text-xs inline-flex items-center" 
-											data-pk="{{ post.id }}" data-actions="liked"
-											data-link="{% url 'feed:like' post.id %}" type="button">
-											<span id="js-like-text" class="text-white">
-												liked
-											</span>
-									
-								</button>
-								<div id="js-like-text"><i class="bx bx-like text-blue-500"></i></div>
-							{% endif %}			
-								
-								
-						
-							
+					<div class="flex justify-between items-start pl-1 py-1 md:pl-4 md:py-2">
+						<div class="flex space-x-2 items-center items-baseline">
 								<!-- <button class="js-like">Js test</button> -->
+								<form action="{% url 'feed:like_post' %}" method="POST" id="{{post.id}}" class="like-form">
+									{% csrf_token %}
+									<input type="hidden" name='post_id' value="{{post.id}}">
+										<div>
+											<button id="like-box{{post.id}}" class="like-button{{post.id}} font-bold text-base md:text-2xl
+											rounded hover:text-blue-500">
+												{% if request.user not in post.likes.all %}
+													<i class="bx bx-like"></i>
+												{% else %}
+													<i class="bx bx-dislike"></i>												
+												{% endif %}
+											</button>
+										</div>
+										
+										<button type="submit" class="like-button{{post.id}} text-gray-500 text-sm">
+													
+													{% if request.user not in post.likes.all %}
+														Like
+													{% else %}
+														Dislike													
+													{% endif %}
+														
+										</button>
+										<div class="w-full mt-2 h-5 font-bold text-sm text-gray-700 flex">
 							
+
+											<div class="like-count{{post.id}} font-bold pr-1">{{post.total_like}}</div><span> Likes</span> 
+										</div>
+								</form>
 					
-							<button type="button" class="text-gray-800 font-bold text-2xl
-							rounded hover:text-blue-500  
-							py-1 px-3 text-xs inline-flex items-center" name="post_id" type="submit" value="{{post.id}}">
-								<i class='bx bx-comment'></i>
-							</button>
+								<form action="" method="POST" id="{{post.id}}" class="comment-form">
+									{% csrf_token %}
+									<input type="hidden" name='post_id' value="{{post.id}}">
+										<div>
+											<button id="comment-box{{post.id}}" class="comment-button{{post.id}} font-bold text-base md:text-2xl
+											rounded hover:text-blue-500">
+												<i class="bx bx-comment"></i>
+												<div class="text-sm text-gray-500">Comment</div>
+											</button>
+										</div>
+								</form>
 						
 					
 						</div>
 					</div>
-					<div class="p-2 flex flex-col ">
-						<div class="w-full h-5 ">
-							<p class="font-bold text-sm text-gray-700 font-bold">	
-
-							{{post.likes.all.count}} Likes</p>
-						</div>
-						<div class="w-full h-4">
+					<div class="flex flex-col pl-1 py-1 md:pl-4 md:py-2">
+					
+						<div class="w-full h-4 text-end">
 							<p class="font-normal text-xs text-gray-500">{{post.date_time | timesince}} ago</p>
 						</div>
 					</div>

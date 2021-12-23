@@ -20,5 +20,20 @@ class Post(models.Model):
     def __str__(self):
         return self.text[0:100]
 
+    @property
     def total_like(self):
-        return self.likes.count()
+        return self.likes.all().count()
+
+    
+STATUS =  (
+        ('Like','Like'),
+        ('Dislike','Dislike'),
+    )
+
+class Like(models.Model):
+    user = models.ForeignKey(User,on_delete=CASCADE)
+    post = models.ForeignKey(Post,on_delete=CASCADE)
+    value = models.CharField(choices=STATUS,default='Like',max_length=9)
+    
+    def __str__(self):
+       return str(self.post) 
