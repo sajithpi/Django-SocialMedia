@@ -8,7 +8,8 @@ app_name = "feed"
 
 urlpatterns = [
    
-    path("",views.HomePage.as_view(),name="home"),
+    # path("",views.HomePage.as_view(),name="home"),
+    path("",views.Comment_post,name="home"),
     path("<int:pk>/",views.PostDetailView.as_view(),name="detail"),
     path("find/",views.FindFriends.as_view(),name="find"),
     path("uploadPost/",views.UploadPost.as_view(),name="new_post"),

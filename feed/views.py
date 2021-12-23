@@ -15,7 +15,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from followers.models import Follower
 from django.urls import reverse
 from django.http import JsonResponse
-
+from .forms import CommentForm
 # Create your views here.
 
 
@@ -153,3 +153,38 @@ def Like_post(request):
         return JsonResponse(data, safe=False)
 
     return redirect('feed:home')
+
+def Comment_post(request):
+
+    user = Profile.objects.get(user=request.user)
+  
+    if request.user.is_authenticated:
+
+            following = list(
+                Follower.objects.filter(followed_by=request.user).values_list('following', flat=True)
+            
+            )
+            if not following:
+                  posts= Post.objects.all().order_by('-id')[0:30]
+            else:
+                posts= Post.objects.filter(author__in=following).order_by('-id')[0:30]
+    else:
+        posts= Post.objects.all().order_by('-id')[0:30]
+        
+    profile= Profile.objects.get(user=request.user)
+    comment_form = CommentForm(request.POST or None)
+    context = {
+        'posts' : posts,
+        'comment_form' : comment_form,
+        'profile':profile,
+    }
+
+    if comment_form.is_valid():
+        instance  =comment_form.save(commit=False)
+        instance.user = user
+        instance.post = Post.objects.get(id=request.POST.get('post_id'))
+        instance.save()
+        comment_form = CommentForm()
+        
+
+    return render(request,'feed/homepage.html',context)

@@ -237,19 +237,43 @@
 						</div>
 					</div>
 	
-				
+					<hr>
 					<!-- End System Like and tools Feed -->
+					<div class=" pl-1 py-1 md:pl-4">
+						
+						{% if post.comment_set.all %}
+							{% for comment in post.comment_set.all  %}
+								<div class="flex">
+
+									<a href="">
+										
+										{% thumbnail profile.image "29x29" crop="center" as im %}
+										<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"
+											class="rounded-full object-scale-down">
+										{% endthumbnail %}
+							
+									</a>
+									<!-- <p>{{profile.gender}}</p> -->
+									<p class="pl-1 md:pl-3 text-base">{{comment.content}}</p>
+								</div>
+							{% endfor %}
+						{% endif %}
+							
+								
+					</div>
 					<div class="z-50">
-						<form>
+						<form action="" method="POST" class="">
+							{% csrf_token %}
 							<div class="flex justify-between border-t items-center w-full"
 								:class="comment ? 'absolute bottom-0' : '' ">
-								<div class="w-full ">
-									<input type="text" name="comment" id="comment" placeholder="Add A Comment..."
-										class="w-full text-sm py-4 px-3 rounded-none focus:outline-none">
+								<input hidden name="post_id" value="{{post.id}}"> 
+								 <div class="w-full ">
+									<input type="text" name="content" placeholder="Add a comment here" required="" id="id_content" 
+										   class="w-full text-sm py-4 px-3 rounded-none focus:outline-none">
 								</div>
 								<div class="w-20">
 									<button
-										class="border-none text-sm px-4 bg-white py-4 text-indigo-600 focus:outline-none">Post</button>
+										class="comment-button{{post.id}} border-none text-sm px-4 bg-white py-4 text-indigo-600 focus:outline-none">Post</button>
 								</div>
 							</div>
 						</form>

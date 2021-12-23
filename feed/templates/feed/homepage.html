@@ -12,7 +12,7 @@ homepage 22222
     <div id="posts-container">
       {% for post in posts  %}
           
-		            {% include 'includes/post.html' with post=post  show_detail_link=True %}
+		            {% include 'includes/post.html' with post=post  comment_form=comment_form profile=profile show_detail_link=True %}
 
                 {% if request.user not in post.likes.all %}
                     <!-- <button class="bg-green-500">Like</button>                     -->
@@ -21,10 +21,10 @@ homepage 22222
                 {% endif %}
         {{total_likes}}
 
-
+     
       {% endfor %}
     </div>
-
+  
   {% else %}
     {% include 'includes/login.html' %}
   {% endif %}
