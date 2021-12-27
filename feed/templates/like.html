@@ -8,15 +8,17 @@
 </head>
 <body>
     <div class="container">
-        {% for post in posts %}
-            {% for data in post.like.all %}
+        {% if request.user.is_authenticated %}
+            {% for post in posts %}
+                {% for data in post.like.all %}
 
-                {% if request.user == data %}
-                        <p>{{request.user}}</p>
-                {% endif %}
+                    {% if request.user == data %}
+                            <p>{{request.user}}</p>
+                    {% endif %}
 
+                {% endfor %}
             {% endfor %}
-        {% endfor %}
+        {% endif %}
     </div>
 </body>
 </html>

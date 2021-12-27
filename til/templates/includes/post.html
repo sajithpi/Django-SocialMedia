@@ -247,7 +247,7 @@
 
 									<a href="">
 										
-										{% thumbnail profile.image "29x29" crop="center" as im %}
+										{% thumbnail comment.user.image "29x29" crop="center" as im %}
 										<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"
 											class="rounded-full object-scale-down">
 										{% endthumbnail %}
@@ -255,9 +255,12 @@
 									</a>
 									<!-- <p>{{profile.gender}}</p> -->
 									<p class="pl-1 md:pl-3 text-base">{{comment.content}}</p>
+							
+									<!-- <p class="pl-1 md:pl-3 text-base">{{comment.user.image.url}}</p> -->
 								</div>
 							{% endfor %}
 						{% endif %}
+						<!-- {{comment_form.as_p}} -->
 							
 								
 					</div>

@@ -1,9 +1,0 @@
-<form method="post">
-    {% csrf_token %}
-    <!-- {{ form.as_p }} -->
-    <p><label for="id_username">Username:</label> <input type="text" name="username" value="{{object.first_name}}" maxlength="150" required id="id_username"> <span class="helptext">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</span></p>
-    <p><label for="id_first_name">First name:</label> <input type="text" name="{{object.first_name}}" value="Radio" maxlength="150" id="id_first_name"></p>
-    <p><label for="id_last_name">Last name:</label> <input type="text" name="{{object.last_name}}" value="Box" maxlength="150" id="id_last_name"></p>
-    <p><label for="id_email">Email address:</label> <input type="email" name="email" value="{{object.email}}" maxlength="254" id="id_email"></p>
-    <input type="submit" />
-  </form>
