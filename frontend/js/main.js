@@ -133,6 +133,14 @@ $(document)
     });
   })
 
+  // TODO:Delete toggle 
+
+.on("click",".delete-icon",function(e){
+  e.preventDefault();
+  console.log("delete toggle form loaded")
+  $(".delete-toggle-form").toggleClass("hidden")
+})
+
   // TODO:Follow Unfollow
   .on("click", ".js-follow", function (e) {
     e.preventDefault();
@@ -162,6 +170,7 @@ $(document)
     });
   })
 
+  // TODO:Like
  $(".like-form").submit(function(e){
    e.preventDefault()
    console.log("Works")
