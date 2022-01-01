@@ -22,7 +22,7 @@
         comment : false,
     }">
 
-	<div class="h-full relative">
+	<div class="h-full relative post">
 		<div class="py-1 px-2">
 			<div class="flex justify-between items-center pt-2">
 				<div class="relative mt-1 flex">
@@ -46,11 +46,20 @@
 							<button
 								class="text-indigo-500 text-sm capitalize flex justify-start items-start">follow</button>
 							-->
-						</div>
-						<button class="delete-icon" type="button"
-							class="relative p-2 focus:outline-none border-none bg-gray-100 rounded-full">
-							<i class='bx bx-trash'></i>
-						</button>
+				</div>
+						{% if post.author.username == user.username %}
+						<form action="" method="POST" id="{{post.id}}" class="comment-form">
+							{% csrf_token %}
+							<button  type="button" 
+								class="relative p-2 focus:outline-none border-none bg-gray-100 rounded-full">
+								<a class="delete-icon" href="{% url 'feed:delete' %}" id="{{post.id}}"">
+									<i class='bx bx-trash'></i>
+								{{post.id}}</a>
+							</button>
+							<!-- TODO:Delete form -->
+		
+						</form>
+						{% endif %}
 					</div>
 				</div>
 				<p class="text-black-500 text-base md:text-lg px-3  leading-snug md:leading-normal capitalize">
@@ -279,38 +288,7 @@
 				</div>
 			</div>
 		</div>
-<!-- TODO:Delete form -->
-		<div class="min-w-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover hidden delete-toggle-form"   id="modal-id">
-			<div class="absolute inset-0 z-0  w-24 md:w-48 lg:w-64"></div>
-		 <div class="w-full  max-w-xs p-1 relative mx-auto my-auto rounded-xl border bg-white ">
-		   <!--content-->
-	
-		   <form action="" method="POST" id="{{post.id}}" class="delete-form">
-			   {% csrf_token %}
-			 <!--body-->
-			 <input type="hidden" name='post_id' value="{{post.id}}">
-				<div class="text-center p-1 flex-auto justify-center">
-						<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 -m-1 flex items-center text-red-500 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-						</svg>
-						<svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 flex items-center text-red-500 mx-auto" viewBox="0 0 20 20" fill="currentColor">
-							<path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
-						</svg>
-								<h2 class="text-xl font-bold py-1 ">Are you sure?</h3>
-								<p class="text-sm text-gray-500 px-8">Do you really want to delete this post?
-						This process cannot be undone</p>    
-				</div>
-				<!--footer-->
-				<div class="p-1   text-center space-x-4 md:block">
-					<button class="delete-icon mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100">
-						Cancel
-					</button>
-					<button type="submit" class="deleteConfirm-button{{post.id}} mb-2 md:mb-0 bg-red-500 border border-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-red-600">Delete</button>
-				</div>
-			</form>
-		   </div>
-		 </div>
-	
+
 
 
 

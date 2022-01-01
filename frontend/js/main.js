@@ -120,7 +120,7 @@ $(document)
           imgbox.innerHTML = "";
           imgbox.src = "";
           $(".js-model").addClass("hidden");
-        }, 2000);
+        }, 500);
       },
       error: (error) => {
         console.warn(error);
@@ -138,8 +138,66 @@ $(document)
 .on("click",".delete-icon",function(e){
   e.preventDefault();
   console.log("delete toggle form loaded")
-  $(".delete-toggle-form").toggleClass("hidden")
+  const post_id = $(this).attr('id')
+  const url = $(this).attr('href')
+  console.log("postid:",post_id)
+  console.log("url",url)
+  if(confirm("Are you sure to delete?")){
+    $.ajax({
+      type : 'POST',
+      url : url,
+      data : {
+        'csrfmiddlewaretoken' : $('input[name=csrfmiddlewaretoken]').val(),
+        'post_id' : post_id,
+      },
+    
+      success:function(response){
+        console.log("deleted successfully")
+        if(response.message === 'success'){
+          $this.parents('.post').fadeout("slow",function(){
+            $this.parents('.post').remove();
+          })
+       
+        }
+        else{
+            alert(response.message)
+        }
+        $(".delete-toggle-form").addClass("hidden")
+      },
+      error:function(response){
+        console.log("not deleted")
+      },
+    })
+  }
+  // $(".delete-toggle-form").toggleClass("hidden")
 })
+
+// TODO:Delete form submit
+
+$(".delete-form").submit(function(e){
+  e.preventDefault()
+  console.log("submited")
+  const post_id = $(this).attr('id')
+  const url = $(this).attr('action')
+  console.log("post id:",post_id)
+  console.log('url:',url)
+  $.ajax({
+    type : 'POST',
+    url : url,
+    data : {
+      'csrfmiddlewaretoken' : $('input[name=csrfmiddlewaretoken]').val(),
+      'post_id' : post_id,
+    },
+    success:function(response){
+      console.log("deleted successfully")
+      $(".delete-toggle-form").addClass("hidden")
+    },
+    error:function(response){
+      console.log("not deleted")
+    },
+  })
+})
+
 
   // TODO:Follow Unfollow
   .on("click", ".js-follow", function (e) {

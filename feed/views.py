@@ -4,7 +4,7 @@ from django.db.models.base import Model
 from django.http import HttpResponseRedirect, request 
 from django.http.response import HttpResponseBadRequest, JsonResponse
 from django.views.generic import TemplateView
-from django.views.generic import  DetailView, View
+from django.views.generic import  DetailView, View,DeleteView
 from django.views.generic.edit import CreateView
 
 from profiles.models import Profile
@@ -15,7 +15,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from followers.models import Follower
 from django.urls import reverse
 from django.http import JsonResponse
-from .forms import CommentForm
+from .forms import CommentForm, PostForm
 # Create your views here.
 
 
@@ -81,6 +81,26 @@ class PostDetailView(DetailView):
         context['total_likes'] = total_likes
         context['liked'] = liked
         return context
+
+class DeletePost(DeleteView):
+    model = Post
+   
+    success_url = "/"
+
+    def get_object(self, *args, **kwargs ):
+     
+        if self.request.method == 'POST':
+            post_id = request.POST.get('post_id')
+            print(post_id)
+            post_object = Post.objects.get(id=post_id)
+    
+        
+            # messages.Warning(self.request.user,"only author of the post can delete this post")
+            return post_object
+
+
+        
+
 
 class UploadPost(LoginRequiredMixin,CreateView):
     model = Post
@@ -191,3 +211,15 @@ def Comment_post(request):
             return render(request,'feed/homepage.html',context)
     else:
         return render(request,'feed/homepage.html')
+
+def delete_post(request):
+    user = request.user
+    if request.method == 'POST':
+        post_id = request.POST.get('post_id')
+        print("post_id",post_id)
+        post_object = Post.objects.get(id=post_id)
+        print("post_object",post_object)
+        post_object.delete()
+        # print("post_id:",post_id)
+        # post_object.delete()
+    return redirect('feed:home')
