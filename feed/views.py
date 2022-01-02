@@ -222,4 +222,6 @@ def delete_post(request):
         post_object.delete()
         # print("post_id:",post_id)
         # post_object.delete()
-    return redirect('feed:home')
+        return JsonResponse({"message":"success"})
+    return JsonResponse({"message":"not "})
+    

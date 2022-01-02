@@ -142,25 +142,30 @@ $(document)
   const url = $(this).attr('href')
   console.log("postid:",post_id)
   console.log("url",url)
+  var $this = $(this)
   if(confirm("Are you sure to delete?")){
     $.ajax({
       type : 'POST',
       url : url,
+      dataType : "json",
       data : {
         'csrfmiddlewaretoken' : $('input[name=csrfmiddlewaretoken]').val(),
         'post_id' : post_id,
       },
     
       success:function(response){
-        console.log("deleted successfully")
+       
+        console.log("resonse message:",response.message)
         if(response.message === 'success'){
-          $this.parents('.post').fadeout("slow",function(){
+          console.log("deleted successfully")
+          $this.parents('.post').fadeOut("slow",function(){
             $this.parents('.post').remove();
           })
        
         }
         else{
             alert(response.message)
+            
         }
         $(".delete-toggle-form").addClass("hidden")
       },
