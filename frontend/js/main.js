@@ -31,6 +31,7 @@ const txt = document.getElementById("id_text");
 const photo = document.getElementById("id_photo");
 const alertBox = document.getElementById("alert-box");
 const imgbox = document.getElementById("img-box");
+const imgboxUp = document.getElementById("img-box-update")
 const liketext = document.getElementById("js-like-text");
 const likebox = document.getElementById("like-box");
 const handleAlerts = (type, text, color) => {
@@ -48,6 +49,7 @@ var img_data = "";
 var file = "";
 let photos = document.getElementById("id_photo");
 const fd = new FormData();
+const updateForm = new FormData();
 // TODO:Photo listener
 photos.addEventListener("change", function (e) {
   e.preventDefault();
@@ -66,12 +68,42 @@ photos.addEventListener("change", function (e) {
   if (file) {
     reader.readAsDataURL(img_data);
   }
-  //   $(".img-box").toggleClass("hidden")
-  //   $(".js-model").addClass("hidden")
   imgbox.src = `${url}`;
-  //   imgbox.innerHTML = `<img class="flex" src="${url}" width="315px" height="315px" style="margin:auto; padding-bottom:1rem"><br><br>`
   fd.append("photo", photos.files[0]);
 });
+
+// TODO:Update form photo listener
+
+let UpPhotos = document.getElementById("id_update_photo")
+
+UpPhotos.addEventListener("change", function (e) {
+  e.preventDefault();
+  img_data = UpPhotos.files[0];
+  url = URL.createObjectURL(img_data);
+  console.log(url);
+  const reader = new FileReader();
+  reader.addEventListener(
+    "load",
+    function () {
+      console.log(reader.result);
+    },
+    false
+  );
+
+  if (file) {
+    reader.readAsDataURL(img_data);
+  }
+  imgboxUp.src = `${url}`;
+  updateForm.append("photo", UpPhotos.files[0]);
+  console.log("image url from photo listener:",UpPhotos.files[0])
+});
+
+
+
+
+
+
+
 
 $(document)
   .on("click", ".js-toggle-model", function (e) {
@@ -177,32 +209,89 @@ $(document)
   // $(".delete-toggle-form").toggleClass("hidden")
 })
 
-// TODO:Delete form submit
 
-$(".delete-form").submit(function(e){
+// TODO: Update photo listener
+
+
+
+
+// TODO:Update
+.on("click",".update-icon",function(e){
   e.preventDefault()
-  console.log("submited")
+  $(".js-update-model").toggleClass("hidden")
+
+  console.log("clicked update")
   const post_id = $(this).attr('id')
-  const url = $(this).attr('action')
-  console.log("post id:",post_id)
-  console.log('url:',url)
+  const post_des = $(`.post-text${post_id}`).text()
+  const trimmed_post_des = $.trim(post_des)
+  const imgbox = document.getElementById("img-box-update");
+  const post_img = document.getElementById(`postImg${post_id}`).src
+  console.log(post_id)
+  console.log(trimmed_post_des)
+  console.log(post_img)
+ 
+  document.getElementById("post-updateText").value = trimmed_post_des
+  document.getElementById("postId").value = post_id
+  imgbox.src = post_img
+
+})
+.on("click",".js-toggle-update",function(e){
+  e.preventDefault()
+  $(".js-update-model").addClass("hidden")
+})
+// TODO:Update Button
+.on("click",".js-update-post",function(e){
+  e.preventDefault();
+  console.log("clicked");
+  const post_id = document.getElementById("postId").value
+  const imgbox = document.getElementById("img-box-update").src
+  const post_des = document.getElementById("post-updateText").value
+  const post_img = document.getElementById(`postImg${post_id}`).src
+  const url = $(".js-post-textUpdate").data("url") 
+  console.log("post_id value from update button:",post_id)
+  console.log("post_img value from update button:",imgbox)
+  updateForm.append("post_id",post_id)
+  updateForm.append("post_des",post_des)
+  console.log("post_text value from update button:",post_des)
+  console.log("url:",url)
+  var $this = $(this)
   $.ajax({
     type : 'POST',
     url : url,
-    data : {
-      'csrfmiddlewaretoken' : $('input[name=csrfmiddlewaretoken]').val(),
-      'post_id' : post_id,
-    },
+    enctype: "multipart/form-data",
+    dataType : "json",
+    data : updateForm,
     success:function(response){
-      console.log("deleted successfully")
-      $(".delete-toggle-form").addClass("hidden")
-    },
-    error:function(response){
-      console.log("not deleted")
-    },
-  })
-})
+        console.log("message response",response.message)
+        
+        if(response.message === 'Success'){
 
+          document.getElementById(`post-text${post_id}`).textContent =  post_des
+           console.log("img src:","http://127.0.0.1:8000/media/"+response.photourl)
+           
+            document.getElementById(`postImg${post_id}`).src = "http://127.0.0.1:8000/media/"+response.photourl
+          
+          console.log("Updated successfully")
+          setTimeout(() => {
+            $("#post-updateText").val("")
+            imgbox.value = ""
+            imgbox.src = ""
+            $(".js-update-model").addClass("hidden")
+
+          }, 500);
+         
+
+        }
+        else{
+          alert(response.message)
+        }
+    },
+    cache: false,
+    contentType: false,
+    processData: false,
+  })
+
+})
 
   // TODO:Follow Unfollow
   .on("click", ".js-follow", function (e) {

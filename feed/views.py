@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect, request
 from django.http.response import HttpResponseBadRequest, JsonResponse
 from django.views.generic import TemplateView
 from django.views.generic import  DetailView, View,DeleteView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 
 from profiles.models import Profile
 from .models import Post,Like
@@ -71,14 +71,15 @@ class PostDetailView(DetailView):
 
         context = super().get_context_data(**kwargs)
         no_of_likes = get_object_or_404(Post, id = self.kwargs['pk'])
-        total_likes = no_of_likes.total_like()
+        
+        # total_likes = no_of_likes.total_like()
 
         liked = False
         if no_of_likes.likes.filter(id = self.request.user.id).exists():
             liked = True 
         
 
-        context['total_likes'] = total_likes
+        # context['total_likes'] = total_likes
         context['liked'] = liked
         return context
 
@@ -224,4 +225,44 @@ def delete_post(request):
         # post_object.delete()
         return JsonResponse({"message":"success"})
     return JsonResponse({"message":"not "})
+    
+def updatePost(request):
+    user = request.user
+    if request.method == 'POST':
+      
+        photo = request.FILES.get('photo')
+        photo_des = request.POST.get('post_des')
+        post_id = request.POST.get('post_id')
+        post_object = Post.objects.get(id=post_id)
+        if not photo:
+            print("its none")
+            post_object.photo = post_object.photo
+        else :
+            post_object.photo = photo
+               
+            # print(p)
+        print("post_id:",post_id)
+        print("photo url:",photo)
+        print("photo desc",photo_des)
+       
+        post_object.text = photo_des
+    
+
+        post_object.save()
+        return JsonResponse({"message":"Success","photourl":str(photo)})
+    return JsonResponse({"message":"Wrong response"})
+
+class UpdatePost(LoginRequiredMixin,View):
+
+    def get(self, request, pk, *args, **kwargs):
+
+        if request.method == 'POST':
+            post_id = request.POST.get("post_id")
+            post = Post.objects.get(id=post_id)
+            print("post_id:",post_id)
+            
+            return JsonResponse({"message":"success"})
+        return JsonResponse({"message":"Wrong response"})
+        
+
     
