@@ -52,7 +52,7 @@
 
 							<form action="" method="POST" id="{{post.id}}" class="comment-form">
 								{% csrf_token %}
-								<button  type="button" 
+								<button id="delete-box{{post.id}}" type="button" 
 									class="relative p-2 focus:outline-none border-none bg-gray-100 rounded-full">
 									<a class="delete-icon" href="{% url 'feed:delete' %}" id="{{post.id}}"">
 										<i class='bx bx-trash'></i>
@@ -299,6 +299,8 @@
 							</div>
 						</form>
 					</div>
+
+				<input type="hidden" id="refreshed" value="no"> 
 				</div>
 
 

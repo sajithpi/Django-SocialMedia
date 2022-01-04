@@ -142,8 +142,7 @@ $(document)
       success: (dataHtml) => {
         $("#posts-container").prepend(dataHtml);
         $btn.prop("disabled", false).text("Create Post");
-        document.getElementById("posts").innerText =
-          Number(number_of_posts) + 1;
+        // document.getElementById("posts").innerText = Number(number_of_posts) + 1;
         handleAlerts("success", "Succesfully saved", "green");
         setTimeout(() => {
           alertBox.innerHTML = "";
@@ -175,7 +174,17 @@ $(document)
   console.log("postid:",post_id)
   console.log("url",url)
   var $this = $(this)
-  if(confirm("Are you sure to delete?")){
+
+  $(".js-delete-model").toggleClass("hidden")
+  document.getElementById("postIdDelete").value = post_id
+
+  let delete_button = document.getElementById("js-delete-post")
+  delete_button.addEventListener("click",function(e){
+    e.preventDefault()
+    const url = $(".js-delete-post").data("url")
+    const post_id = document.getElementById("postIdDelete").value
+    console.log("url:",url)
+    console.log("post_id",post_id)
     $.ajax({
       type : 'POST',
       url : url,
@@ -184,31 +193,29 @@ $(document)
         'csrfmiddlewaretoken' : $('input[name=csrfmiddlewaretoken]').val(),
         'post_id' : post_id,
       },
-    
       success:function(response){
-       
-        console.log("resonse message:",response.message)
         if(response.message === 'success'){
-          console.log("deleted successfully")
+          console.log("deleted successfully yooo")
           $this.parents('.post').fadeOut("slow",function(){
-            $this.parents('.post').remove();
-          })
-       
+                $this.parents('.post').remove();
+                  })
+          $(".js-delete-model").addClass("hidden")
         }
         else{
-            alert(response.message)
-            
+          alert(response.message)
         }
-        $(".delete-toggle-form").addClass("hidden")
-      },
-      error:function(response){
-        console.log("not deleted")
-      },
+      }
     })
-  }
-  // $(".delete-toggle-form").toggleClass("hidden")
+
+  })
+
+
 })
 
+.on("click",".js-delete-cancel",function(e){
+  e.preventDefault()
+  $(".js-delete-model").addClass("hidden")
+})
 
 // TODO: Update photo listener
 
@@ -366,3 +373,8 @@ $(document)
 
  })
 
+ if(!!window.performance && window.performance.navigation.type === 2)
+{
+    console.log('Reloading');
+    window.location.reload();
+}
