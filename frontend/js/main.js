@@ -27,6 +27,7 @@ $.ajaxSetup({
   },
 });
 
+
 const txt = document.getElementById("id_text");
 const photo = document.getElementById("id_photo");
 const alertBox = document.getElementById("alert-box");
@@ -111,6 +112,20 @@ $(document)
     console.log("I was clicked");
     $(".js-model").toggleClass("hidden");
   })
+
+
+
+
+  .on("click",".passwordShow",function(e){
+    e.preventDefault()
+    console.log("clicked")
+  })
+  
+
+
+
+
+
   // TODO:Upload
   .on("click", ".js-submit", function (e) {
     e.preventDefault();

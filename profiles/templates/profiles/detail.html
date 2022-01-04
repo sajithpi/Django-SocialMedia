@@ -101,13 +101,18 @@
                      
                          
                         </span>
-                        <button
-                        class="bg-transparent  bg-blue-500 text-gray-700 font-semibold mb-2 md:mb-0 px-3 py-1 
-                        md-py-2 border-b-2 border-green-500 shadow-sm font-medium tracking-wider border 
-                        rounded-full hover:shadow-lg hover:bg-gray-100 mr-2 hover:border-green-600 hover:bg-green-500 hover:text-black
-                        shadow-md inline-flex text-xs md:text-sm mr-2">Edit
-                        Profile
-                    </button>
+                       {% if request.user == user %}
+                    
+                        <a href="{% url 'profiles:update' user.id %}">
+                            <button
+                            class="bg-transparent  bg-blue-500 text-gray-700 font-semibold mb-2 md:mb-0 px-3 py-1 
+                            md-py-2 border-b-2 border-green-500 shadow-sm font-medium tracking-wider border 
+                            rounded-full hover:shadow-lg hover:bg-gray-100 mr-2 hover:border-green-600 hover:bg-green-500 hover:text-black
+                            shadow-md inline-flex text-xs md:text-sm mr-2">Edit
+                            Profile
+                        </button> 
+                        </a>
+                        {% endif %}
                         {% if request.user.is_authenticated %}
                         {% if request.user != user %}
                             <div class="mt-3">
@@ -259,10 +264,12 @@
             <div id="posts-container-user" class="flex mx-auto">
             <div class="flex pt-4 flex-wrap w-full pl-auto xs:pl-4 md:pl-10">
             {% for post in posts %}
-            
+                    
                     <div class="flex text-center px-1 my-1 md:my-2">
+                        <a href="{% url 'feed:detail' post.id %}">
                         <img class="w-20 h-auto md:w-42 md:h-auto lg:w-48 lg:h-auto object-scale-down"
                             src="{{post.photo.url}}" />
+                        </a>
                     </div>
                 
             {% endfor %}

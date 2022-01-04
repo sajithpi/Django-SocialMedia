@@ -1,20 +1,34 @@
 {% load thumbnail %}
-<div class="flex flex-col p-8 bg-white shadow-md hover:shodow-lg rounded-2xl w-96">
-	<div class="flex items-center justify-between">
-		<div class="flex items-center">
-            <a href="">
-                {% thumbnail user.image "59x59" crop="center" as im %}
-                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"
-                    class="rounded-full object-scale-down">
-                {% endthumbnail %}
-            </a>
-			<div class="flex flex-col ml-3">
-				<div class="font-medium leading-none uppercase">{{user.user}}</div>
-			
-                <p class="text-sm text-gray-600 leading-none mt-1">{{user.gender}}</p>
-                <p class="text-sm text-gray-600 leading-none mt-1">{{user.country}}</p>
-			</div>
-		</div>
-		<button  class="flex-no-shrink bg-blue-500 px-5 ml-4 py-2 text-sm shadow-sm hover:shadow-lg font-medium tracking-wider border-2 border-blue-500 text-white rounded-full">Follow</button>
-	</div>
+{% include 'includes/background.html' %}
+
+{% if request.user != user.user %}
+<div class="mx-auto flex max-w-3xl  bg-white rounded-lg items-center relative "
+	x-data="{
+        comment : false,
+    }">
+
+
+    <div class="flex flex-col  bg-white shadow-md hover:shodow-lg rounded-2xl w-full h-full ">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center mx-1 md:mx-3">
+                <div class="flex w-16 md:w-24 h-16 md:h-24 items-center ml-1 md:ml-5">
+                    <a href="{% url 'profiles:detail' user.user %}" class="object-scale-down">
+                      
+                        <img src="{{ user.image.url }}"
+                            class="rounded-lg object-scale-down ">
+                      
+                    </a>
+                </div>
+                <div class="flex flex-col ml-3">
+                    <div class="font-medium leading-none uppercase text-sm md:text-base mt-3">{{user.user}}</div>
+                
+                    <span class="text-sm text-gray-600 leading-none mt-1 capitalize">{{user.gender}}</p>
+                    <span class="text-sm text-black leading-none mt-1 capitalize ">{{user.country}}</p>
+                </div>
+            </div>
+            <a href="{% url 'profiles:detail' user.user %}" class="mr-1 md:mr-4">
+            <button  class="bg-blue-500 px-1 md:px-3 py-0 md:py-2   text-xs md:text-sm shadow-sm hover:shadow-lg  border-2 border-blue-500 text-white rounded">View<br>Profile</button></a>
+        </div>
+    </div>
 </div>
+{% endif %}
