@@ -4,18 +4,19 @@ from django.db.models.base import Model
 from django.http import HttpResponseRedirect, request 
 from django.http.response import HttpResponseBadRequest, JsonResponse,HttpResponse
 from django.views.generic import TemplateView
-from django.views.generic import  DetailView, View,DeleteView,ListView
+from django.views.generic import  DetailView, View,DeleteView,ListView,FormView
 from django.views.generic.edit import CreateView, UpdateView
 
 from profiles.models import Profile
-from .models import Post,Like
+from .models import Comment, Post,Like
 from django.shortcuts import get_object_or_404, redirect, render
 from feed import models
 from django.contrib.auth.mixins import LoginRequiredMixin
 from followers.models import Follower
 from django.urls import reverse
 from django.http import JsonResponse
-from .forms import CommentForm, PostForm
+from django.template import loader
+from .forms import CommentForm, PostForm,CommentForms
 # Create your views here.
 
 
@@ -25,9 +26,10 @@ class HomePage(TemplateView):
     # model = Post
     # context_object_name = "posts"
     # queryset = Post.objects.all().order_by('-id')[0:30]
-
+   
     def dispatch(self, request, *args, **kwargs):
         self.request = request
+       
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
@@ -36,25 +38,31 @@ class HomePage(TemplateView):
         # total_likes = Post.objects.last()
        
         # context['posts'] = Post.objects.all()
-        if self.request.user.is_authenticated:
-
-            following = list(
-                Follower.objects.filter(followed_by=self.request.user).values_list('following', flat=True)
+        # if self.request.user.is_authenticated:
+        #     comment_form = CommentForm.objects.all()
+           
+        #     following = list(
+        #         Follower.objects.filter(followed_by=request.user).values_list('following', flat=True)
             
-            )
-            if not following:
-                  posts= Post.objects.all().order_by('-id')[0:30]
-            else:
-                posts= Post.objects.filter(author__in=following).order_by('-id')[0:30]
-        else:
-            posts= Post.objects.all().order_by('-id')[0:30]
-         
+        #     )
+        #     if not following:
+        #           posts= Post.objects.all().order_by('-id')[0:30]
+        #     else:
+        #         posts= Post.objects.filter(author__in=following).order_by('-id')[0:30]
+        comment_form = CommentForm()
+        posts= Post.objects.all().order_by('-id')[0:30]
+        profile= Profile.objects.get(user=self.request.user)
+    
+           
+        
      
   
         # for post in posts:
         #     id = posts.id
   
         context['posts'] = posts
+        context['comment_form'] = comment_form
+        context['profile'] = profile
         
         # context['total_likes'] = total_likes
         return context
@@ -100,7 +108,29 @@ class DeletePost(DeleteView):
             return post_object
 
 
-        
+class CommentView(FormView):
+    model = Comment
+    template_name = "feed/commentview.html"
+    form_class = CommentForms
+    success_url = "/"
+    def dispatch(self, request, *args, **kwargs):
+        self.request = request
+        return super().dispatch(request,*args,**kwargs)
+    # def form_valid(self, form):
+    #     # Create a new User Data
+    #     new_object = UserDetail.objects(
+    #         name = form.cleaned_data['name'],
+    #         image = form.cleaned_data['image'],
+    #         email = form.cleaned_data['email'],
+    #         age = form.cleaned_data['age'],
+    #         place = form.cleaned_data['place'],
+    #         occupation = form.cleaned_data['occupation'],
+    #         gender = form.cleaned_data['gender'],
+         
+    #     )
+    #     messages.add_message(self.request ,messages.SUCCESS,'User Details Added Successfully')
+        return super().form_valid(form)
+       
 
 
 class UploadPost(LoginRequiredMixin,CreateView):
@@ -191,41 +221,34 @@ def Like_post(request):
 
 def Comment_post(request):
 
-    
-  
-    if request.user.is_authenticated:
-            user = Profile.objects.get(user=request.user)
+        user = Profile.objects.get(user=request.user) 
+        
+        posts= Post.objects.all().order_by('-id')[0:30]
+        if request.method == 'POST':
+            post_id = request.POST.get('post_id')
+            content = request.POST.get('content')
+            post_object = Post.objects.get(id=post_id)
+            print("post_object",post_object)
+            print("post_id",post_id)
            
-            following = list(
-                Follower.objects.filter(followed_by=request.user).values_list('following', flat=True)
             
+            comment_form = Comment.objects.create(
+                user = user,
+                post = post_object,
+                content = content,
             )
-            if not following:
-                  posts= Post.objects.all().order_by('-id')[0:30]
-            else:
-                posts= Post.objects.filter(author__in=following).order_by('-id')[0:30]
-  
-            posts= Post.objects.all().order_by('-id')[0:30]
-            profile= Profile.objects.get(user=request.user)
-    
-            comment_form = CommentForm(request.POST or None)
+            comment_form.save()
+            cform = CommentForm()
             context = {
                 'posts' : posts,
-                'comment_form' : comment_form,
-                'profile':profile,
+                'comment_form' : cform,
+                'profile':user,
             }
-
-            if comment_form.is_valid():
-                instance  = comment_form.save(commit=False)
-                instance.user = user
-                instance.post = Post.objects.get(id=request.POST.get('post_id'))
-                instance.save()
-                comment_form = CommentForm()
+            return JsonResponse({"comment":content,"message":"success"})
+            # return render(request,'includes/post.html',context)
+   
             
 
-            return render(request,'feed/homepage.html',context)
-    else:
-        return render(request,'feed/homepage.html')
 
 def delete_post(request):
     user = request.user
@@ -278,9 +301,3 @@ class UpdatePost(LoginRequiredMixin,View):
             return JsonResponse({"message":"success"})
         return JsonResponse({"message":"Wrong response"})
         
-
-def searchUser(request):
-    if 'keyword' in request.GET:
-        keyword = request.GET['keyword']
-        
-    return render(request,'feed/findfriends.html')

@@ -50,7 +50,7 @@
 						{% if post.author.username == user.username %}
 						<div class="flex">
 
-							<form action="" method="POST" id="{{post.id}}" class="comment-form">
+							<form action="" method="POST" id="{{post.id}}" class="">
 								{% csrf_token %}
 								<button id="delete-box{{post.id}}" type="button" 
 									class="relative p-2 focus:outline-none border-none bg-gray-100 rounded-full">
@@ -226,14 +226,14 @@
 													{% endif %}
 														
 										</button>
-										<div class="w-full mt-2 h-5 font-bold text-sm text-gray-700 flex">
+										<div class="w-full mt-2 h-5 font-bold text-sm text-gray-700 flex ">
 							
 
-											<div class="like-count{{post.id}} font-bold pr-1">{{post.total_like}}</div><span> Likes</span> 
+											<div class="like-count{{post.id}} text-base md:text-lg font-semibold pr-1 ">{{post.total_like}}</div><span class="text-base md:text-lg font-semibold"> Likes</span> 
 										</div>
 								</form>
 					
-								<form action="" method="POST" id="{{post.id}}" class="comment-form">
+								<form action="" method="POST" id="{{post.id}}" class="comment-form" >
 									{% csrf_token %}
 									<input type="hidden" name='post_id' value="{{post.id}}">
 										<div>
@@ -247,54 +247,67 @@
 						
 					
 						</div>
-					</div>
-					<div class="flex flex-col pl-1 py-1 md:pl-4 md:py-2">
+						<div class="flex flex-col pr-1 py-1 md:pr-4 md:py-1">
 					
-						<div class="w-full h-4 text-end">
-							<p class="font-normal text-xs text-gray-500">{{post.date_time | timesince}} ago</p>
+							<div class="w-full h-4 text-end">
+								<p class="font-normal text-xs text-gray-500">{{post.date_time | timesince}} ago</p>
+							</div>
 						</div>
 					</div>
-	
-					<hr>
+			
 					<!-- End System Like and tools Feed -->
-					<div class=" pl-1 py-1 md:pl-4">
+					
+					<div class=" pl-1 py-1 md:pl-4 mt-1 md:mt-2 ">
 						
 						{% if post.comment_set.all %}
 							{% for comment in post.comment_set.all  %}
-								<div class="flex">
+								<div class="flex" id="comments-list{{post.id}}">
 
-									<a href="">
+									<a href="" >
 										
 										{% thumbnail comment.user.image "29x29" crop="center" as im %}
 										<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"
-											class="rounded-full object-scale-down">
+											class="rounded-full object-scale-down" >
 										{% endthumbnail %}
 							
 									</a>
-									<!-- <p>{{profile.gender}}</p> -->
-									<p class="pl-1 md:pl-3 text-base">{{comment.content}}</p>
+									
+
+									
+									<p class="pl-1 md:pl-3 text-base" >{{comment.content}}</p>
+									<span ></span>
+									
 							
-									<!-- <p class="pl-1 md:pl-3 text-base">{{comment.user.image.url}}</p> -->
+								
 								</div>
 							{% endfor %}
 						{% endif %}
-						<!-- {{comment_form.as_p}} -->
-							
+					
 								
 					</div>
-					<div class="z-50">
-						<form action="" method="POST" class="">
+					<div  id="comment-container{{post.id}}"class=" pl-1 py-1 md:pl-4 mt-1 md:mt-2 ">
+							
+					</div>
+
+
+
+
+					<div class="z-50 ">
+						<input hidden name="post_id" value="{{post.id}}"> 
+						<input hidden id="profile_img{{post.id}}" value="{{profile.image.url}}">
+						<form action="" method="POST" class="comment-form" id="{{post.id}}" data-url="{% url 'feed:comment' %}" enctype='multipart/form-data'>
 							{% csrf_token %}
+						
 							<div class="flex justify-between border-t items-center w-full"
 								:class="comment ? 'absolute bottom-0' : '' ">
-								<input hidden name="post_id" value="{{post.id}}"> 
+								
 								 <div class="w-full ">
-									<input type="text" name="content" placeholder="Add a comment here" required="" id="id_content" 
-										   class="w-full text-sm py-4 px-3 rounded-none focus:outline-none">
+									<input id="comment-content{{post.id}}"type="text" name="content" placeholder="Add a comment here" required_id="id_content" 
+										   class="comment-content{{post.id}} w-full text-sm py-4 px-3 rounded-none focus:outline-none">
 								</div>
 								<div class="w-20">
 									<button
-										class="comment-button{{post.id}} border-none text-sm px-4 bg-white py-4 text-indigo-600 focus:outline-none">Post</button>
+										class="comment-button{{post.id}} border-none text-sm px-4 bg-white py-4 text-indigo-600 focus:outline-none" type="submit">Post</button>
 								</div>
 							</div>
 						</form>
@@ -322,5 +335,6 @@
 					document.getElementById("like-button").className = "bx bx-like";
 				}
 			}
-			
+		 
+
 		</script>

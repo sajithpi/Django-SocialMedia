@@ -2,6 +2,7 @@ from django import forms
 from django.forms import fields
 from django.forms.models import ALL_FIELDS
 from .models import Comment, Post
+from feed import models
 
 class PhotoForm(forms.ModelForm):
     class Meta:
@@ -14,6 +15,11 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ('content',)
+
+class CommentForms(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('user',)
 
 class PostForm(forms.ModelForm):
     class Meta:

@@ -261,6 +261,75 @@ $(document)
   e.preventDefault()
   $(".js-update-model").addClass("hidden")
 })
+
+
+  // TODO:Comment
+$(".comment-form").submit(function(e){
+    e.preventDefault()
+    console.log("clicked")
+    const post_id = $(this).attr('id')
+    const url = $(this).data('url')
+    const profile_url = document.getElementById(`profile_img${post_id}`).value
+    const comment = document.getElementById(`comment-content${post_id}`).value
+    // let commentUserPic = document.createElement('')
+    let commentBody = document.getElementById(`comment-container${post_id}`)
+    // let commentContent = document.createElement('p')
+
+    console.log("post_id",post_id)
+    console.log("url:",url)
+    console.log("post comment:",comment)
+    console.log("profile_url",profile_url)
+    var $this = $(this)
+    $.ajax({
+      type : "POST",
+      url : url,
+      encType : 'multipart/form-data',
+      dataType : "json",
+      data : {
+        'csrfmiddlewaretoken' : $('input[name=csrfmiddlewaretoken]').val(),
+         'post_id' : post_id,
+         'content' : comment,
+         
+      },
+      success:function(response){
+          if(response.message === 'success'){
+            console.log("Comment saved successfully")
+
+            console.log(response.comment)
+            console.log("user",response.user)
+            commentBody.innerHTML = `<div class="flex">
+
+            <a href="" >
+              
+             
+              <img src=${profile_url}
+                class="rounded-full object-cover object-center w-7 h-7" >
+           
+        
+            </a>
+            
+
+            
+            <p class="pl-1 md:pl-3 text-base" >${response.comment}</p>
+            <span ></span>
+            
+        
+          
+          </div>`
+            
+            
+          }
+
+          else{
+            console.log(response.message)
+          }
+      } 
+    })
+  })
+
+
+
+
 // TODO:Update Button
 .on("click",".js-update-post",function(e){
   e.preventDefault();
@@ -315,6 +384,7 @@ $(document)
 
 })
 
+
   // TODO:Follow Unfollow
   .on("click", ".js-follow", function (e) {
     e.preventDefault();
@@ -343,6 +413,8 @@ $(document)
       },
     });
   })
+
+
 
   // TODO:Like
  $(".like-form").submit(function(e){
@@ -393,3 +465,4 @@ $(document)
     console.log('Reloading');
     window.location.reload();
 }
+

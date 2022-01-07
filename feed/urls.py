@@ -9,7 +9,7 @@ app_name = "feed"
 urlpatterns = [
    
     # path("",views.HomePage.as_view(),name="home"),
-    path("",views.Comment_post,name="home"),
+    path("",views.HomePage.as_view(),name="home"),
     path("<int:pk>/",views.PostDetailView.as_view(),name="detail"),
     path("find/",views.FindFriends.as_view(),name="find"),
     path("uploadPost/",views.UploadPost.as_view(),name="new_post"),
@@ -17,6 +17,9 @@ urlpatterns = [
     path("delete/",views.delete_post,name="delete"),
     path("update/",views.updatePost,name="update"),
     path("search/",views.FindFriends.as_view(),name="search"),
+    path("comment/",views.Comment_post,name="comment"),
+   
+
 
    
 ]
