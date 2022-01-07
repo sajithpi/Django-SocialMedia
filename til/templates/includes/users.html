@@ -1,5 +1,5 @@
 {% load thumbnail %}
-{% include 'includes/background.html' %}
+
 
 {% if request.user != user.user %}
 <div class="mx-auto flex max-w-3xl  bg-white rounded-lg items-center relative "
@@ -20,14 +20,16 @@
                     </a>
                 </div>
                 <div class="flex flex-col ml-3">
-                    <div class="font-medium leading-none uppercase text-sm md:text-base mt-3">{{user.user}}</div>
+                    <div class="font-medium leading-none uppercase text-sm md:text-base mt-3 font-semibold">{{user.user}}</div>
                 
                     <span class="text-sm text-gray-600 leading-none mt-1 capitalize">{{user.gender}}</p>
-                    <span class="text-sm text-black leading-none mt-1 capitalize ">{{user.country}}</p>
+                    <span class="text-sm text-black leading-none mt-1 capitalize font-semibold">{{user.country}}</p>
                 </div>
             </div>
-            <a href="{% url 'profiles:detail' user.user %}" class="mr-1 md:mr-4">
-            <button  class="bg-blue-500 px-1 md:px-3 py-0 md:py-2   text-xs md:text-sm shadow-sm hover:shadow-lg  border-2 border-blue-500 text-white rounded">View<br>Profile</button></a>
+            <div class="mx-4 md:mx-1">
+                <a href="{% url 'profiles:detail' user.user %}" class="">
+                <button  class="bg-blue-500 px-1 md:px-3 py-1 md:py-2 w-full text-xs md:text-sm shadow-sm hover:shadow-lg  border-2 border-blue-500 text-white rounded font-bold">View Profile</button></a>
+            </div>
         </div>
     </div>
 </div>

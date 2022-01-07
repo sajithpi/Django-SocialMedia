@@ -15,7 +15,8 @@ urlpatterns = [
     path("uploadPost/",views.UploadPost.as_view(),name="new_post"),
     path("like/",views.Like_post ,name="like_post"),
     path("delete/",views.delete_post,name="delete"),
-    path("update/",views.updatePost,name="update")
+    path("update/",views.updatePost,name="update"),
+    path("search/",views.FindFriends.as_view(),name="search"),
 
    
 ]

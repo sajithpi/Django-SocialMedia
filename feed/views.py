@@ -2,9 +2,9 @@
 from django.contrib.auth.models import User
 from django.db.models.base import Model
 from django.http import HttpResponseRedirect, request 
-from django.http.response import HttpResponseBadRequest, JsonResponse
+from django.http.response import HttpResponseBadRequest, JsonResponse,HttpResponse
 from django.views.generic import TemplateView
-from django.views.generic import  DetailView, View,DeleteView
+from django.views.generic import  DetailView, View,DeleteView,ListView
 from django.views.generic.edit import CreateView, UpdateView
 
 from profiles.models import Profile
@@ -136,16 +136,30 @@ class UploadPost(LoginRequiredMixin,CreateView):
             content_type="application/html"
         )
 
-class FindFriends(TemplateView):
- 
+class FindFriends(ListView):
+    model = Post
+    http_methods_name = ['get']
     template_name = "feed/findfriends.html"
+
     # context_object_name = "user"
     # queryset = Profile.objects.all().order_by('-id')[0:30]
-    
+
+   
+
     def get_context_data(self, **kwargs):
         context =  super().get_context_data(**kwargs)
-        context['user_details'] = Profile.objects.all()
-        return context
+
+        if 'keyword' in self.request.GET:
+            keyword = self.request.GET['keyword']
+        
+          
+            if keyword:  
+                context['user_details'] = Profile.objects.order_by('-user').filter(user__username__icontains = keyword)
+                context['keyword'] = keyword
+                return context
+        else:
+            context['user_details'] = Profile.objects.all()
+            return context
 
 
 def Like_post(request):
@@ -265,4 +279,8 @@ class UpdatePost(LoginRequiredMixin,View):
         return JsonResponse({"message":"Wrong response"})
         
 
-    
+def searchUser(request):
+    if 'keyword' in request.GET:
+        keyword = request.GET['keyword']
+        
+    return render(request,'feed/findfriends.html')
