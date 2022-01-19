@@ -441,13 +441,13 @@ $(".comment-form").submit(function(e){
         success:function(response){
           if(trimmed_text ==='Dislike'){
               $(`.like-button${post_id}`).text('Like')
-              like_img.innerHTML = '<i class="bx bx-like"></i>'
+              like_img.innerHTML = '<i class="bx bx-heart"></i>'
               
               res = trim_count - 1
           }
           else {
               $(`.like-button${post_id}`).text('Dislike')
-              like_img.innerHTML = '<i class="bx bx-dislike text-blue-500"></i>'
+              like_img.innerHTML = '<i class="bx bxs-heart text-blue-500"></i>'
               res = trim_count + 1
           }
           $(`.like-count${post_id}`).text(res)

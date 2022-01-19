@@ -1,4 +1,5 @@
 
+from asyncio.windows_events import NULL
 from django.contrib.auth.models import User
 from django.db.models.base import Model
 from django.http import HttpResponseRedirect, request 
@@ -26,45 +27,30 @@ class HomePage(TemplateView):
     # model = Post
     # context_object_name = "posts"
     # queryset = Post.objects.all().order_by('-id')[0:30]
+
    
     def dispatch(self, request, *args, **kwargs):
-        self.request = request
-       
-        return super().dispatch(request, *args, **kwargs)
+
+            if request.user.is_authenticated:
+                self.request = request
+            
+                return super().dispatch(request, *args, **kwargs)
+
+            return render(request,'feed/homepage.html')
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        # like= 
-        # total_likes = Post.objects.last()
-       
-        # context['posts'] = Post.objects.all()
-        # if self.request.user.is_authenticated:
-        #     comment_form = CommentForm.objects.all()
-           
-        #     following = list(
-        #         Follower.objects.filter(followed_by=request.user).values_list('following', flat=True)
-            
-        #     )
-        #     if not following:
-        #           posts= Post.objects.all().order_by('-id')[0:30]
-        #     else:
-        #         posts= Post.objects.filter(author__in=following).order_by('-id')[0:30]
+
+
         comment_form = CommentForm()
         posts= Post.objects.all().order_by('-id')[0:30]
         profile= Profile.objects.get(user=self.request.user)
-    
-           
         
-     
-  
-        # for post in posts:
-        #     id = posts.id
-  
         context['posts'] = posts
         context['comment_form'] = comment_form
         context['profile'] = profile
         
-        # context['total_likes'] = total_likes
+        
         return context
 
 

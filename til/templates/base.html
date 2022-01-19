@@ -25,7 +25,7 @@
     <div
       class="flex flex-col px-0 md:px-3 w-32 md:w-48 lg:w-64 h-screen md:px-1 bg-white rounded-r-3xl overflow-hidden sticky top-0 left-0 right-0">
       <div class="flex items-center justify-start h-20 pt-5 visible md:visible">
-        <h1 class="text-lg md:text-xl capitalize text-indigo-500 -ml-4 md:ml-4">SocialBook</h1>
+        <h1 class="text-lg md:text-xl capitalize text-indigo-500 -ml-4 md:ml-4 hidden md:block">SocialBook</h1>
       </div>
       <ul class="flex flex-col py-4 px-0 md:px-3 text-decoration:none -ml-0 md:ml-4">
         <li class="text-decoration: none   ">
@@ -33,7 +33,7 @@
             class="flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 ">
             <span class="inline-flex items-center content-start md:content-center  h-12 w-7 text-lg text-gray-400"><i
                 class="bx bx-home text-indigo-500"></i></span>
-            <div class="text-xs md:text-sm font-medium  visible hover:invisible">Home</div>
+            <div class="text-xs md:text-sm font-medium  hidden md:block">Home</div>
           </a>
         </li>
         {% if request.user.is_authenticated %}
@@ -42,8 +42,8 @@
           <a href="{% url 'profiles:detail' user.username %}"
             class="flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 ">
             <span class="inline-flex items-center content-start md:content-center  h-12 w-7 text-lg text-gray-400"><i
-                class="bx bx-user text-indigo-500"></i></span>
-            <div class="text-xs md:text-sm font-medium  visible hover:invisible">Profile</div>
+                class="bx bx-user-circle text-indigo-500"></i></span>
+            <div class="text-xs md:text-sm font-medium  hidden md:block">Profile</div>
           </a>
 
         </li>
@@ -51,16 +51,17 @@
           <a href="{% url 'feed:new_post' %}"
             class="js-toggle-model  flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 ">
             <span class="inline-flex items-center content-start md:content-center  h-12 w-7 text-lg text-gray-400"><i
-                class="bx bx-upload text-indigo-500"></i></span>
-            <div class="text-xs md:text-sm font-medium  visible hover:invisible">Upload</div>
+                class="bx bx-message-alt-add text-indigo-500"></i></span>
+                
+            <div class="text-xs md:text-sm font-medium  hidden md:block">Upload</div>
           </a>
         </li>
         <li>
           <a href="{% url 'feed:find' %}"
             class="flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 ">
             <span class="inline-flex items-center content-start md:content-center  h-12 w-7 text-lg text-gray-400"><i
-                class="bx bx-upload text-indigo-500"></i></span>
-            <div class="text-xs md:text-sm font-medium  visible hover:invisible">Find Friends</div>
+                class="bx bx-user-plus text-indigo-500"></i></span>
+            <div class="text-xs md:text-sm font-medium  hidden md:block">Find Friends</div>
           </a>
         </li>
 
@@ -70,7 +71,7 @@
             class="flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 ">
             <span class="inline-flex items-center content-start md:content-center  h-12 w-7 text-lg text-gray-400"><i
                 class="bx bx-log-out text-indigo-500"></i></span>
-            <div class="text-xs md:text-sm font-medium  visible hover:invisible">Logout</div>
+            <div class="text-xs md:text-sm font-medium hidden md:block">Logout</div>
           </a>
 
         </li>
@@ -80,7 +81,7 @@
             class="flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 ">
             <span class="inline-flex items-center content-start md:content-center  h-12 w-7 text-lg text-gray-400"><i
                 class="bx bx-log-in text-indigo-500"></i></span>
-            <div class="text-xs md:text-sm font-medium  visible hover:invisible">Login</div>
+            <div class="text-xs md:text-sm font-medium  hidden md:block">Login</div>
           </a>
 
         </li>
