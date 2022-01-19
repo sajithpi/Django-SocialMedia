@@ -1,5 +1,6 @@
 
 from asyncio.windows_events import NULL
+from pyexpat.errors import messages
 from django.contrib.auth.models import User
 from django.db.models.base import Model
 from django.http import HttpResponseRedirect, request 
@@ -94,29 +95,6 @@ class DeletePost(DeleteView):
             return post_object
 
 
-class CommentView(FormView):
-    model = Comment
-    template_name = "feed/commentview.html"
-    form_class = CommentForms
-    success_url = "/"
-    def dispatch(self, request, *args, **kwargs):
-        self.request = request
-        return super().dispatch(request,*args,**kwargs)
-    # def form_valid(self, form):
-    #     # Create a new User Data
-    #     new_object = UserDetail.objects(
-    #         name = form.cleaned_data['name'],
-    #         image = form.cleaned_data['image'],
-    #         email = form.cleaned_data['email'],
-    #         age = form.cleaned_data['age'],
-    #         place = form.cleaned_data['place'],
-    #         occupation = form.cleaned_data['occupation'],
-    #         gender = form.cleaned_data['gender'],
-         
-    #     )
-    #     messages.add_message(self.request ,messages.SUCCESS,'User Details Added Successfully')
-        return super().form_valid(form)
-       
 
 
 class UploadPost(LoginRequiredMixin,CreateView):
@@ -210,6 +188,7 @@ def Comment_post(request):
         user = Profile.objects.get(user=request.user) 
         
         posts= Post.objects.all().order_by('-id')[0:30]
+
         if request.method == 'POST':
             post_id = request.POST.get('post_id')
             content = request.POST.get('content')
@@ -217,20 +196,23 @@ def Comment_post(request):
             print("post_object",post_object)
             print("post_id",post_id)
            
-            
+          
             comment_form = Comment.objects.create(
                 user = user,
                 post = post_object,
                 content = content,
             )
             comment_form.save()
+            comment_count = Comment.objects.filter(post_id = post_id).count()
+            print("comment count:",comment_count)
             cform = CommentForm()
             context = {
                 'posts' : posts,
                 'comment_form' : cform,
                 'profile':user,
             }
-            return JsonResponse({"comment":content,"message":"success"})
+            
+            return JsonResponse({"comment":content,"message":"success","user" : user.user.username,"comment_count":comment_count})
             # return render(request,'includes/post.html',context)
    
             

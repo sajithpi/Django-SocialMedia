@@ -1,4 +1,3 @@
-
 {% load thumbnail %}
 {% load post_tags %}
 {% load static %}
@@ -41,44 +40,38 @@
 								class="block text-xs md:text-sm text-gray-500 dark:text-gray-400 font-light leading-snug object-scale-down"">{{post.date_time}}</span>
             			</div>
           			</div>
-				
-						<!-- <span class=" text-xs mx-2">•</span>
-							<button
-								class="text-indigo-500 text-sm capitalize flex justify-start items-start">follow</button>
-							-->
 				</div>
 						{% if post.author.username == user.username %}
-						<div class="flex">
+						<div class=" flex">
 
-							<form action="" method="POST" id="{{post.id}}" class="">
-								{% csrf_token %}
-								<button id="delete-box{{post.id}}" type="button" 
-									class="relative p-2 focus:outline-none border-none bg-gray-100 rounded-full">
-									<a class="delete-icon" href="{% url 'feed:delete' %}" id="{{post.id}}"">
+								<form action="" method="POST" id="{{post.id}}" class="">
+									{% csrf_token %}
+									<button id="delete-box{{post.id}}" type="button"
+										class="relative p-2 focus:outline-none border-none bg-gray-100 rounded-full">
+										<a class="delete-icon" href="{% url 'feed:delete' %}" id="{{post.id}}"">
 										<i class='bx bx-trash'></i>
 									{{post.id}}</a>
 								</button>
 								<!-- TODO:Delete form -->
 			
 							</form>
-							<button id="edit-box{{post.id}}" type="button" 
-							class="relative p-2 mx-3 focus:outline-none border-none bg-gray-100 rounded-full" >
-							<a class="update-icon"  id="{{post.id}}">
-								<i class='bx bxs-edit'></i>
-							{{post.id}}</a>
-						</button>
+							<button id=" edit-box{{post.id}}" type="button"
+											class="relative p-2 mx-3 focus:outline-none border-none bg-gray-100 rounded-full">
+											<a class="update-icon" id="{{post.id}}">
+												<i class='bx bxs-edit'></i>
+												{{post.id}}</a>
+									</button>
 						</div>
 						{% endif %}
 					</div>
 				</div>
 				<span class="post-text">
 					<input type="hidden" class="post{{post.id}}" id="{{post.id}}" value="{{post.id}}">
-					<p id="post-text{{post.id}}" class="post-text{{post.id}} text-black-500 text-base md:text-lg px-3  leading-snug md:leading-normal capitalize">
+					<p id="post-text{{post.id}}"
+						class="post-text{{post.id}} text-black-500 text-base md:text-lg px-3  leading-snug md:leading-normal capitalize">
 						{{post.text}}
 					</p>
 				</span>
-				
-
 				{% if show_detail_link %}
 				<div class="post-img{{post.id}} relative w-full h-full px-3">
 					<a href="{% url 'feed:detail' post.id %}">
@@ -88,7 +81,7 @@
 				</div>
 				{% else %}
 				<div class="post-img{{post.id}} relative w-full h-full px-3">
-
+				
 					<img src="{{ post.photo.url }}" alt="SocialBook"
 						class=" rounded w-full h-full object-cover object-scale-down">
 
@@ -112,149 +105,155 @@
 									d="M7 16l-4-4m0 0l4-4m-4 4h18"></path>
 							</svg>
 						</div>
-					
-					</div>
-				<div class="mx-3 md:mx-5">
 
-				
-					<!-- System Like and tools Feed -->
-					<div class="flex justify-between items-start pl-1 py-1 md:pl-4 md:py-2">
-						<div class="flex space-x-2 items-center items-baseline">
+					</div>
+					<div class="mx-3 md:mx-5">
+						<!-- System Like and tools Feed -->
+						<div class="flex justify-between items-start pl-1 py-1 md:pl-4 md:py-2">
+							<div class="flex space-x-2 items-center items-baseline">
 								<!-- <button class="js-like">Js test</button> -->
-								<form action="{% url 'feed:like_post' %}" method="POST" id="{{post.id}}" class="like-form">
+								<form action="{% url 'feed:like_post' %}" method="POST" id="{{post.id}}" 
+									class="like-form mt-2">
 									{% csrf_token %}
 									<input type="hidden" name='post_id' value="{{post.id}}">
-										<div>
-											<button id="like-box{{post.id}}" class="like-button{{post.id}} font-bold text-lg md:text-2xl
-											rounded hover:text-blue-500">
-												{% if request.user not in post.likes.all %}
-													<!-- <i class="bx bx-like"></i> -->
-													<i class='bx bx-heart' ></i>
-												{% else %}
-													<!-- <i class="bx bx-dislike text-blue-500"></i> -->
-													<i class='bx bxs-heart text-blue-500' ></i>											
-												{% endif %}
-											</button>
-										</div>
+
+									<button class=" font-bold text-lg md:text-2xl
+												rounded hover:text-blue-500 " type="submit">
+										{% if request.user not in post.likes.all %}
+										<!-- <i class="bx bx-like"></i> -->
+										<span id="like-box{{post.id}}"><i class='bx bx-heart'></i></span>
+										<h6 class="like-button{{post.id}} text-gray-500 text-xs md:text-sm my-0 w-14">
+											Like</h6>
+										{% else %}
+										<!-- <i class="bx bx-dislike text-blue-500"></i> -->
+										<span id="like-box{{post.id}}"><i class='bx bxs-heart text-red-500'></i></span>
+										<h6 class="like-button{{post.id}} text-gray-500 text-xs md:text-sm my-0 w-14">
+											Dislike</h6>
+
+										{% endif %}
+									</button>
+									<!-- Getting  Number of likes -->
+									<div class="flex">
+									<div class="like-count{{post.id}} text-sm md:text-base font-bold ">
+										{{post.total_like}} Likes</div>
+								
+									</div>
+								</form>
+								<!-- Comment Button -->
+								<input type="hidden" name='post_id' value="{{post.id}}">
+								<div class="pr-4">
+									<button id="comment-box{{post.id}}" class="comment-button{{post.id}} font-bold text-lg md:text-2xl
+												rounded hover:text-blue-500">
+										<a href="{% url 'feed:detail' post.id %}" class="text-black"><span><i
+													class='bx bx-comment-dots'></i></span></a>
+										<div class="text-xs md:text-sm text-gray-500 ">Comment</div>
 										
-										<button type="submit" class="like-button{{post.id}} text-gray-500 text-xs md:text-sm my-0">
-													
-													{% if request.user not in post.likes.all %}
-														Like
-													{% else %}
-														Dislike													
-													{% endif %}
-														
-										</button>
-										<div class="w-full mt-2 h-5 font-bold text-sm text-gray-700 flex ">
-							
+									</button>
+								</div>
+							</div>
+							<div class="flex flex-col pr-1 py-1 md:pr-4 md:py-1">
 
-											<div class="like-count{{post.id}} text-sm md:text-base font-semibold pr-1 ">{{post.total_like}} Likes</div>
-										</div>
-								</form>
-					
-								<form action="" method="POST" id="{{post.id}}" class="comment-form" >
-									{% csrf_token %}
-									<input type="hidden" name='post_id' value="{{post.id}}">
-										<div>
-											<button id="comment-box{{post.id}}" class="comment-button{{post.id}} font-bold text-lg md:text-2xl
-											rounded hover:text-blue-500">
-											<i class='bx bx-comment-dots'></i>
-												<div class="text-xs md:text-sm text-gray-500 ">Comment</div>
-											</button>
-										</div>
-								</form>
-						
-					
-						</div>
-						<div class="flex flex-col pr-1 py-1 md:pr-4 md:py-1">
-					
-							<div class="w-full h-4 text-end">
-								<p class="font-normal text-xs text-gray-500">{{post.date_time | timesince}} ago</p>
+								<div class="w-full h-4 text-end">
+									<p class="font-normal text-xs text-gray-500">{{post.date_time | timesince}} ago</p>
+								</div>
 							</div>
 						</div>
-					</div>
-			
-					<!-- End System Like and tools Feed -->
-				
-				{% if show_comment_list == True %}
-				<div class=" pl-1 py-1 md:pl-4 mt-1 md:mt-2 ">
-						
-					{% if post.comment_set.all %}
-						<!-- {{post.comment_set.all.count}} -->
-						{% for comment in post.comment_set.all  %}
-							<div class="flex" id="comments-list{{post.id}}">
 
-								<a href="" >
-									
-									{% thumbnail comment.user.image "29x29" crop="center" as im %}
-									<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"
-										class="rounded-full object-scale-down" >
-									{% endthumbnail %}
-						
+						<!-- TODO: Comment Section -->
+						<div class="z-50 ">
+							<input hidden name="post_id" value="{{post.id}}">
+							<input hidden id="profile_img{{post.id}}" value="{{user.profile.image.url}}">
+							<form action="" method="POST" class="comment-form" id="{{post.id}}"
+								data-url="{% url 'feed:comment' %}" enctype='multipart/form-data'>
+								{% csrf_token %}
+
+								<div class="flex justify-between border-t items-center w-full"
+									:class="comment ? 'absolute bottom-0' : '' ">
+
+									<div class="w-full ">
+										<input id="comment-content{{post.id}}" type="text" name="content"
+											placeholder="Add a comment here" required_id="id_content"
+											class="comment-content{{post.id}} w-full text-sm py-2 px-3 rounded-none ">
+									</div>
+									<div class="w-20">
+										<button
+											class="comment-button{{post.id}} border-none text-sm px-4 bg-white py-2 text-blue-600 focus:outline-none"
+											type="submit">Post</button>
+									</div>
+								</div>
+							</form>
+						</div>
+						<!-- TODO:New Comment Section -->
+						<input hidden id="comment_flag" value="{{show_comment_list}}">
+
+						<div id="comment-container{{post.id}}" class=" pl-1 py-1 md:pl-4 mt-1 md:mt-2 ">
+
+						</div>
+						<!-- End System Like and tools Feed -->
+						<!-- TODO: Existing Comments Listing -->
+					{% if show_comment_list == True %}
+							<div class=" pl-1 py-1 md:pl-4 mt-1 md:mt-2 ">
+								{% if post.comment_set.all %}
+									{% for comment in post.comment_set.all  %}
+										<div class="flex" id="comments-list{{post.id}}">
+
+											<a href="">
+
+												{% thumbnail comment.user.image "29x29" crop="center" as im %}
+												<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"
+													class="rounded-full object-scale-down">
+												{% endthumbnail %}
+
+											</a>
+											<p class="pl-1 md:pl-3 text-xs md:text-base">{{comment.content}}</p>
+											<span></span>
+										</div>
+									{% endfor %}
+								{% endif %}
+								<input hidden id="comment-count{{post.id}}" value="{{post.comment_set.all.count}}">
+							{% if post.comment_set.all.count > 1 %}
+								<a hidden href="{% url 'feed:detail' post.id%}">View ALl
+									<span hidden id="comment_count_body{{post.id}}">{{post.comment_set.all.count}}</span> Comments
 								</a>
-								
+							{% else %}
+								<span hidden id="comment_count_body{{post.id}}"></a>
+							{% endif %}
+							</div>
 
-								
-								<p class="pl-1 md:pl-3 text-xs md:text-base" >{{comment.content}}</p>
-								<span ></span>
-								
-						
-							
-							</div>
-						{% endfor %}
-					{% endif %}
-				
-							
-				</div>
-				<div  id="comment-container{{post.id}}"class=" pl-1 py-1 md:pl-4 mt-1 md:mt-2 ">
-						
-				</div>
-				<div class="z-50 ">
-					<input hidden name="post_id" value="{{post.id}}"> 
-					<input hidden id="profile_img{{post.id}}" value="{{profile.image.url}}">
-					<form action="" method="POST" class="comment-form" id="{{post.id}}" data-url="{% url 'feed:comment' %}" enctype='multipart/form-data'>
-						{% csrf_token %}
-					
-						<div class="flex justify-between border-t items-center w-full"
-							:class="comment ? 'absolute bottom-0' : '' ">
-							
-							 <div class="w-full ">
-								<input id="comment-content{{post.id}}"type="text" name="content" placeholder="Add a comment here" required_id="id_content" 
-									   class="comment-content{{post.id}} w-full text-sm py-4 px-3 rounded-none focus:outline-none">
-							</div>
-							<div class="w-20">
-								<button
-									class="comment-button{{post.id}} border-none text-sm px-4 bg-white py-4 text-indigo-600 focus:outline-none" type="submit">Post</button>
-							</div>
+						<!-- TODO:If show comment list = False -->
+					{% else %}
+						<div class=" pl-1 py-1 md:pl-4 mt-1 md:mt-2 mb-1">
+							{% if post.comment_set.all %}
+								{% for comment in post.comment_set.all  %}
+									{% if forloop.counter < 3 %}
+										<div class="flex" id="comments-list{{post.id}}">
+											<p class="font-bold ">{{comment.post.author.username}}</p>
+											<p class="pl-1 md:pl-3 text-xs md:text-base">{{comment.content}}</p>
+											<span></span>
+										</div>
+									{% endif %}
+								{% endfor %}
+							<input hidden id="comment-count{{post.id}}" value="{{post.comment_set.all.count}}">
+							{% if post.comment_set.all.count > 1 %}
+								<a href="{% url 'feed:detail' post.id%}">View ALl
+									<span id="comment_count_body{{post.id}}">{{post.comment_set.all.count}}</span> Comments
+								</a>
+							{% else %}
+								<span hidden id="comment_count_body{{post.id}}"></a>
+							{% endif %}
+						{% endif %}
 						</div>
-					</form>
+					{% endif %}
+						<input type="hidden" id="refreshed" value="no">
+					</div>
 				</div>
-				{% endif %}
-					
-
-				<input type="hidden" id="refreshed" value="no"> 
-				</div>
-			</div>
-
-
-
-
-				
 			</div>
 		</div>
-
-
-
-
-
 		<script>
-			function myFunction(state){
+			function myFunction(state) {
 				const state_value = document.getElementById("state_value")
-				if(state == 'like'){
+				if (state == 'like') {
 					document.getElementById("like-button").className = "bx bx-like";
 				}
 			}
-		 
-
 		</script>

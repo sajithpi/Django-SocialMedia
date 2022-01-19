@@ -270,15 +270,24 @@ $(".comment-form").submit(function(e){
     const post_id = $(this).attr('id')
     const url = $(this).data('url')
     const profile_url = document.getElementById(`profile_img${post_id}`).value
+
     const comment = document.getElementById(`comment-content${post_id}`).value
+    const comment_count = document.getElementById(`comment-count${post_id}`).value
+    const comment_flag = document.getElementById(`comment_flag`).value
+
     // let commentUserPic = document.createElement('')
+    let comment_input = document.getElementById(`comment-content${post_id}`)
     let commentBody = document.getElementById(`comment-container${post_id}`)
+    
+
     // let commentContent = document.createElement('p')
 
     console.log("post_id",post_id)
     console.log("url:",url)
     console.log("post comment:",comment)
-    console.log("profile_url",profile_url)
+    console.log("profile_url:",profile_url)
+    console.log("comment flag:",comment_flag)
+    console.log("comment count:",comment_count)
     var $this = $(this)
     $.ajax({
       type : "POST",
@@ -293,31 +302,30 @@ $(".comment-form").submit(function(e){
       },
       success:function(response){
           if(response.message === 'success'){
+            
             console.log("Comment saved successfully")
-
+            comment_input.value = ""
+            console.log("Comment Count:",response.comment_count)
+            document.getElementById(`comment_count_body${post_id}`).innerText = response.comment_count
             console.log(response.comment)
             console.log("user",response.user)
-            commentBody.innerHTML = `<div class="flex">
-
-            <a href="" >
-              
-             
-              <img src=${profile_url}
-                class="rounded-full object-cover object-center w-7 h-7" >
-           
-        
-            </a>
+            if(comment_flag == 'True'){
+                commentBody.innerHTML = `<div class="flex">
+                  <a href="" ><img src='${profile_url}' class="rounded-full object-cover object-center w-7 h-7" ></a>
+                  <p class="pl-1 md:pl-3 text-base" >${response.comment}</p>
+                  <span ></span>
+            </div>`
+            }else{
+              commentBody.innerHTML = `<div class="flex">
             
-
-            
-            <p class="pl-1 md:pl-3 text-base" >${response.comment}</p>
-            <span ></span>
-            
-        
-          
-          </div>`
+              <p class="font-bold " >${response.user}</p>
+              <p class="pl-1 md:pl-3 text-xs md:text-base" >${response.comment}</p>
+              <span ></span>
+            </div>`
+            }
             
             
+  
           }
 
           else{
@@ -325,6 +333,7 @@ $(".comment-form").submit(function(e){
           }
       } 
     })
+ 
   })
 
 
@@ -447,10 +456,10 @@ $(".comment-form").submit(function(e){
           }
           else {
               $(`.like-button${post_id}`).text('Dislike')
-              like_img.innerHTML = '<i class="bx bxs-heart text-blue-500"></i>'
+              like_img.innerHTML = '<i class="bx bxs-heart text-red-500"></i>'
               res = trim_count + 1
           }
-          $(`.like-count${post_id}`).text(res)
+          $(`.like-count${post_id}`).text(res+" Likes")
         },
         error:function(response){
           console.log('error',response)
