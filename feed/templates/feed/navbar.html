@@ -1,0 +1,84 @@
+   <!-- Navigation Bar -->
+   <nav class="w-auto bg-white shadow border-b border-gray-400 absolute inset-x-0 top-0 h-16 z-30  ">
+        
+
+
+    <div class="flex justify-between h-16">
+        <div class="flex w-11 md:w-14 sm:hidden md:visible  ">
+            <div class="flex-shrink-0 flex items-center">
+                <!-- <h1 class="text-2xl md:text-3xl capitalize text-indigo-500 -ml-4 md:ml-4 ">SocialBook</h1> -->
+            </div>
+        </div>
+        <div class="flex-auto flex items-center justify-center ">
+            <div class="ml-8">
+                <form action="{% url 'feed:search' %}" method="get" >
+                    <label for="search" class="sr-only text-xs md:text-sm">Search</label>
+                    <div class="w-36 h-7 sm:w-full md:h-10  bg-white border rounded-full flex justify-between items-center relative mx-1 pl-3  pr-2">
+   
+                        <input type="search" name="keyword" id="search" placeholder="Search"
+                            class="w-full outline-none focus:outline-none active:outline-none  "/>
+                        <button type="submit" class=" outline-none focus:outline-none active:outline-none self-center">
+                            <div class="items-center mt-1 ">
+                                <i class='bx bx-search-alt-2 text-base md:text-xl' ></i>
+                            </div>
+                            
+                        </button>
+                   
+                  </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- icons-->
+        <div class="lg:ml-4 flex items-center self-center mr-0 md:mr-3">
+            <button
+                class="flex-shrink-0 p-1 border-transparent text-gray-700 rounded-full hover:text-gray-600 focus:outline-none "
+                aria-label="Notifications">
+                <a href="{% url 'feed:home' %} "
+                class="flex flex-col md:flex-row items-center h-12  text-gray-500 hover:text-gray-800 ">
+                <span class="inline-flex items-center content-start md:content-center  h-12 w-7  text-gray-400"><i
+                    class="bx bx-home text-indigo-500 text-xl md:text-2xl"></i></span>
+      
+              </a>
+            </button>
+            {% if request.user.is_authenticated %}
+                <button
+                    class="flex-shrink-0 p-1 border-transparent text-gray-700 rounded-full hover:text-gray-600 focus:outline-none "
+                    aria-label="Notifications">
+                    <a href="{% url 'profiles:detail' user.username %}"
+                    class="flex flex-col md:flex-row items-center h-12 transform  text-gray-500 hover:text-gray-800 ">
+                    <span class="inline-flex items-center content-start md:content-center w-7 h-12 text-gray-400"><i
+                        class="bx bx-user-circle text-indigo-500 text-xl md:text-2xl"></i></span>
+                    <!-- <div class="text-xs md:text-sm font-medium  hidden md:block">Profile</div> -->
+                </a>
+                </button>
+
+                <button
+                    class="flex-shrink-0 p-1 border-transparent text-gray-700 rounded-full hover:text-gray-600 focus:outline-none "
+                    aria-label="Notifications">
+                    <a href="{% url 'account_logout' %}"
+                    class="flex flex-col md:flex-row items-center h-12 text-gray-500 hover:text-gray-800 ">
+                    <span class="inline-flex items-center content-start md:content-center  h-12 w-7  text-gray-400"><i
+                        class="bx bx-log-out text-indigo-500 text-xl md:text-2xl"></i></span>
+                
+                </a>
+                </button>
+            {% else %}
+                <button
+                class="flex-shrink-0 p-1 border-transparent text-gray-700 rounded-full hover:text-gray-600 focus:outline-none "
+                aria-label="Notifications">
+                    <a href="{% url 'account_login' %}"
+                    class="flex flex-col md:flex-row items-center h-12 text-gray-500 hover:text-gray-800 ">
+                    <span class="inline-flex items-center content-start md:content-center  h-12 w-7 text-lg text-gray-400"><i
+                        class="bx bx-log-in text-indigo-500 text-xl md:text-2xl"></i></span>
+                   
+                </a>
+                </button>
+            {% endif %}
+
+
+
+
+        </div>
+    </div>
+</nav>

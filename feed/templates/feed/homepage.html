@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-homepage 22222
+homepage 
 
 {% block title %}
     Home page
@@ -9,8 +9,13 @@ homepage 22222
 <h1 class="text-3xl py-3 text-blue-500">Welcome {{user.username}}</h1>
 
 {% block body %}
-  
-  {% if request.user.is_authenticated %}
+
+  <div class="fixed top-0 left-0 right-0 z-30">
+    {% include 'feed/navbar.html' %}
+  </div>
+  <div class="mt-24 z-20">
+    
+    {% if request.user.is_authenticated %}
     <div id="posts-container">
       {% for post in posts  %}
           
@@ -32,9 +37,13 @@ homepage 22222
   {% else %}
     {% include 'includes/login.html' %}
   {% endif %}
+  
+
+
+  
     
 
-      
+</div>   
 {% endblock body %}
 
     

@@ -7,7 +7,17 @@
     
 
 {% block body %}
-    {% include 'includes/post.html' with post=post show_detail_link=False show_comment_list=True%}
- 
+<div class="fixed top-0 left-0 right-0 z-30">
+    {% include 'feed/navbar.html' %}
+  </div>
+  <div class="mt-24 z-20">
+    
+    {% if request.user.is_authenticated %}
+        {% include 'includes/post.html' with post=post show_detail_link=False show_comment_list=True%}
+    {% else %}
+        {% include 'includes/login.html' %}
+    {% endif%}
+</div>
+
 {% endblock body %}
     

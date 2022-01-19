@@ -2,7 +2,7 @@
 
 
 {% if request.user != user.user %}
-<div class="mx-auto flex max-w-3xl  bg-white rounded-lg items-center relative "
+<div class="mx-auto flex max-w-7xl  bg-white rounded-lg items-center relative "
 	x-data="{
         comment : false,
     }">
@@ -26,9 +26,9 @@
                     <span class="text-sm text-black leading-none mt-1 capitalize font-semibold">{{user.country}}</p>
                 </div>
             </div>
-            <div class="mx-4 md:mx-1">
+            <div class="mx-4 md:mx-1 w-20 md:w-24">
                 <a href="{% url 'profiles:detail' user.user %}" class="">
-                <button  class="bg-blue-500 px-1 md:px-3 py-1 md:py-2 w-full text-xs md:text-sm shadow-sm hover:shadow-lg  border-2 border-blue-500 text-white rounded font-bold">View Profile</button></a>
+                <button  class="bg-blue-500 px-0 md:px-3 py-1 md:py-2 w-full text-xs md:text-sm shadow-sm hover:shadow-lg  border-2 border-blue-500 text-white rounded font-bold">View Profile</button></a>
             </div>
         </div>
     </div>
