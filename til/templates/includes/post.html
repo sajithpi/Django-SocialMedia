@@ -187,7 +187,7 @@
 						<input hidden id="comment_flag" value="{{show_comment_list}}">
 
 						<div id="comment-container{{post.id}}" class=" pl-1  md:pl-4 ">
-
+							<input hidden type="text" value="This is the comment cona="> 
 						</div>
 						<!-- End System Like and tools Feed -->
 						<!-- TODO: Existing Comments Listing -->
@@ -216,7 +216,7 @@
 									<span hidden id="comment_count_body{{post.id}}">{{post.comment_set.all.count}}</span> Comments
 								</a>
 							{% else %}
-								<span hidden id="comment_count_body{{post.id}}"></a>
+							<span hidden id="comment_count_body{{post.id}}">mkdfndmdfnjkjndm</span> Comments
 							{% endif %}
 							</div>
 
@@ -227,20 +227,21 @@
 								{% for comment in post.comment_set.all reversed %}
 									{% if forloop.counter < 3 %}
 										<div class="flex" id="comments-list{{post.id}}">
-											<p class="font-bold ">{{comment.post.author.username}}</p>
-											<p class="pl-1 md:pl-3 text-xs md:text-base">{{comment.content}}</p>
+											<p class="text-base md:text-lg font-bold ">{{comment.post.author.username}}</p>
+											<p class="pl-1 md:pl-3 text-xs md:text-base self-center">{{comment.content}}</p>
 											<span></span>
 										</div>
 									{% endif %}
 								{% endfor %}
-							<input hidden id="comment-count{{post.id}}" value="{{post.comment_set.all.count}}">
-							{% if post.comment_set.all.count > 1 %}
-								<a href="{% url 'feed:detail' post.id%}">View ALl
-									<span id="comment_count_body{{post.id}}">{{post.comment_set.all.count}}</span> Comments
-								</a>
+								{% if post.comment_set.all.count > 1 %}
+									<input hidden id="comment-count{{post.id}}" value="{{post.comment_set.all.count}}">
+										<a href="{% url 'feed:detail' post.id%}">View ALl
+											<span id="comment_count_body{{post.id}}">{{post.comment_set.all.count}}</span> Comments
+										</a>
+								{% endif %}
 							{% else %}
-								<span hidden id="comment_count_body{{post.id}}"></a>
-							{% endif %}
+							<input hidden id="comment-count{{post.id}}" value="1">
+							<span  hidden id="comment_count_body{{post.id}}">No Comments</a>
 						{% endif %}
 						</div>
 					{% endif %}

@@ -270,9 +270,14 @@ $(".comment-form").submit(function(e){
     const post_id = $(this).attr('id')
     const url = $(this).data('url')
     const profile_url = document.getElementById(`profile_img${post_id}`).value
-
+    let comment_count = 0;
     const comment = document.getElementById(`comment-content${post_id}`).value
-    const comment_count = document.getElementById(`comment-count${post_id}`).value
+    try{
+      comment_count= document.getElementById(`comment-count${post_id}`).value
+    }
+    catch(error){
+      comment_count = 1
+    }
     const comment_flag = document.getElementById(`comment_flag`).value
 
     // let commentUserPic = document.createElement('')
@@ -312,14 +317,14 @@ $(".comment-form").submit(function(e){
             if(comment_flag == 'True'){
                 commentBody.innerHTML = `<div class="flex">
                   <a href="" ><img src='${profile_url}' class="rounded-full object-cover object-center w-7 h-7" ></a>
-                  <p class="pl-1 md:pl-3 text-base" >${response.comment}</p>
+                  <p class="pl-1 md:pl-3 text-xs md:text-base self-center" >${response.comment}</p>
                   <span ></span> 
             </div>` + commentBody.innerHTML
             }else{
               commentBody.innerHTML = `<div class="flex">
             
-              <p class="font-bold " >${response.user}</p>
-              <p class="pl-1 md:pl-3 text-xs md:text-base" >${response.comment}</p>
+              <p class="text-base md:text-lg font-bold  " >${response.user}</p>
+              <p class="pl-1 md:pl-3 text-xs md:text-base self-center"  >${response.comment}</p>
               <span ></span>
             </div>` + commentBody.innerHTML
             }
