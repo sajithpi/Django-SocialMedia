@@ -313,15 +313,15 @@ $(".comment-form").submit(function(e){
                 commentBody.innerHTML = `<div class="flex">
                   <a href="" ><img src='${profile_url}' class="rounded-full object-cover object-center w-7 h-7" ></a>
                   <p class="pl-1 md:pl-3 text-base" >${response.comment}</p>
-                  <span ></span>
-            </div>`
+                  <span ></span> 
+            </div>` + commentBody.innerHTML
             }else{
               commentBody.innerHTML = `<div class="flex">
             
               <p class="font-bold " >${response.user}</p>
               <p class="pl-1 md:pl-3 text-xs md:text-base" >${response.comment}</p>
               <span ></span>
-            </div>`
+            </div>` + commentBody.innerHTML
             }
             
             

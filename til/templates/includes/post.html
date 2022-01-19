@@ -186,15 +186,15 @@
 						<!-- TODO:New Comment Section -->
 						<input hidden id="comment_flag" value="{{show_comment_list}}">
 
-						<div id="comment-container{{post.id}}" class=" pl-1 py-1 md:pl-4 mt-1 md:mt-2 ">
+						<div id="comment-container{{post.id}}" class=" pl-1  md:pl-4 ">
 
 						</div>
 						<!-- End System Like and tools Feed -->
 						<!-- TODO: Existing Comments Listing -->
 					{% if show_comment_list == True %}
-							<div class=" pl-1 py-1 md:pl-4 mt-1 md:mt-2 ">
+							<div class=" pl-1 py-1 md:pl-4 mb-1 md:mb-2 " id="comment_list{{post.id}}">
 								{% if post.comment_set.all %}
-									{% for comment in post.comment_set.all  %}
+									{% for comment in post.comment_set.all reversed %}
 										<div class="flex" id="comments-list{{post.id}}">
 
 											<a href="">
@@ -222,9 +222,9 @@
 
 						<!-- TODO:If show comment list = False -->
 					{% else %}
-						<div class=" pl-1 py-1 md:pl-4 mt-1 md:mt-2 mb-1">
+						<div class=" pl-1 md:pl-4 mb-1 md:mb-2">
 							{% if post.comment_set.all %}
-								{% for comment in post.comment_set.all  %}
+								{% for comment in post.comment_set.all reversed %}
 									{% if forloop.counter < 3 %}
 										<div class="flex" id="comments-list{{post.id}}">
 											<p class="font-bold ">{{comment.post.author.username}}</p>
