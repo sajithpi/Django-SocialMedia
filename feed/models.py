@@ -1,9 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 from profiles.models import Profile
-from django.db.models.base import Model
 from django.db.models.deletion import CASCADE
 from sorl.thumbnail import ImageField
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 # Create your models here.
 
 class Post(models.Model):
@@ -49,3 +50,14 @@ class Comment(models.Model):
 
     def __str__(self):
         return str(self.content)
+
+
+class Notification(models.Model):
+
+    notification_type = models.IntegerField()
+    to_user = models.ForeignKey(User, related_name="notification_to", on_delete=models.CASCADE, null=True)
+    from_user = models.ForeignKey(User, related_name="notification_from" ,on_delete=models.CASCADE, null=True)
+    post = models.ForeignKey(Post, related_name="+", on_delete=models.CASCADE,null=True, blank=True)
+    profile = models.ForeignKey(Profile,on_delete=models.CASCADE,null=True,blank=True)
+    date = models.DateTimeField(auto_now_add=True)
+    user_has_seen = models.BooleanField(default=False)

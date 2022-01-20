@@ -113,7 +113,7 @@
 							<div class="flex space-x-2 items-center items-baseline">
 								<!-- <button class="js-like">Js test</button> -->
 								<form action="{% url 'feed:like_post' %}" method="POST" id="{{post.id}}" 
-									class="like-form mt-2">
+									class="like-form mt-2" enctype="multipart/form-data">
 									{% csrf_token %}
 									<input type="hidden" name='post_id' value="{{post.id}}">
 
@@ -138,6 +138,7 @@
 										{{post.total_like}} Likes</div>
 								
 									</div>
+									
 								</form>
 								<!-- Comment Button -->
 								<input type="hidden" name='post_id' value="{{post.id}}">

@@ -1,6 +1,3 @@
-
-from asyncio.windows_events import NULL
-from pyexpat.errors import messages
 from django.contrib.auth.models import User
 from django.db.models.base import Model
 from django.http import HttpResponseRedirect, request 
@@ -10,7 +7,7 @@ from django.views.generic import  DetailView, View,DeleteView,ListView,FormView
 from django.views.generic.edit import CreateView, UpdateView
 
 from profiles.models import Profile
-from .models import Comment, Post,Like
+from .models import Comment, Notification, Post,Like
 from django.shortcuts import get_object_or_404, redirect, render
 from feed import models
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -161,11 +158,29 @@ def Like_post(request):
     if request.method == 'POST':
         post_id = request.POST.get('post_id')
         post_object = Post.objects.get(id=post_id)
+        user = User.objects.get(id = request.user.id)
+        post_author = User.objects.get(username=post_object.author.username)
+       
+        profile = Profile.objects.get_or_create(user=user)
+        # profiles = Profile.objects.filter(user__username = post_object.author.username)
+        print("username:",user.username)
+        print("post_photo:",post_object.author.profile.image.url)
+       
+        # print("Post Author : ",post_object.author.username)
 
         if user in post_object.likes.all():
             post_object.likes.remove(user)
         else:
             post_object.likes.add(user)
+           
+            notification = Notification.objects.create(
+                notification_type = 1,
+                to_user = post_author,
+                from_user = user,
+                post = post_object,
+           
+            )
+            notification.save()
 
         like, created = Like.objects.get_or_create(user=user,post_id=post_id)
         if not created:
@@ -174,7 +189,7 @@ def Like_post(request):
             else:
                 like.value = "Like"
         like.save()
-
+        
         data = {
             'value':like.value,
             'likes':post_object.likes.all().count()

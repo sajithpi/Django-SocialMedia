@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Like, Comment
+from .models import Notification, Post, Like, Comment
 
 # Register your models here.
 
@@ -10,9 +10,13 @@ class LikeAdmin(admin.ModelAdmin):
 class CommentAdmin(admin.ModelAdmin):
     pass
 
+class NotificationAdmin(admin.ModelAdmin):
+    pass
+
 
 admin.site.register(Post,PostAdmin)
 admin.site.register(Like,LikeAdmin)
 admin.site.register(Comment,CommentAdmin)
+admin.site.register(Notification,NotificationAdmin)
 
 

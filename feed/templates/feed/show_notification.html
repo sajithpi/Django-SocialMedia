@@ -1,0 +1,63 @@
+<!-- component -->
+<!-- Facebook notification -->
+<style>
+        .text-blue {
+            color: #1876f2;
+        }
+    </style>
+{% load thumbnail %}
+<button class="bg-gray-200 p-2 rounded-full">
+    <svg class="h-3 w-3 fill-current" viewBox="0 0 20 20"><path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z"/></svg>
+</button>
+<div class="overflow-y-scroll max-h-96">
+
+
+{% for notification in notifications %}
+    
+    {% if notification.post %}
+        <div class="bg-white  pr-4 py-3 rounded-lg shadow-md max-w-md border-b ">
+           
+            <div class="flex items-center mt-3 hover:bg-gray-100 rounded-lg  py-1 cursor-pointer">
+                <div class="flex flex-shrink-0 px-3">
+                    <a href="{% url 'feed:detail' notification.post.id %}">
+                    {% thumbnail notification.post.photo "59x59" crop="center" as im %}
+												<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"
+													class="object-scale-down">
+					{% endthumbnail %}
+                    </a>
+                </div>
+                
+                <div class="ml-3">
+                
+                    {% if notification.notification_type == 1 %}
+                        <p class="text-sm m-auto ">{{notification.from_user | capfirst}} Liked on your post</p>
+                        <span class="text-sm text-gray-500"><small>{{notification.date | timesince}} ago</small></span>
+                    {% elif notification.notification_type == 2%}
+                        <p class="text-sm">{{notification.from_user}} Commented on your post</p>
+                        <span class="text-sm text-blue font-semibold">{{notification.date | timesince}} ago</span> 
+                    
+                    {% endif %}
+
+                
+                </div>
+                <div class="flex flex-shrink-0 items-end">
+                    <a href="{% url 'profiles:detail' notification.from_user %}">
+                    {% thumbnail notification.from_user.profile.image "39x39" crop="center" as im %}
+												<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"
+													class="rounded-full object-scale-down">
+					{% endthumbnail %}
+                    </a>
+                </div>
+            
+                
+            </div>
+        </div>
+        {% else %}
+
+            <p class="text-sm">{{notification.from_user}} Started following you </p>
+            <span class="text-sm text-blue font-semibold">a few seconds ago</span> 
+            
+    {% endif %}
+        
+{% endfor %}
+</div>
