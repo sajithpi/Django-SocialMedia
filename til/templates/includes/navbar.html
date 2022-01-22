@@ -1,9 +1,14 @@
 {% load custom_tags %}
    <!-- Navigation Bar -->
+  
+ 
+
    <nav class="w-auto bg-white shadow border-b border-gray-400 absolute inset-x-0 top-0 h-16 z-30  ">
-        
-
-
+       
+    <div class="w-auto border-gray-400 ml-64 z-50">
+        {% include 'includes/alert.html' %}
+       </div>
+   
     <div class="flex justify-between h-16">
         <div class="flex w-11 md:w-14 sm:hidden md:visible  ">
             <div class="flex-shrink-0 flex items-center">
@@ -101,4 +106,5 @@
 
         </div>
     </div>
+   
 </nav>

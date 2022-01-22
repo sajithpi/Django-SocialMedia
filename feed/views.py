@@ -1,22 +1,16 @@
-import re
 from django.contrib.auth.models import User
-from django.db.models.base import Model
 from django.http import HttpResponseRedirect, request 
 from django.http.response import HttpResponseBadRequest, JsonResponse,HttpResponse
 from django.views.generic import TemplateView
-from django.views.generic import  DetailView, View,DeleteView,ListView,FormView
+from django.views.generic import  DetailView, View,ListView,FormView
 from django.views.generic.edit import CreateView, UpdateView
-
+from django.contrib import messages
 from profiles.models import Profile
 from .models import Comment, Notification, Post,Like
 from django.shortcuts import get_object_or_404, redirect, render
-from feed import models
 from django.contrib.auth.mixins import LoginRequiredMixin
-from followers.models import Follower
-from django.urls import reverse
 from django.http import JsonResponse
-from django.template import loader
-from .forms import CommentForm, PostForm,CommentForms
+from .forms import CommentForm
 # Create your views here.
 
 
@@ -234,6 +228,7 @@ def delete_post(request):
         post_object.delete()
         # print("post_id:",post_id)
         # post_object.delete()
+        messages.success(request,"Your Post Deleted SuccessFully")
         return JsonResponse({"message":"success"})
     return JsonResponse({"message":"not "})
 
@@ -250,16 +245,33 @@ def delete_comment(request):
                 print("commented_user_id:",commented_user_id)
                 comment = Comment.objects.get(id = comment_id,user__user_id = commented_user_id)
                 comment.delete()
+                messages.success(request,"Your Comment Deleted SuccessFully")
                 return JsonResponse({"message":"success"})
         else:
             print("This is not your comment")
-        # post_object = Post.objects.get(id=post_id)
-        # print("post_object",post_object)
-        # post_object.delete()
-        # print("post_id:",post_id)
-        # post_object.delete()
+
         
     return JsonResponse({"message":"not "})
+
+def update_comment(request):
+    if request.method == 'POST':
+        commented_user_id = request.POST.get("commented_user_id")
+        comment_id = request.POST.get("comment_id")
+        comment_content = request.POST.get("comment_content")
+        commented_user = request.POST.get('commented_user')
+        post_id = request.POST.get('post_id')
+        if(request.user.username == commented_user):
+            print("post_id:",comment_id)
+            print("commented_user:",commented_user)
+            print("commented_user_id:",commented_user_id)
+            print("comment_content:",comment_content)
+
+            comment = Comment.objects.get(id = comment_id,user_id = commented_user_id)
+            comment.content = comment_content
+            comment.save()
+            messages.success(request,"Your Comment Updated SuccessFully")
+            return JsonResponse({"message" : "success"})
+    return JsonResponse({"message" : "not"})
     
 def updatePost(request):
     user = request.user
@@ -284,20 +296,11 @@ def updatePost(request):
     
 
         post_object.save()
+        messages.success(request,"Your Post Updated SuccessFully")
         return JsonResponse({"message":"Success","photourl":str(photo)})
     return JsonResponse({"message":"Wrong response"})
 
-class UpdatePost(LoginRequiredMixin,View):
 
-    def get(self, request, pk, *args, **kwargs):
-
-        if request.method == 'POST':
-            post_id = request.POST.get("post_id")
-            post = Post.objects.get(id=post_id)
-            print("post_id:",post_id)
-            
-            return JsonResponse({"message":"success"})
-        return JsonResponse({"message":"Wrong response"})
 
 #Notification user has seen will be enabled after clicking on posts and user profile  
 def post_notification(request,notification_pk,post_pk):

@@ -21,12 +21,13 @@
 <body>
 
   <!-- component -->
-
+ 
 
   <div class="min-h-screen  flex flex-row {% if request.user.is_authenticated %} bg-gray-100 {% else %} bg-gradient-to-r from-indigo-500 {% endif %} ">
+   
     <!-- <div class="flex flex-col w-4/5 md:w-1/5 md:pr-0 pr-1 bg-white rounded-r-3xl overflow-hidden"> -->
     {% if request.user.is_authenticated %}
-      <div class="flex flex-col px-0 md:px-3 w-32 md:w-48 lg:w-64 h-screen md:px-1 bg-white rounded-r-3xl overflow-hidden sticky top-0 left-0 right-0 z-50">
+      <div class="flex flex-col px-0 md:px-3 w-32 md:w-48 lg:w-64 h-screen md:px-1 bg-white rounded-r-3xl overflow-hidden sticky top-0 left-0 right-0 z-40">
           <div class="flex items-center justify-start h-20 pt-5 visible md:visible">
             <h1 class="text-lg md:text-xl capitalize text-indigo-500 -ml-4 md:ml-4 hidden md:block">SocialBook</h1>
           </div>
@@ -84,7 +85,7 @@
     <div class="m-auto">
 
       {% block body %}
-
+      
       {% block content %}
 
       {% endblock content %}
@@ -95,7 +96,7 @@
 
     {% if request.user.is_authenticated %}
           <!-- TODO:Upload Post -->
-      <div class="min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover  hidden js-model"  id="modal-id">
+      <div class="min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-40 outline-none focus:outline-none bg-no-repeat bg-center bg-cover  hidden js-model"  id="modal-id">
         <div class="absolute bg-black opacity-75 inset-0 z-0 w-100"></div>
         <div class="relative mx-auto my-auto rounded-xl shadow-lg  bg-white  w-fit h-auto md:w-2/5 p-1 md:p-3 ">
         <!--content-->
@@ -137,7 +138,7 @@
       </div>
 
       <!-- TODO:Update Post -->
-      <div class="min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover  hidden js-update-model"  id="modal-id">
+      <div class="min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-40 outline-none focus:outline-none bg-no-repeat bg-center bg-cover  hidden js-update-model"  id="modal-id">
         <div class="absolute bg-black opacity-75 inset-0 z-0 w-100"></div>
         <div class="relative mx-auto my-auto rounded-xl shadow-lg  bg-white  w-fit h-auto md:w-2/5 p-1 md:p-3 ">
         <!--content-->
@@ -184,7 +185,7 @@
 
       <!-- TODO:Delete post -->
       <!-- component -->
-      <div class="min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover hidden js-delete-model"   id="modal-id">
+      <div class="min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-40  outline-none focus:outline-none bg-no-repeat bg-center bg-cover hidden js-delete-model"   id="modal-id">
         <div class="absolute bg-black opacity-75 inset-0 z-0 w-100"></div>
         <div class="relative mx-auto my-auto rounded-xl shadow-lg  bg-white  w-auto h-auto md:w-3/5 p-1 md:p-3 ">
         <!--content-->
@@ -217,6 +218,44 @@
         </div>
       </div>
       </div>
+
+
+
+       <!-- TODO:Update Comment post -->
+      <!-- component -->
+      <div class="min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-40 outline-none focus:outline-none bg-no-repeat bg-center bg-cover hidden js-update-comment-model"   id="modal-id">
+        <div class="absolute bg-black opacity-75 inset-0 z-0 w-100"></div>
+        <div class="relative mx-auto my-auto rounded-xl shadow-lg  bg-white  w-auto h-auto md:w-3/5 p-1 md:p-3 ">
+        <!--content-->
+        <div class="">
+            <form id="formCommentUpdate" action="">
+              {% csrf_token %}
+            <!--body-->
+                  <div class="text-center p-1 flex-auto justify-center">
+                    <input type="text" id="postIdCommentUpdate">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 -m-1 flex items-center text-red-500 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                          </svg>
+                          <i class='bx bxs-comment-add text-blue-500 text-xl md:text-7xl'></i>
+                          <h2 class="text-xl font-bold py-1 ">Are you sure?</h3>
+                          <p class="text-sm text-gray-500 px-1 ">Do you really want to Update?</p>    
+                  </div>
+            <!--footer-->
+                  <div class="p-1 text-center space-x-4 md:block">
+                      <button class="js-comment-update-cancel mb-1 md:mb-0 bg-white px-2 py-1 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100">
+                          Cancel
+                      </button>
+                      <button id="js-comment-update-post" class="js-comment-update-post  mb-1 md:mb-0 bg-white border border-red-500 px-2 py-1 text-sm shadow-sm font-medium tracking-wider text-gray-500 rounded-full hover:shadow-lg hover:bg-red-600" ">
+                        Update
+                        <a href="{% url 'feed:delete' %}"> </a>
+                      </button>
+                  </div>
+            </form>
+        </div>
+      </div>
+      </div>
+
+
   {% endif %}
 </div>
 

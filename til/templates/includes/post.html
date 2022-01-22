@@ -14,14 +14,17 @@
 	}
 </style>
 
+
+	
 {% include 'includes/background.html' %}
 
 <div class="mx-auto flex justify-center max-w-3xl md:mb-1 mt-1 bg-white rounded-lg items-center relative md:p-0 "
 	x-data="{
         comment : false,
     }">
-
+	
 	<div class="h-full relative post mx-2 md:mx-3">
+	
 		<div class="py-1 px-2">
 			<div class="flex justify-between items-center pt-2">
 				<div class="relative mt-1 flex">
@@ -139,9 +142,10 @@
 								
 									</div>
 									
+									
 								</form>
 								<!-- Comment Button -->
-								<input type="hidden" name='post_id' value="{{post.id}}">
+								<input type="hidden" name='post_id' value="{{post.id}}" class="post_id_value">
 								<div class="pr-4">
 									<button id="comment-box{{post.id}}" class="comment-button{{post.id}} font-bold text-lg md:text-2xl
 												rounded hover:text-blue-500">
@@ -171,7 +175,7 @@
 								<div class="flex justify-between border-t items-center w-full border-b border-gray-300"
 									:class="comment ? 'absolute bottom-0' : '' ">
 
-									<div class="w-full ">
+									<div class="w-full" >
 										<input id="comment-content{{post.id}}" type="text" name="content"
 											placeholder="Add a comment here" required_id="id_content"
 											class="comment-content{{post.id}} w-full text-sm py-2 px-3 rounded-none ">
@@ -196,6 +200,9 @@
 							<div class=" pl-1 py-1 md:pl-4  " id="comment_list{{post.id}}">
 								{% if post.comment_set.all %}
 									{% for comment in post.comment_set.all reversed %}
+									<div id="comment-container{{comment.id}}" class=" pl-1  md:pl-4 ">
+										<input hidden type="text" value="This is the comment cona=asdadadsadas">
+									</div>
 										<div class="flex border-b border-gray-300 items-center comment_list" id="comments-list{{post.id}} ">
 											<div class="flex  w-14 h-9 md:h-11 mx-auto justify-center">
 												<a class="self-center" href="">
@@ -213,7 +220,7 @@
 											<div class="flex-initial grow  w-3/4" >
 												
 												{% if comment.user.user.username == user.username %}
-												<div class="flex pl-1 w-full md:pl-3 text-xs md:text-base w-4/5"><input class="flex w-full" type="text" value="{{comment.content}}"></div>
+												<div class="flex pl-1 w-full md:pl-3 text-xs md:text-base w-4/5"><input class="flex w-full" type="text" id="comment_content{{comment.id}}" value="{{comment.content}}"></div>
 													
 												{% else %}
 												<div class="flex pl-1 w-full md:pl-3 text-xs md:text-base">{{comment.content}}</div>
@@ -227,8 +234,9 @@
 														<form action="" method="POST" id="{{comment.id}}" class="">
 															{% csrf_token %}
 															<input hidden type="text" name="comment_user" id="comment_user{{comment.id}}" value="{{comment.user.user.username}}">
-															<input hidden type="text" name="comment_user" id="comment_user_id{{comment.id}}" value="{{comment.user.user.id}}">
+															<input hidden type="text" name="comment_user_id" id="comment_user_id{{comment.id}}" value="{{comment.user.user.id}}">
 															<input hidden type="text" name="comment_content" id="comment_id{{comment.id}}" value="{{comment.content}}">
+															<input type="hidden" name='post_id' value="{{post.id}}" class="post_id_value{{comment.id}}">
 															<button id="delete-comment-box{{post.id}}" type="button"
 																class="relative p-0 md:p-2 focus:outline-none border-none bg-gray-100 rounded-full">
 																<a class="delete-comment-icon" href="{% url 'feed:delete_comment' %}" id="{{comment.id}}"">
@@ -236,14 +244,15 @@
 																</a>
 															</button>
 														<!-- TODO:Delete form -->
-									
-														</form>
-															<button id=" edit-box{{post.id}}" type="button"
+														<button id="edit-comment-box{{comment.id}}" type="button"
 																	class="relative p-0 md:p-2 mx-3 focus:outline-none border-none bg-gray-100 rounded-full">
-																	<a class="update-icon" id="{{post.id}}">
+																	<a class="update-comment-icon" href="{% url 'feed:update_comment' %}" id="{{comment.id}}">
 																		<i class='bx bxs-edit'></i>
 																		</a>
 															</button>
+									
+														</form>
+															
 													</div>
 												{% endif %}
 											</div>

@@ -21,6 +21,7 @@ class PasswordsChangeView(PasswordChangeView):
     template_name="account/password_change.html"
 
 def password_success(request):
+    messages.success(request,"Your Password has been Updated SuccessFully")
     return render(request,'account/password_success.html',{})
 
 class UserDetailView(TemplateView):
@@ -88,7 +89,7 @@ class ProfilePersonalUpdate(UpdateView):
         return context
 
     def form_valid(self, form):
-        messages.add_message(self.request ,messages.SUCCESS,'User Details Updated Successfully')
+        messages.success(self.request,'User Details Updated Successfully')
         return super().form_valid(form)
 
 

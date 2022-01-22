@@ -340,6 +340,74 @@ $(document)
 })
 
 
+
+
+
+// TODO:Update Comment
+.on("click",".update-comment-icon",function(e){
+  e.preventDefault()
+   $(".js-update-comment-model").toggleClass("hidden")
+
+  console.log("clicked update")
+  const comment_id = $(this).attr('id')
+  const url = $(this).attr('href')
+  const commented_user = document.getElementById(`comment_user${comment_id}`).value
+  const comment_content = document.getElementById(`comment_content${comment_id}`).value
+  const comment_container = document.getElementById(`comment_container${comment_id}`)
+  const commented_user_id = document.getElementById(`comment_user_id${comment_id}`).value
+  const comment_input_box = document.getElementById(`comment_content${comment_id}`)
+  console.log(comment_id)
+  console.log(commented_user)
+  console.log(comment_content)
+  console.log(commented_user_id)
+  console.log("url:",url)
+  document.getElementById("post-updateText").value = commented_user
+  document.getElementById("postId").value = commented_user_id
+  const update_comment_button = document.getElementById('js-comment-update-post')
+  comment_input_box.innerHTML = 'hi';
+  // Adding lisner event for update button
+  update_comment_button.addEventListener("click",function(e){
+    e.preventDefault()
+    $.ajax({
+      type:'POST',
+      url : url,
+      dataType : "json",
+      data : {
+        'csrfmiddlewaretoken' : $('input[name=csrfmiddlewaretoken]').val(),
+        'comment_id' : comment_id,
+        'commented_user' : commented_user,
+        'commented_user_id' : commented_user_id,
+        'comment_content' : comment_content,
+      },
+      success:function(response){
+        if(response.message === 'success'){
+            comment_input_box.value = comment_content
+            console.log("Comment Updated Successfully")
+            location.reload();
+            $(".js-update-comment-model").addClass("hidden") 
+    
+        }
+        else{
+          alert(response.message)
+        }
+      }
+    })
+  })
+ 
+
+
+})
+
+
+
+// TODO:Update
+.on("click",".js-comment-update-cancel",function(e){
+  e.preventDefault()
+  $(".js-update-comment-model").toggleClass("hidden")
+
+
+})
+
   // TODO:Comment
 $(".comment-form").submit(function(e){
     e.preventDefault()
@@ -360,10 +428,6 @@ $(".comment-form").submit(function(e){
     // let commentUserPic = document.createElement('')
     let comment_input = document.getElementById(`comment-content${post_id}`)
     let commentBody = document.getElementById(`comment-container${post_id}`)
-    
-
-    // let commentContent = document.createElement('p')
-
     console.log("post_id",post_id)
     console.log("url:",url)
     console.log("post comment:",comment)
@@ -531,3 +595,6 @@ $(".comment-form").submit(function(e){
     window.location.reload();
 }
 
+setTimeout(function(){
+  $('#message').fadeOut('slow')
+}, 1000)

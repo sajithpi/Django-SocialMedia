@@ -21,6 +21,7 @@ urlpatterns = [
     path("notification/<int:notification_pk>/post/<int:post_pk>",views.post_notification,name="post_notification"),
     path("notification/<int:notification_pk>/user_profile/<str:user_pk>",views.user_profile_notification,name="user_profile_notification"),
     path("delete_comment/",views.delete_comment,name="delete_comment"),
+    path("update_comment/",views.update_comment,name="update_comment"),
    
 
 
