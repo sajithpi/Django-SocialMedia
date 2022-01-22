@@ -3,6 +3,7 @@ from .models import Profile
 
 
 class ProfileAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['user','bio','gender','contact','place','country']
+    
 
 admin.site.register(Profile, ProfileAdmin)

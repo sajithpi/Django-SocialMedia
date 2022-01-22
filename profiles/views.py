@@ -35,6 +35,7 @@ class UserDetailView(TemplateView):
     
     def get_context_data(self, **kwargs):
         user = self.request.user
+
         context = super().get_context_data(**kwargs)
         context['total_posts'] = Post.objects.filter(author=user).count()
         context['total_followers'] = Follower.objects.filter(following=user).count()
@@ -60,11 +61,15 @@ class ProfileDetailView(DetailView):
         # U = User.objects.get(username=user)
         # U.set_password('appu123456789111')
         # U.save()
+        user = User.objects.get(id = self.request.user.id)
+        email = user.email
         context = super().get_context_data(**kwargs)
         context['total_posts'] = Post.objects.filter(author=user).count()
         context['total_followers'] = Follower.objects.filter(following=user).count()
         context['total_following'] = Follower.objects.filter(followed_by = user).count()
+        context['profile_name'] = email.split('@')[0]
         context['posts'] = Post.objects.filter(author = user)
+    
         if self.request.user.is_authenticated:
             context['you_follow'] = Follower.objects.filter(following=user, followed_by=self.request.user).exists()
         return context

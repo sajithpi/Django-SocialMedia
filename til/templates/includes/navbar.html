@@ -5,7 +5,7 @@
 
    <nav class="w-auto bg-white shadow border-b border-gray-400 absolute inset-x-0 top-0 h-16 z-30  ">
        
-    <div class="w-auto border-gray-400 ml-64 z-50">
+    <div class="w-auto border-gray-400 ml-8 md:ml-64 z-50">
         {% include 'includes/alert.html' %}
        </div>
    
@@ -90,7 +90,7 @@
 
                 <!-- Logout -->
                 <button
-                    class="flex-shrink-0 px-1 md:px-4 border-transparent text-gray-700 rounded-full hover:text-gray-600 focus:outline-none "
+                    class="flex-shrink-0 px-0.5 md:px-4 border-transparent text-gray-700 rounded-full hover:text-gray-600 focus:outline-none "
                     aria-label="Notifications">
                     <a href="{% url 'account_logout' %}"
                     class="flex flex-col md:flex-row items-center h-12 text-gray-500 hover:text-gray-800 ">

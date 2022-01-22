@@ -25,20 +25,21 @@
     
                           
                             <div class="flex justify-center  ">
-                                {% thumbnail user.profile.image "115x115" crop="center" as im %}
+                                {% thumbnail user.profile.image "155x155" crop="center" as im %}
                                 <img src="{{ im.url }}" class="rounded-full border-solid border-white border-2 -mt-3">
                                 {% endthumbnail %}
                             </div>
     
                         </div>
                     </div>
-                    <div class="w-full md:w-3/4  text-center">
-                        <div class="text-left pl-4 pt-3">
-                            <span
-                                class="text-base text-gray-700 text-xl md:text-2xl mr-2 capitalize">{{user.username}}</span>
+                    <div class="w-full md:w-3/4  text-center ">
+                        <div class="flex text-left pl-4 pt-3 items-center ">
+                            <div
+                                class="text-base text-gray-700 text-xl md:text-2xl mr-2 capitalize py-1 
+                                md-py-2 mb-2">{{user.username}}</span>
                          
                              
-                            </span>
+                            </div>
                            {% if request.user == user %}
                         
                             <a href="{% url 'profiles:update' user.id %}">
@@ -96,7 +97,13 @@
                         </div>
     
                         <div class="text-left pl-4 pt-3 px-2">
-                            <p class="text-base font-medium text-blue-700 mr-2">#graphicsdesigner #traveller #reader
+                              <p
+                                class="text-base text-gray-700 text-xl mr-2 font-semibold uppercase">{{profile_name}}</span>     
+                              </p>
+                              <p
+                              class="text-base text-gray-700 text-base mr-2">{{user.profile.bio}}</span>     
+                            </p>
+                            <p class="text-base font-medium text-blue-700 mr-2 mt-2">#graphicsdesigner #traveller #reader
                                 #blogger #digitalmarketer</p>
                             <a href="mailto:{{user.email}}"><p class="text-base font-medium text-blue-500 mr-2 break-words">{{user.email}}</p></a>
                         </div>

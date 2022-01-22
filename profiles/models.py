@@ -14,6 +14,7 @@ class Profile(models.Model):
     image = ImageField(default="profiles/user.png",upload_to='profiles')
     gender = models.CharField(null=True,blank=True,max_length=100)
     # dob = models.DateTimeField(auto_created=True)
+    bio = models.TextField(null=True,blank=True,max_length=255)
     contact = models.IntegerField(null=True,blank=True,default=1)
     place = models.CharField(null=True,blank=True,max_length=100)
    
