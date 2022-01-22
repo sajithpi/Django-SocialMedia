@@ -1,3 +1,4 @@
+import re
 from django.contrib.auth.models import User
 from django.db.models.base import Model
 from django.http import HttpResponseRedirect, request 
@@ -35,6 +36,8 @@ class HomePage(TemplateView):
                 return super().dispatch(request, *args, **kwargs)
 
             return render(request,'feed/homepage.html')
+            # return render(request,'includes/login.html')
+
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -50,6 +53,23 @@ class HomePage(TemplateView):
         
         
         return context
+
+# def HomePageView(request):
+#     if request.user.is_authenticated:
+#         comment_form = CommentForm()
+#         posts= Post.objects.all().order_by('-id')[0:30]
+#         profile= Profile.objects.get(user=request.user)
+
+#         context = {
+#             'posts' : posts,
+#             'comment_form' : comment_form,
+#             'profile' : profile,
+#         }
+
+#         return render(request,'feed/homepage.html',context)
+    
+#     print("here it is login area")
+#     return render(request,'feed/homepage.html')
 
 
 class PostDetailView(DetailView):
@@ -74,24 +94,6 @@ class PostDetailView(DetailView):
         # context['total_likes'] = total_likes
         context['liked'] = liked
         return context
-
-class DeletePost(DeleteView):
-    model = Post
-   
-    success_url = "/"
-
-    def get_object(self, *args, **kwargs ):
-     
-        if self.request.method == 'POST':
-            post_id = request.POST.get('post_id')
-            print(post_id)
-            post_object = Post.objects.get(id=post_id)
-    
-        
-            # messages.Warning(self.request.user,"only author of the post can delete this post")
-            return post_object
-
-
 
 
 class UploadPost(LoginRequiredMixin,CreateView):
@@ -131,11 +133,6 @@ class FindFriends(ListView):
     model = Post
     http_methods_name = ['get']
     template_name = "feed/findfriends.html"
-
-    # context_object_name = "user"
-    # queryset = Profile.objects.all().order_by('-id')[0:30]
-
-   
 
     def get_context_data(self, **kwargs):
         context =  super().get_context_data(**kwargs)
@@ -229,8 +226,7 @@ def Comment_post(request):
             
             return JsonResponse({"comment":content,"message":"success","user" : user.user.username,"comment_count":comment_count})
             # return render(request,'includes/post.html',context)
-   
-            
+ 
 
 
 def delete_post(request):
@@ -283,4 +279,20 @@ class UpdatePost(LoginRequiredMixin,View):
             
             return JsonResponse({"message":"success"})
         return JsonResponse({"message":"Wrong response"})
-        
+
+#Notification user has seen will be enabled after clicking on posts and user profile  
+def post_notification(request,notification_pk,post_pk):
+    notification = Notification.objects.get(pk = notification_pk)
+    post = Post.objects.get(id = post_pk)
+    notification.user_has_seen = True
+    notification.save()
+
+    return redirect('feed:detail', pk=post.pk)
+
+def user_profile_notification(request,notification_pk,user_pk):
+    notification = Notification.objects.get(pk = notification_pk)
+    user = User.objects.get(pk = user_pk)
+    notification.user_has_seen = True
+    notification.save()
+
+    return redirect('profiles:detail', username=user.username)

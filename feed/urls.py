@@ -18,6 +18,8 @@ urlpatterns = [
     path("update/",views.updatePost,name="update"),
     path("search/",views.FindFriends.as_view(),name="search"),
     path("comment/",views.Comment_post,name="comment"),
+    path("notification/<int:notification_pk>/post/<int:post_pk>",views.post_notification,name="post_notification"),
+    path("notification/<int:notification_pk>/user_profile/<str:user_pk>",views.user_profile_notification,name="user_profile_notification"),
    
 
 

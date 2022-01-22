@@ -25,75 +25,62 @@
 
   <div class="min-h-screen  flex flex-row bg-gray-100 ">
     <!-- <div class="flex flex-col w-4/5 md:w-1/5 md:pr-0 pr-1 bg-white rounded-r-3xl overflow-hidden"> -->
-    <div
-      class="flex flex-col px-0 md:px-3 w-32 md:w-48 lg:w-64 h-screen md:px-1 bg-white rounded-r-3xl overflow-hidden sticky top-0 left-0 right-0 z-50">
-      <div class="flex items-center justify-start h-20 pt-5 visible md:visible">
-        <h1 class="text-lg md:text-xl capitalize text-indigo-500 -ml-4 md:ml-4 hidden md:block">SocialBook</h1>
+    {% if request.user.is_authenticated %}
+      <div class="flex flex-col px-0 md:px-3 w-32 md:w-48 lg:w-64 h-screen md:px-1 bg-white rounded-r-3xl overflow-hidden sticky top-0 left-0 right-0 z-50">
+          <div class="flex items-center justify-start h-20 pt-5 visible md:visible">
+            <h1 class="text-lg md:text-xl capitalize text-indigo-500 -ml-4 md:ml-4 hidden md:block">SocialBook</h1>
+          </div>
+            <ul class="flex flex-col py-4 px-0 md:px-3 text-decoration:none -ml-0 md:ml-4">
+              <li class="text-decoration: none   ">
+                <a href="{% url 'feed:home' %} "
+                  class="flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 ">
+                  <span class="inline-flex items-center content-start md:content-center  h-12 w-7 text-lg text-gray-400"><i
+                      class="bx bx-home text-indigo-500"></i></span>
+                  <div class="text-xs md:text-sm font-medium  hidden md:block">Home</div>
+                </a>
+              </li>
+            
+              <li>
+
+                <a href="{% url 'profiles:detail' user.username %}"
+                  class="flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 ">
+                  <span class="inline-flex items-center content-start md:content-center  h-12 w-7 text-lg text-gray-400"><i
+                      class="bx bx-user-circle text-indigo-500"></i></span>
+                  <div class="text-xs md:text-sm font-medium  hidden md:block">Profile</div>
+                </a>
+
+              </li>
+              <li>
+                <a href="{% url 'feed:new_post' %}"
+                  class="js-toggle-model  flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 ">
+                  <span class="inline-flex items-center content-start md:content-center  h-12 w-7 text-lg text-gray-400"><i
+                      class="bx bx-message-alt-add text-indigo-500"></i></span>
+                      
+                  <div class="text-xs md:text-sm font-medium  hidden md:block">Upload</div>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'feed:find' %}"
+                  class="flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 ">
+                  <span class="inline-flex items-center content-start md:content-center  h-12 w-7 text-lg text-gray-400"><i
+                      class="bx bx-user-plus text-indigo-500"></i></span>
+                  <div class="text-xs md:text-sm font-medium  hidden md:block">Find Friends</div>
+                </a>
+              </li>
+
+              <li>
+
+                <a href="{% url 'account_logout' %}"
+                  class="flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 ">
+                  <span class="inline-flex items-center content-start md:content-center  h-12 w-7 text-lg text-gray-400"><i
+                      class="bx bx-log-out text-indigo-500"></i></span>
+                  <div class="text-xs md:text-sm font-medium hidden md:block">Logout</div>
+                </a>
+
+              </li>
+            </ul>
       </div>
-      <ul class="flex flex-col py-4 px-0 md:px-3 text-decoration:none -ml-0 md:ml-4">
-        <li class="text-decoration: none   ">
-          <a href="{% url 'feed:home' %} "
-            class="flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 ">
-            <span class="inline-flex items-center content-start md:content-center  h-12 w-7 text-lg text-gray-400"><i
-                class="bx bx-home text-indigo-500"></i></span>
-            <div class="text-xs md:text-sm font-medium  hidden md:block">Home</div>
-          </a>
-        </li>
-        {% if request.user.is_authenticated %}
-        <li>
-
-          <a href="{% url 'profiles:detail' user.username %}"
-            class="flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 ">
-            <span class="inline-flex items-center content-start md:content-center  h-12 w-7 text-lg text-gray-400"><i
-                class="bx bx-user-circle text-indigo-500"></i></span>
-            <div class="text-xs md:text-sm font-medium  hidden md:block">Profile</div>
-          </a>
-
-        </li>
-        <li>
-          <a href="{% url 'feed:new_post' %}"
-            class="js-toggle-model  flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 ">
-            <span class="inline-flex items-center content-start md:content-center  h-12 w-7 text-lg text-gray-400"><i
-                class="bx bx-message-alt-add text-indigo-500"></i></span>
-                
-            <div class="text-xs md:text-sm font-medium  hidden md:block">Upload</div>
-          </a>
-        </li>
-        <li>
-          <a href="{% url 'feed:find' %}"
-            class="flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 ">
-            <span class="inline-flex items-center content-start md:content-center  h-12 w-7 text-lg text-gray-400"><i
-                class="bx bx-user-plus text-indigo-500"></i></span>
-            <div class="text-xs md:text-sm font-medium  hidden md:block">Find Friends</div>
-          </a>
-        </li>
-
-        <li>
-
-          <a href="{% url 'account_logout' %}"
-            class="flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 ">
-            <span class="inline-flex items-center content-start md:content-center  h-12 w-7 text-lg text-gray-400"><i
-                class="bx bx-log-out text-indigo-500"></i></span>
-            <div class="text-xs md:text-sm font-medium hidden md:block">Logout</div>
-          </a>
-
-        </li>
-        {% else %}
-        <li>
-          <a href="{% url 'account_login' %}"
-            class="flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 ">
-            <span class="inline-flex items-center content-start md:content-center  h-12 w-7 text-lg text-gray-400"><i
-                class="bx bx-log-in text-indigo-500"></i></span>
-            <div class="text-xs md:text-sm font-medium  hidden md:block">Login</div>
-          </a>
-
-        </li>
-        {% endif %}
-
-
-      </ul>
-    </div>
-
+    {% endif %}
     <div class="m-auto">
 
       {% block body %}
@@ -107,138 +94,130 @@
 
 
     {% if request.user.is_authenticated %}
+          <!-- TODO:Upload Post -->
+      <div class="min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover  hidden js-model"  id="modal-id">
+        <div class="absolute bg-black opacity-75 inset-0 z-0 w-100"></div>
+        <div class="relative mx-auto my-auto rounded-xl shadow-lg  bg-white  w-fit h-auto md:w-2/5 p-1 md:p-3 ">
+        <!--content-->
+          <div class=" m-auto">
+          <!--body-->
+          <!-- <i class='bx bx-upload text-5xl text-blue-500 text-center'></i> -->
+              <div class="text-center pt-1 md:pt-5  flex-auto justify-center ">
+              
+                  <!-- TODO:Add the ajax form -->
 
+                    <div class="md:flex-row pt-3 px-0 md:px-3     " style="text-align: -webkit-center;">
+                      <div class=" flex flex-col md:flex-row w-3/5 items-baseline "><label  for="id_photo"  class="text-xs md:text-sm text-center">Photo:</label> </div>
+                      <input type="file" class="js-post-photo text-center flex flex-col md:flex-row text-xs md:text-sm w-3/5 items-baseline mb-2" name="photo" required id="id_photo"></div>
+                    <!-- <div id="img-box"  class="w-1/2 h-12 md:h-1/4 md:w-1/2 relative mx-auto"></div> -->
+                    <img id="img-box"  alt="Upload Photo" class="w-22 h-16 md:w-48 md:h-32 border relative mx-auto ext-xs md:text-sm "></img>
+                  
+                  <textarea class="js-post-text  text-xs md:text-sm border-2 border-blue-500 mt-2 md:mt-4 w-3/5 h-9 md:h-11"  rows="2" placeholder="Post Description" maxlength="255"  required id="id_text" data-post-url="{% url 'feed:new_post' %} " ></textarea>
+                          
+                    
+              </div>
+          <!--footer-->
+              <div class="  text-center space-x-1 md:block  mt-4">
 
+              <button class="js-submit  bg-blue-500 text-white font-semibold mb-2 md:mb-0 px-3 py-1 
+                            md-py-2 border-b-2 border-green-500 shadow-sm font-medium tracking-wider border 
+                            rounded-full hover:shadow-lg hover:bg-gray-100 mr-2 hover:border-green-600 hover:bg-green-500 hover:text-white
+                            shadow-md inline-flex text-xs md:text-sm mr-2">
+                            Create Post
+              
+              </button>
+              
+                <button class="js-toggle-model text-xs md:text-sm mb-2 md:mb-0 px-3 py-1 md-py-2  bg-white text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg  ">
+                  Cancel
+                </button>
+              </div>
+              <div id="alert-box"></div>
+            </div>
+        </div>
+      </div>
 
-    <!-- component -->
-    <!-- TODO:Upload Post -->
-<div class="min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover  hidden js-model"  id="modal-id">
-  <div class="absolute bg-black opacity-75 inset-0 z-0 w-100"></div>
-  <div class="relative mx-auto my-auto rounded-xl shadow-lg  bg-white  w-fit h-auto md:w-2/5 p-1 md:p-3 ">
-   <!--content-->
-    <div class=" m-auto">
-     <!--body-->
-     <!-- <i class='bx bx-upload text-5xl text-blue-500 text-center'></i> -->
-        <div class="text-center pt-1 md:pt-5  flex-auto justify-center ">
-        
-            <!-- TODO:Add the ajax form -->
+      <!-- TODO:Update Post -->
+      <div class="min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover  hidden js-update-model"  id="modal-id">
+        <div class="absolute bg-black opacity-75 inset-0 z-0 w-100"></div>
+        <div class="relative mx-auto my-auto rounded-xl shadow-lg  bg-white  w-fit h-auto md:w-2/5 p-1 md:p-3 ">
+        <!--content-->
+          <div class=" m-auto">
+            <form id="formEdit" action="">
+              {% csrf_token %}
+              <div class="text-center pt-1 md:pt-5  flex-auto justify-center ">
+              
+                <!-- TODO:Add the ajax form -->
+                  <input type="hidden" id="postId">
+                  <div class="md:flex-row pt-3 px-0 md:px-3     " style="text-align: -webkit-center;">
+                    <div class=" flex flex-col md:flex-row w-3/5 items-baseline "><label  for="id_photo"  class="text-xs md:text-sm text-center">Photo:</label> </div>
+                    <input type="file" name="photo" class="js-post-photo text-center flex flex-col md:flex-row text-xs md:text-sm w-3/5 items-baseline mb-2" name="photo" required id="id_update_photo"></div>
 
-              <div class="md:flex-row pt-3 px-0 md:px-3     " style="text-align: -webkit-center;">
-                <div class=" flex flex-col md:flex-row w-3/5 items-baseline "><label  for="id_photo"  class="text-xs md:text-sm text-center">Photo:</label> </div>
-                <input type="file" class="js-post-photo text-center flex flex-col md:flex-row text-xs md:text-sm w-3/5 items-baseline mb-2" name="photo" required id="id_photo"></div>
-              <!-- <div id="img-box"  class="w-1/2 h-12 md:h-1/4 md:w-1/2 relative mx-auto"></div> -->
-              <img id="img-box"  alt="Upload Photo" class="w-22 h-16 md:w-48 md:h-32 border relative mx-auto ext-xs md:text-sm "></img>
+                  <img id="img-box-update"  alt="Upload Photo" class="w-22 h-16 md:w-48 md:h-32 border relative mx-auto ext-xs md:text-sm "></img>
+                
+                <textarea name="postDes" id="post-updateText" class="js-post-textUpdate  text-xs md:text-sm border-2 border-blue-500 mt-2 md:mt-4 w-3/5 h-9 md:h-11"  rows="2" placeholder="Post Description" maxlength="255" data-url="{% url 'feed:update'  %}" required id="id_text"  ></textarea>
+                        
+                  
+            </div>
+
+              <div class="  text-center space-x-1 md:block  mt-4">
+              
             
-            <textarea class="js-post-text  text-xs md:text-sm border-2 border-blue-500 mt-2 md:mt-4 w-3/5 h-9 md:h-11"  rows="2" placeholder="Post Description" maxlength="255"  required id="id_text" data-post-url="{% url 'feed:new_post' %} " ></textarea>
-                     
-               
-        </div>
-     <!--footer-->
-        <div class="  text-center space-x-1 md:block  mt-4">
-
-        <button class="js-submit  bg-blue-500 text-white font-semibold mb-2 md:mb-0 px-3 py-1 
-                      md-py-2 border-b-2 border-green-500 shadow-sm font-medium tracking-wider border 
-                      rounded-full hover:shadow-lg hover:bg-gray-100 mr-2 hover:border-green-600 hover:bg-green-500 hover:text-white
-                      shadow-md inline-flex text-xs md:text-sm mr-2">
-                      Create Post
-         
-        </button>
-        
-          <button class="js-toggle-model text-xs md:text-sm mb-2 md:mb-0 px-3 py-1 md-py-2  bg-white text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg  ">
-            Cancel
-          </button>
-        </div>
-        <div id="alert-box"></div>
-      </div>
-  </div>
-</div>
-
-<!-- TODO:Update Post -->
-<div class="min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover  hidden js-update-model"  id="modal-id">
-  <div class="absolute bg-black opacity-75 inset-0 z-0 w-100"></div>
-  <div class="relative mx-auto my-auto rounded-xl shadow-lg  bg-white  w-fit h-auto md:w-2/5 p-1 md:p-3 ">
-   <!--content-->
-    <div class=" m-auto">
-      <form id="formEdit" action="">
-        {% csrf_token %}
-        <div class="text-center pt-1 md:pt-5  flex-auto justify-center ">
-        
-          <!-- TODO:Add the ajax form -->
-            <input type="hidden" id="postId">
-            <div class="md:flex-row pt-3 px-0 md:px-3     " style="text-align: -webkit-center;">
-              <div class=" flex flex-col md:flex-row w-3/5 items-baseline "><label  for="id_photo"  class="text-xs md:text-sm text-center">Photo:</label> </div>
-              <input type="file" name="photo" class="js-post-photo text-center flex flex-col md:flex-row text-xs md:text-sm w-3/5 items-baseline mb-2" name="photo" required id="id_update_photo"></div>
-
-            <img id="img-box-update"  alt="Upload Photo" class="w-22 h-16 md:w-48 md:h-32 border relative mx-auto ext-xs md:text-sm "></img>
+              <button class="js-update-post  bg-blue-500 text-white font-semibold mb-2 md:mb-0 px-3 py-1 
+                            md-py-2 border-b-2 border-green-500 shadow-sm font-medium tracking-wider border 
+                            rounded-full hover:shadow-lg hover:bg-gray-100 mr-2 hover:border-green-600 hover:bg-green-500 hover:text-white
+                            shadow-md inline-flex text-xs md:text-sm mr-2">
+                            Update Post
+                            <a href="{% url 'feed:update' %}"> </a>
+              </button>
           
-          <textarea name="postDes" id="post-updateText" class="js-post-textUpdate  text-xs md:text-sm border-2 border-blue-500 mt-2 md:mt-4 w-3/5 h-9 md:h-11"  rows="2" placeholder="Post Description" maxlength="255" data-url="{% url 'feed:update'  %}" required id="id_text"  ></textarea>
-                   
-             
-      </div>
+                <button class="js-toggle-update text-xs md:text-sm mb-2 md:mb-0 px-3 py-1 md-py-2  bg-white text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg  ">
+                  Cancel
+                </button>
+              </div>
+            </form>
 
-        <div class="  text-center space-x-1 md:block  mt-4">
-        
-       
-        <button class="js-update-post  bg-blue-500 text-white font-semibold mb-2 md:mb-0 px-3 py-1 
-                      md-py-2 border-b-2 border-green-500 shadow-sm font-medium tracking-wider border 
-                      rounded-full hover:shadow-lg hover:bg-gray-100 mr-2 hover:border-green-600 hover:bg-green-500 hover:text-white
-                      shadow-md inline-flex text-xs md:text-sm mr-2">
-                      Update Post
-                      <a href="{% url 'feed:update' %}"> </a>
-        </button>
-     
-          <button class="js-toggle-update text-xs md:text-sm mb-2 md:mb-0 px-3 py-1 md-py-2  bg-white text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg  ">
-            Cancel
-          </button>
+              <div id="alert-box"></div>
+            </div>
         </div>
-      </form>
-
-        <div id="alert-box"></div>
       </div>
-  </div>
-</div>
 
 
-<!-- TODO:Delete post -->
-<!-- component -->
-<div class="min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover hidden js-delete-model"   id="modal-id">
-  <div class="absolute bg-black opacity-75 inset-0 z-0 w-100"></div>
-  <div class="relative mx-auto my-auto rounded-xl shadow-lg  bg-white  w-auto h-auto md:w-3/5 p-1 md:p-3 ">
-   <!--content-->
-   <div class="">
-      <form id="formDelete" action="">
-        {% csrf_token %}
-      <!--body-->
-            <div class="text-center p-1 flex-auto justify-center">
-              <input type="text" id="postIdDelete">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 -m-1 flex items-center text-red-500 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 flex items-center text-red-500 mx-auto" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
-                    </svg>
-                    <h2 class="text-xl font-bold py-1 ">Are you sure?</h3>
-                    <p class="text-sm text-gray-500 px-1 ">Do you really want to delete your post?</p>    
-            </div>
-      <!--footer-->
-            <div class="p-1 text-center space-x-4 md:block">
-                <button class="js-delete-cancel mb-1 md:mb-0 bg-white px-2 py-1 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100">
-                    Cancel
-                </button>
-                <button id="js-delete-post" class="js-delete-post  mb-1 md:mb-0 bg-red-500 border border-red-500 px-2 py-1 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-red-600" data-url="{% url 'feed:delete' %}">
-                  Delete
-                  <a href="{% url 'feed:delete' %}"> </a>
-                </button>
-            </div>
-      </form>
-   </div>
- </div>
-</div>
-
-
-{% endif %}
-  
-
+      <!-- TODO:Delete post -->
+      <!-- component -->
+      <div class="min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover hidden js-delete-model"   id="modal-id">
+        <div class="absolute bg-black opacity-75 inset-0 z-0 w-100"></div>
+        <div class="relative mx-auto my-auto rounded-xl shadow-lg  bg-white  w-auto h-auto md:w-3/5 p-1 md:p-3 ">
+        <!--content-->
+        <div class="">
+            <form id="formDelete" action="">
+              {% csrf_token %}
+            <!--body-->
+                  <div class="text-center p-1 flex-auto justify-center">
+                    <input type="text" id="postIdDelete">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 -m-1 flex items-center text-red-500 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                          </svg>
+                          <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 flex items-center text-red-500 mx-auto" viewBox="0 0 20 20" fill="currentColor">
+                              <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                          </svg>
+                          <h2 class="text-xl font-bold py-1 ">Are you sure?</h3>
+                          <p class="text-sm text-gray-500 px-1 ">Do you really want to delete your post?</p>    
+                  </div>
+            <!--footer-->
+                  <div class="p-1 text-center space-x-4 md:block">
+                      <button class="js-delete-cancel mb-1 md:mb-0 bg-white px-2 py-1 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100">
+                          Cancel
+                      </button>
+                      <button id="js-delete-post" class="js-delete-post  mb-1 md:mb-0 bg-red-500 border border-red-500 px-2 py-1 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-red-600" data-url="{% url 'feed:delete' %}">
+                        Delete
+                        <a href="{% url 'feed:delete' %}"> </a>
+                      </button>
+                  </div>
+            </form>
+        </div>
+      </div>
+      </div>
+  {% endif %}
 </div>
 
 

@@ -25,7 +25,7 @@
 		<div class="py-1 px-2">
 			<div class="flex justify-between items-center pt-2">
 				<div class="relative mt-1 flex">
-					<div class="flex mb-1 ">
+					<div class="flex mb-1 m-3 md:m-0">
 						<a href="{% url 'profiles:detail' post.author.username %}">
 							{% thumbnail post.author.profile.image "59x59" crop="center" as im %}
 							<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"
@@ -47,19 +47,19 @@
 								<form action="" method="POST" id="{{post.id}}" class="">
 									{% csrf_token %}
 									<button id="delete-box{{post.id}}" type="button"
-										class="relative p-2 focus:outline-none border-none bg-gray-100 rounded-full">
+										class="relative p-0 md:p-2 focus:outline-none border-none bg-gray-100 rounded-full">
 										<a class="delete-icon" href="{% url 'feed:delete' %}" id="{{post.id}}"">
 										<i class='bx bx-trash'></i>
-									{{post.id}}</a>
+										</a>
 								</button>
 								<!-- TODO:Delete form -->
 			
 							</form>
 							<button id=" edit-box{{post.id}}" type="button"
-											class="relative p-2 mx-3 focus:outline-none border-none bg-gray-100 rounded-full">
+											class="relative p-0 md:p-2 mx-3 focus:outline-none border-none bg-gray-100 rounded-full">
 											<a class="update-icon" id="{{post.id}}">
 												<i class='bx bxs-edit'></i>
-												{{post.id}}</a>
+												</a>
 									</button>
 						</div>
 						{% endif %}

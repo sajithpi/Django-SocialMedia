@@ -10,30 +10,19 @@ homepage
 
 {% block body %}
 
-  <div class="fixed top-0 left-0 right-0 z-30">
-    {% include 'includes/navbar.html' %}
-  </div>
-  <div class="mt-24 z-20">
-    
     {% if request.user.is_authenticated %}
-    <div id="posts-container">
-      {% for post in posts  %}
-          
-		            {% include 'includes/post.html' with post=post  comment_form=comment_form profile=profile show_detail_link=True show_comment_list=False %}
-
-
-             
-                {% if request.user not in post.likes.all %}
-                    <!-- <button class="bg-green-500">Like</button>                     -->
-                {% else %}
-                    <!-- <button class="bg-red-500">Dislike</button> -->
-                {% endif %}
-        {{total_likes}}
-
-     
-      {% endfor %}
+    <div class="fixed top-0 left-0 right-0 z-30">
+      {% include 'includes/navbar.html' %}
     </div>
-  
+    <div class="mt-24 z-20">
+      <div id="posts-container">
+          {% for post in posts  %}
+              
+                    {% include 'includes/post.html' with post=post  comment_form=comment_form profile=profile show_detail_link=True show_comment_list=False %}
+    
+          {% endfor %}
+      </div>
+    </div> 
   {% else %}
     {% include 'includes/login.html' %}
   {% endif %}
@@ -43,7 +32,7 @@ homepage
   
     
 
-</div>   
+  
 {% endblock body %}
 
     
