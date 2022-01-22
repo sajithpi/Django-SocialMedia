@@ -23,7 +23,7 @@
   <!-- component -->
 
 
-  <div class="min-h-screen  flex flex-row bg-gray-100 ">
+  <div class="min-h-screen  flex flex-row {% if request.user.is_authenticated %} bg-gray-100 {% else %} bg-gradient-to-r from-indigo-500 {% endif %} ">
     <!-- <div class="flex flex-col w-4/5 md:w-1/5 md:pr-0 pr-1 bg-white rounded-r-3xl overflow-hidden"> -->
     {% if request.user.is_authenticated %}
       <div class="flex flex-col px-0 md:px-3 w-32 md:w-48 lg:w-64 h-screen md:px-1 bg-white rounded-r-3xl overflow-hidden sticky top-0 left-0 right-0 z-50">
