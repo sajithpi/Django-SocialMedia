@@ -54,24 +54,6 @@ class HomePage(TemplateView):
         
         return context
 
-# def HomePageView(request):
-#     if request.user.is_authenticated:
-#         comment_form = CommentForm()
-#         posts= Post.objects.all().order_by('-id')[0:30]
-#         profile= Profile.objects.get(user=request.user)
-
-#         context = {
-#             'posts' : posts,
-#             'comment_form' : comment_form,
-#             'profile' : profile,
-#         }
-
-#         return render(request,'feed/homepage.html',context)
-    
-#     print("here it is login area")
-#     return render(request,'feed/homepage.html')
-
-
 class PostDetailView(DetailView):
     http_method_names = ["get"]
     template_name = "feed/detail.html"
@@ -198,6 +180,7 @@ def Like_post(request):
 def Comment_post(request):
 
         user = Profile.objects.get(user=request.user) 
+
         
         posts= Post.objects.all().order_by('-id')[0:30]
 
@@ -215,6 +198,18 @@ def Comment_post(request):
                 content = content,
             )
             comment_form.save()
+
+            # Notification for commented post
+
+            from_user = User.objects.get(id = request.user.id)
+            post_author = User.objects.get(username=post_object.author.username)
+            notification = Notification.objects.create(
+                notification_type = 2,
+                to_user = post_author,
+                from_user = from_user,
+                post = post_object,
+            )
+            notification.save()
             comment_count = Comment.objects.filter(post_id = post_id).count()
             print("comment count:",comment_count)
             cform = CommentForm()

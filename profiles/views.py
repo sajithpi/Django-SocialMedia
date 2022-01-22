@@ -1,3 +1,4 @@
+from tkinter.messagebox import NO
 from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.contrib import messages
@@ -8,7 +9,7 @@ from django.views.generic.base import TemplateView
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.forms import PasswordChangeForm
 from django.urls import reverse_lazy
-from feed.models import Post
+from feed.models import Notification, Post
 from followers.models import Follower
 from profiles.forms import UserForm
 from profiles.models import  Profile
@@ -130,6 +131,13 @@ class FollowView(LoginRequiredMixin, View):
                 followed_by=request.user,
                 following=other_user
             )
+            notification = Notification.objects.create(
+                notification_type = 3,
+                from_user = request.user,
+                to_user = other_user,
+
+            )
+            notification.save()
         else:
             # Unfollow
             try:

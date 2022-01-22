@@ -105,7 +105,6 @@ UpPhotos.addEventListener("change", function (e) {
 
 
 
-
 $(document)
   .on("click", ".js-toggle-model", function (e) {
     e.preventDefault();
@@ -113,21 +112,8 @@ $(document)
     $(".js-model").toggleClass("hidden");
   })
 
-
-
-
-  .on("click",".passwordShow",function(e){
-    e.preventDefault()
-    console.log("clicked")
-  })
-  
-
-
-
-
-
   // TODO:Upload
-  .on("click", ".js-submit", function (e) {
+.on("click", ".js-submit", function (e) {
     e.preventDefault();
     const text = $(".js-post-text").val().trim();
     const imgLength = $(".js-post-photo").val();
@@ -179,6 +165,41 @@ $(document)
     });
   })
 
+// TODO:Follow Unfollow
+.on("click", ".js-follow", function (e) {
+  e.preventDefault();
+  console.log("Clicked");
+  const action = $(this).attr("data-action");
+  $.ajax({
+    type: "POST",
+    // url: $(this).data("follow-url"),
+    url: $(this).data("url"),
+    enctype: "multipart/form-data",
+    data: {
+      action: action,
+      username: $(this).data("username"),
+    },
+    success: (data) => {
+      $(".js-follow-text").text(data.wording);
+      if (action == "follow") {
+        $(this).attr("data-action", "unfollow");
+      } else {
+        // $("#follow-container").prepend(data)
+        $(this).attr("data-action", "follow");
+      }
+    },
+    error: (error) => {
+      console.warn(error);
+    },
+  });
+})
+
+.on("js-testing","click",function(e){
+  e.preventDefault()
+  console.log("Clicked ")
+})
+
+  
   // TODO:Delete toggle 
 
 .on("click",".delete-icon",function(e){
@@ -344,6 +365,7 @@ $(".comment-form").submit(function(e){
 
 
 
+
 // TODO:Update Button
 .on("click",".js-update-post",function(e){
   e.preventDefault();
@@ -399,34 +421,7 @@ $(".comment-form").submit(function(e){
 })
 
 
-  // TODO:Follow Unfollow
-  .on("click", ".js-follow", function (e) {
-    e.preventDefault();
-    console.log("Clicked");
-    const action = $(this).attr("data-action");
-    $.ajax({
-      type: "POST",
-      // url: $(this).data("follow-url"),
-      url: $(this).data("url"),
-      enctype: "multipart/form-data",
-      data: {
-        action: action,
-        username: $(this).data("username"),
-      },
-      success: (data) => {
-        $(".js-follow-text").text(data.wording);
-        if (action == "follow") {
-          $(this).attr("data-action", "unfollow");
-        } else {
-          // $("#follow-container").prepend(data)
-          $(this).attr("data-action", "follow");
-        }
-      },
-      error: (error) => {
-        console.warn(error);
-      },
-    });
-  })
+
 
 
 
