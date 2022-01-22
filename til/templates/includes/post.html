@@ -168,7 +168,7 @@
 								data-url="{% url 'feed:comment' %}" enctype='multipart/form-data'>
 								{% csrf_token %}
 
-								<div class="flex justify-between border-t items-center w-full"
+								<div class="flex justify-between border-t items-center w-full border-b border-gray-300"
 									:class="comment ? 'absolute bottom-0' : '' ">
 
 									<div class="w-full ">
@@ -193,42 +193,89 @@
 						<!-- End System Like and tools Feed -->
 						<!-- TODO: Existing Comments Listing -->
 					{% if show_comment_list == True %}
-							<div class=" pl-1 py-1 md:pl-4 mb-1 md:mb-2 " id="comment_list{{post.id}}">
+							<div class=" pl-1 py-1 md:pl-4  " id="comment_list{{post.id}}">
 								{% if post.comment_set.all %}
 									{% for comment in post.comment_set.all reversed %}
-										<div class="flex" id="comments-list{{post.id}}">
+										<div class="flex border-b border-gray-300 items-center comment_list" id="comments-list{{post.id}} ">
+											<div class="flex  w-14 h-9 md:h-11 mx-auto justify-center">
+												<a class="self-center" href="">
+													<!-- {{comment.user.user.username}} -->
+													{% thumbnail comment.user.user.profile.image "29x29" crop="center" as im %}
+													<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"
+														class="rounded-full object-scale-down">
+													{% endthumbnail %}
+	
+												</a>
+											</div>
+											
+											
+											
+											<div class="flex-initial grow  w-3/4" >
+												
+												{% if comment.user.user.username == user.username %}
+												<div class="flex pl-1 w-full md:pl-3 text-xs md:text-base w-4/5"><input class="flex w-full" type="text" value="{{comment.content}}"></div>
+													
+												{% else %}
+												<div class="flex pl-1 w-full md:pl-3 text-xs md:text-base">{{comment.content}}</div>
+												{% endif %}
+													
+											</div>
+											<div class="flex-initial w-1/4">
+												
+												{% if comment.user.user.username == user.username %}
+													<div class=" flex justify-end">
+														<form action="" method="POST" id="{{comment.id}}" class="">
+															{% csrf_token %}
+															<input hidden type="text" name="comment_user" id="comment_user{{comment.id}}" value="{{comment.user.user.username}}">
+															<input hidden type="text" name="comment_user" id="comment_user_id{{comment.id}}" value="{{comment.user.user.id}}">
+															<input hidden type="text" name="comment_content" id="comment_id{{comment.id}}" value="{{comment.content}}">
+															<button id="delete-comment-box{{post.id}}" type="button"
+																class="relative p-0 md:p-2 focus:outline-none border-none bg-gray-100 rounded-full">
+																<a class="delete-comment-icon" href="{% url 'feed:delete_comment' %}" id="{{comment.id}}"">
+																<i class='bx bx-trash'></i>
+																</a>
+															</button>
+														<!-- TODO:Delete form -->
+									
+														</form>
+															<button id=" edit-box{{post.id}}" type="button"
+																	class="relative p-0 md:p-2 mx-3 focus:outline-none border-none bg-gray-100 rounded-full">
+																	<a class="update-icon" id="{{post.id}}">
+																		<i class='bx bxs-edit'></i>
+																		</a>
+															</button>
+													</div>
+												{% endif %}
+											</div>
 
-											<a href="">
 
-												{% thumbnail comment.user.image "29x29" crop="center" as im %}
-												<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"
-													class="rounded-full object-scale-down">
-												{% endthumbnail %}
 
-											</a>
-											<p class="pl-1 md:pl-3 text-xs md:text-base">{{comment.content}}</p>
-											<span></span>
+
+
+
 										</div>
+										
+										
 									{% endfor %}
 								{% endif %}
 								<input hidden id="comment-count{{post.id}}" value="{{post.comment_set.all.count}}">
-							{% if post.comment_set.all.count > 1 %}
-								<a hidden href="{% url 'feed:detail' post.id%}">View ALl
-									<span hidden id="comment_count_body{{post.id}}">{{post.comment_set.all.count}}</span> Comments
-								</a>
-							{% else %}
-							<span hidden id="comment_count_body{{post.id}}">mkdfndmdfnjkjndm</span> Comments
-							{% endif %}
+								{% if post.comment_set.all.count > 1 %}
+									<a hidden href="{% url 'feed:detail' post.id%}">View ALl
+										<span hidden id="comment_count_body{{post.id}}">{{post.comment_set.all.count}}</span> Comments
+									</a>
+								{% else %}
+								<span hidden id="comment_count_body{{post.id}}">mkdfndmdfnjkjndm</span> Comments
+								{% endif %}
 							</div>
 
 						<!-- TODO:If show comment list = False -->
 					{% else %}
-						<div class=" pl-1 md:pl-4 mb-1 md:mb-2">
+						<div class=" pl-1 md:pl-4 mb-1 md:mb-2 divide-y divide-slate-200">
 							{% if post.comment_set.all %}
 								{% for comment in post.comment_set.all reversed %}
 									{% if forloop.counter < 3 %}
-										<div class="flex" id="comments-list{{post.id}}">
-											<p class="text-base md:text-lg font-bold ">{{comment.post.author.username}}</p>
+										<div class="flex " id="comments-list{{post.id}}">
+											<p class="text-base md:text-lg font-bold ">{{comment.user.user.username}}</p>
 											<p class="pl-1 md:pl-3 text-xs md:text-base self-center">{{comment.content}}</p>
 											<span></span>
 										</div>

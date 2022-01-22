@@ -248,6 +248,62 @@ $(document)
 
 })
 
+ // TODO:Delete Comment toggle 
+
+ .on("click",".delete-comment-icon",function(e){
+  e.preventDefault();
+  console.log("delete toggle form loaded")
+  const comment_id = $(this).attr('id')
+  const url = $(this).attr('href')
+  const commented_user = document.getElementById(`comment_user${comment_id}`).value
+  const commented_user_id = document.getElementById(`comment_user_id${comment_id}`).value
+  console.log("comment_id:",comment_id)
+  console.log("commented_user:",commented_user)
+  console.log("commented_user_id:",commented_user_id)
+  console.log("url",url)
+  var $this = $(this)
+
+  $(".js-delete-model").toggleClass("hidden")
+  document.getElementById("postIdDelete").value = comment_id
+
+  let delete_button = document.getElementById("js-delete-post")
+  delete_button.addEventListener("click",function(e){
+    e.preventDefault()
+
+    $.ajax({
+      type : 'POST',
+      url : url,
+      dataType : "json",
+      data : {
+        'csrfmiddlewaretoken' : $('input[name=csrfmiddlewaretoken]').val(),
+        'comment_id' : comment_id,
+        'commented_user' : commented_user,
+        'commented_user_id' : commented_user_id,
+      },
+      success:function(response){
+        if(response.message === 'success'){
+          console.log("deleted successfully yooo")
+          $this.parents(`.comment_list`).fadeOut("slow",function(){
+                $this.parents(`.comment_list`).remove();
+                  })
+          $(".js-delete-model").addClass("hidden")
+        }
+        else{
+          alert(response.message)
+        }
+      }
+    })
+
+  })
+
+
+})
+
+
+
+
+
+
 .on("click",".js-delete-cancel",function(e){
   e.preventDefault()
   $(".js-delete-model").addClass("hidden")

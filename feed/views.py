@@ -236,6 +236,30 @@ def delete_post(request):
         # post_object.delete()
         return JsonResponse({"message":"success"})
     return JsonResponse({"message":"not "})
+
+def delete_comment(request):
+    user = request.user
+    if request.method == 'POST':
+        comment_id = request.POST.get('comment_id')
+        commented_user = request.POST.get('commented_user')
+        commented_user_id = request.POST.get('commented_user_id')
+    
+        if(request.user.username == commented_user):
+                print("post_id:",comment_id)
+                print("commented_user:",commented_user)
+                print("commented_user_id:",commented_user_id)
+                comment = Comment.objects.get(id = comment_id,user__user_id = commented_user_id)
+                comment.delete()
+                return JsonResponse({"message":"success"})
+        else:
+            print("This is not your comment")
+        # post_object = Post.objects.get(id=post_id)
+        # print("post_object",post_object)
+        # post_object.delete()
+        # print("post_id:",post_id)
+        # post_object.delete()
+        
+    return JsonResponse({"message":"not "})
     
 def updatePost(request):
     user = request.user
