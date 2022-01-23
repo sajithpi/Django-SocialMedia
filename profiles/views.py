@@ -169,9 +169,12 @@ class ListThreads(View):
     template_name = "profiles/detail.html"
     def get(self, request, *args, **kwargs):
         threads = ThreadModel.objects.filter(Q(user = request.user) | Q(receiver = request.user))
-
+    
+        message_list = MessageModel.objects.all()
+       
         context = {
-            'threads' : threads
+            'threads' : threads,
+            'message_list' :message_list,
         }
 
         return render(request,'includes/chat/inbox.html',context)
@@ -183,9 +186,11 @@ def ListThread(request):
 class CreateThread(View):
     def get(self, request, *args, **kwargs):
         form = ThreadForm()
+        
         context = {
             'form' : form,   
         }
+
         return render(request,'includes/chat/create_thread.html',context)
     def post(self, request, *args, **kwargs):
         form = ThreadForm(request.POST)
@@ -221,6 +226,22 @@ class ThreadView(View):
             'message_list' : message_list,
         }
         return render(request,'includes/chat/thread.html',context)
+
+class ReadMessage(View):
+    def get(self, request, pk, message_pk, *args, **kwargs):
+        form = MessageForm()
+        thread = ThreadModel.objects.get(pk = pk)
+        message_list = MessageModel.objects.filter(thread__pk__contains = pk)
+        message = MessageModel.objects.get(pk = message_pk)
+        print("message from readmessage",message.body)
+        message.is_read = True
+        message.save()
+        context = {
+            'form' : form,
+            'thread' : thread,
+            'message_list' : message_list,
+        }
+        return render(request,'includes/chat/thread.html',context)
 class CreateMessage(View):
     def post(self, request, pk, *args, **kwargs):
         form = MessageForm(request.POST,request.FILES)
@@ -243,14 +264,20 @@ class CreateMessage(View):
         message.save()
       
         print(form.errors)
+
+        notification = Notification.objects.create(
+            notification_type = 4,
+            to_user = receiver,
+            from_user = request.user,
+            thread = thread,
+            message = message,
+            
+        )
+        notification.save()
      
         # print("receiver:",receiver_id)
     
         # return render(request,'includes/chat/thread.html',context)
         return redirect('profiles:thread', pk = pk)
 
-def createMessage(request):
-    if request.method == 'POST':
-        user_id = request.POST['user_id']
-        print("user_id:",user_id)
-    return JsonResponse({"user_id":user_id})
+

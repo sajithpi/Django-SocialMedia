@@ -26,6 +26,8 @@ urlpatterns = [
 
     path('inbox/<int:pk>/',views.ThreadView.as_view(),name="thread"),
 
+    path('inbox/<int:pk>/<int:message_pk>',views.ReadMessage.as_view(),name="read_message"),
+
     path('inbox/<int:pk>/create_message/',views.CreateMessage.as_view(),name="create_message"),
 
     

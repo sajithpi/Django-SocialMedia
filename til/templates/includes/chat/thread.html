@@ -83,7 +83,7 @@
                
                 
                 
-            <form method="POST" action="{% url 'profiles:create_message' thread.pk %}" enctype="multipart/form-data">
+            <form method="POST" action="{% url 'profiles:create_message' thread.pk  %}" enctype="multipart/form-data">
                 {% csrf_token %}
                 <!-- {{form.as_p}} -->
                 <input hidden type="text" name="sended_user" value="{{thread.user.id}}">

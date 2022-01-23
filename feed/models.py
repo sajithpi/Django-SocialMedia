@@ -1,7 +1,7 @@
 from distutils.command.upload import upload
 from django.db import models
 from django.contrib.auth.models import User
-from profiles.models import Profile
+from profiles.models import MessageModel, Profile, ThreadModel
 from django.db.models.deletion import CASCADE
 from sorl.thumbnail import ImageField
 from django.dispatch import receiver
@@ -60,5 +60,7 @@ class Notification(models.Model):
     from_user = models.ForeignKey(User, related_name="notification_from" ,on_delete=models.CASCADE, null=True)
     post = models.ForeignKey(Post, related_name="+", on_delete=models.CASCADE,null=True, blank=True)
     profile = models.ForeignKey(Profile,on_delete=models.CASCADE,null=True,blank=True)
+    thread = models.ForeignKey(ThreadModel,on_delete=models.CASCADE,null=True,blank=True, related_name="+")
+    message = models.ForeignKey(MessageModel,on_delete=models.CASCADE,null=True,blank=True, related_name="+")
     date = models.DateTimeField(auto_now_add=True)
     user_has_seen = models.BooleanField(default=False)

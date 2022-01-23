@@ -21,9 +21,50 @@
 
             <div class="row mb-3">
                 <div class="card col-md-12 p-5 shadow-sm">
-                    <a class="stretched-link" href="{% url 'profiles:thread' thread.pk %}">
+                   
+                        
+                            
                          <h5>{{ thread.user }} - {{ thread.receiver }}</h5>
-                    </a>
+                         
+                         {% if message_list %}
+                            
+                            {% for message in message_list reversed %}
+                                    
+                                 {% if message.thread.id == thread.id %}
+                                    
+                                    {% if forloop.counter < 2 %}
+                                    {{message.is_read}}
+                                        {% if message.is_read == False %}
+                                            
+                                            {{message.sended_user}}
+                                                
+                                                {% if message.sended_user == request.user %}
+                                                    <span class="">{{message.sended_user}}:{{message.body}}</span>
+                                                {% else %}
+                                                <span class="font-bold">{{message.sended_user}}:{{message.body}}</span>
+                                                {% endif %}
+                                                    
+                                         
+                                                
+                                                
+                                       
+                                                
+                                            
+                                        {% else %}
+                                            {{message.sended_user}}:{{message.body}}
+                                        {% endif %}
+                                        <a href="{% url 'profiles:read_message' thread.pk message.pk %}"><button class="btn btn-primary">See Message</button></a>  
+                                        
+                                    {% endif %}
+                                        
+                                     
+                                 {% endif %}
+                                   
+                            {% endfor %}
+                                
+                         {% endif %}
+                             
+                 
                 </div>
             </div>
             

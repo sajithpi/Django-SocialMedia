@@ -1,3 +1,4 @@
+from email import message
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, request 
 from django.http.response import HttpResponseBadRequest, JsonResponse,HttpResponse
@@ -5,7 +6,7 @@ from django.views.generic import TemplateView
 from django.views.generic import  DetailView, View,ListView,FormView
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib import messages
-from profiles.models import Profile
+from profiles.models import MessageModel, Profile, ThreadModel
 from .models import Comment, Notification, Post,Like
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -318,3 +319,18 @@ def user_profile_notification(request,notification_pk,user_pk):
     notification.save()
 
     return redirect('profiles:detail', username=user.username)
+
+def thread_message_notification(request,notification_pk,object_pk):
+    
+    notification = Notification.objects.get(pk = notification_pk)
+    thread = ThreadModel.objects.get(pk = object_pk)
+    messages = MessageModel.objects.filter(thread = object_pk,is_read = False)
+    # print("message from notification:",message.body)
+    for message in messages:
+        message.is_read = True
+        message.save()
+        print("messages from loop:",message.body)
+    notification.user_has_seen = True
+    notification.save()
+    
+    return redirect('profiles:thread', pk = object_pk)
