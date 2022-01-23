@@ -105,11 +105,19 @@ UpPhotos.addEventListener("change", function (e) {
 
 
 
+
+  
 $(document)
-  .on("click", ".js-toggle-model", function (e) {
+.on("click", ".js-model-icon", function (e) {
+  e.preventDefault();
+  console.log("I was clicked");
+  $(".js-model").toggleClass("hidden");
+})
+$(document)
+  .on("click", ".js-toggle-model-cancel", function (e) {
     e.preventDefault();
     console.log("I was clicked");
-    $(".js-model").toggleClass("hidden");
+    $(".js-model").addClass("hidden");
   })
 
   // TODO:Upload

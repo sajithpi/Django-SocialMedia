@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 p-5">
+           <a href="{% url 'profiles:inbox' %}" class="btn btn-primary bg-green-700">Back To Your Inbox</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 p-5">
+            <h1>Start Your Conversations</h1>
+        </div>
+    </div>
+    <div class="row justify-center mt-3 mb-5">
+        <div class="col-md-5 col-sm-12">
+            <form method="POST" >
+                {% csrf_token %}
+                <P>Enter the username that you like to talk to</P>
+                {{form.as_p}}
+                <button class="btn btn-primary bg-green-700" type="submit">Continue</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+    

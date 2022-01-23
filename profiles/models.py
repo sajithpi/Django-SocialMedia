@@ -30,3 +30,16 @@ def create_user_profile(sender, instance, created, **kwargs):
     """Create a new Profile() object when a Django User is created."""
     if created:
         Profile.objects.create(user=instance)
+
+
+class ThreadModel(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="+")
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name="+")
+class MessageModel(models.Model):
+    thread = models.ForeignKey(ThreadModel, related_name="+", on_delete=models.CASCADE, null=True, blank=True)
+    sended_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="+")
+    receiver_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="+")
+    body = models.CharField(max_length=1555)
+    image = models.ImageField(upload_to="uploads/message_photos", blank=True, null = True)
+    date = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)

@@ -20,5 +20,13 @@ urlpatterns = [
 
     path('til/templates/account/',views.password_success,name="password_success"),
 
+    path('inbox/chat/',views.ListThreads.as_view(),name="inbox"),
+
+    path('inbox/create_thread/',views.CreateThread.as_view(),name="create_thread"),
+
+    path('inbox/<int:pk>/',views.ThreadView.as_view(),name="thread"),
+
+    path('inbox/<int:pk>/create_message/',views.CreateMessage.as_view(),name="create_message"),
+
     
 ]

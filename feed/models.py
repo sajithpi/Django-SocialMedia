@@ -1,3 +1,4 @@
+from distutils.command.upload import upload
 from django.db import models
 from django.contrib.auth.models import User
 from profiles.models import Profile
@@ -10,7 +11,7 @@ from django.db.models.signals import post_save
 class Post(models.Model):
     text = models.CharField(max_length=255)
     date_time = models.DateTimeField(auto_now=True)
-    photo = ImageField()
+    photo = ImageField(upload_to="uploads/posts")
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,

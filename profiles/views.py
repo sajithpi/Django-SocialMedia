@@ -1,7 +1,9 @@
-from tkinter.messagebox import NO
 from django.contrib.auth.models import User
-from django.shortcuts import render
+from django.dispatch import receiver
+from django.forms import forms
+from django.shortcuts import redirect, render
 from django.contrib import messages
+from django.db.models import Q
 from django.views.generic import DetailView, View, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse, HttpResponseBadRequest, request
@@ -11,8 +13,8 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.urls import reverse_lazy
 from feed.models import Notification, Post
 from followers.models import Follower
-from profiles.forms import UserForm
-from profiles.models import  Profile
+from profiles.forms import MessageForm, ThreadForm, UserForm
+from profiles.models import  MessageModel, Profile, ThreadModel
 
 class PasswordsChangeView(PasswordChangeView):
     form_class = PasswordChangeForm
@@ -162,3 +164,93 @@ class FollowView(LoginRequiredMixin, View):
             'wording': "Unfollow" if data['action'] == "follow" else "Follow"
         })
 
+
+class ListThreads(View):
+    template_name = "profiles/detail.html"
+    def get(self, request, *args, **kwargs):
+        threads = ThreadModel.objects.filter(Q(user = request.user) | Q(receiver = request.user))
+
+        context = {
+            'threads' : threads
+        }
+
+        return render(request,'includes/chat/inbox.html',context)
+    
+def ListThread(request):
+
+    return render(request,'includes/chat/inbox.html')
+
+class CreateThread(View):
+    def get(self, request, *args, **kwargs):
+        form = ThreadForm()
+        context = {
+            'form' : form,   
+        }
+        return render(request,'includes/chat/create_thread.html',context)
+    def post(self, request, *args, **kwargs):
+        form = ThreadForm(request.POST)
+        username = request.POST.get('username')
+
+        try:
+            receiver = User.objects.get(username = username)
+            if ThreadModel.objects.filter(user = request.user, receiver = receiver):
+                threads = ThreadModel.objects.filter(user = request.user, receiver = receiver)[0]
+                return redirect('profiles:thread', pk = threads.pk)
+            elif ThreadModel.objects.filter(user = receiver, receiver = request.user).exists():
+                   threads = ThreadModel.objects.filter(user = receiver, receiver = request.user)[0]
+                   return redirect('profiles:thread', pk = threads.pk)
+            if form.is_valid():
+                threads = ThreadModel(
+                    user = request.user,
+                    receiver = receiver
+                )
+                threads.save()
+                return redirect('profiles:thread', pk = threads.pk)
+
+        except:
+            return redirect('profiles:create_message')
+
+class ThreadView(View):
+    def get(self, request, pk, *args, **kwargs):
+        form = MessageForm()
+        thread = ThreadModel.objects.get(pk = pk)
+        message_list = MessageModel.objects.filter(thread__pk__contains = pk)
+        context = {
+            'form' : form,
+            'thread' : thread,
+            'message_list' : message_list,
+        }
+        return render(request,'includes/chat/thread.html',context)
+class CreateMessage(View):
+    def post(self, request, pk, *args, **kwargs):
+        form = MessageForm(request.POST,request.FILES)
+        thread = ThreadModel.objects.get(pk = pk)
+        receiver_user = request.POST['receiver_user']
+        receiver = User.objects.get(id=receiver_user)
+    
+        print("thread:",thread)
+        if thread.receiver == request.user:
+            receiver = thread.user
+        else:
+            receiver = thread.receiver
+
+     
+        message = form.save(commit=False)
+          
+        message.thread = thread
+        message.sended_user = request.user
+        message.receiver_user = receiver
+        message.save()
+      
+        print(form.errors)
+     
+        # print("receiver:",receiver_id)
+    
+        # return render(request,'includes/chat/thread.html',context)
+        return redirect('profiles:thread', pk = pk)
+
+def createMessage(request):
+    if request.method == 'POST':
+        user_id = request.POST['user_id']
+        print("user_id:",user_id)
+    return JsonResponse({"user_id":user_id})

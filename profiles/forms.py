@@ -1,5 +1,5 @@
 from django import forms
-from .models import Profile
+from .models import MessageModel, Profile, ThreadModel
 class UserForm(forms.ModelForm):
     class Meta:
         model = Profile
@@ -26,4 +26,13 @@ class UserForm(forms.ModelForm):
     
 
     
+class ThreadForm(forms.Form):
+    username = forms.CharField(label='',max_length=100)
+
+class MessageForm(forms.ModelForm):
     
+    
+    class Meta:
+        model = MessageModel
+        fields = ['sended_user','receiver_user','body','image']
+        # fields = '__all__'
