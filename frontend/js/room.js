@@ -28,10 +28,11 @@ chatSocket.onmessage = function(e) {
     if(user_id == logged_in_id){
 
         messageElement.classList.add('message','sender')
-        messageElement.innerHTML = `<div class="max-w-lg px-4 py-2 rounded-lg inline-block rounded-br-none bg-blue-600 text-white float-left">${data.message}</div>` + messageElement.innerHTML
+        messageElement.innerHTML = `<span class="px-4 py-2 rounded-lg inline-block bg-blue-600 text-white  float-right">${data.message}</span>` + messageElement.innerHTML
+        
     }else{
         messageElement.classList.add('message','receiver')
-        messageElement.innerHTML = `<span class="px-4 py-2 rounded-lg inline-block bg-gray-300 text-gray-600 float-right">${data.message}</span>` + messageElement.innerHTML
+        messageElement.innerHTML = `<div class="max-w-lg px-4 py-2 rounded-lg inline-block rounded-br-none bg-gray-300 text-gray-600 float-left">${data.message}</div>` + messageElement.innerHTML
 
     }
    

@@ -14,4 +14,5 @@ class Chatroom(models.Model):
     receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name="+")
     
 class RoomChat(models.Model):
-    name = models.CharField(max_length=1055)
+    receiver = models.CharField(max_length=1055)
+    sender = models.CharField(max_length=1055)
