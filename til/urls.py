@@ -20,7 +20,7 @@ from django.conf.urls.static import static
 from django.urls import path
 from feed import urls as feed_urls
 from profiles import urls as profiles_urls, views
-
+from chat import urls as chat_urls
 
 
 
@@ -30,6 +30,7 @@ urlpatterns = [
     path("",include(profiles_urls, namespace="profiles")),
     url("",include("allauth.urls")),
     path('accounts/', include('allauth.urls')),
+    path("",include(chat_urls,namespace="chat")),
    
 
 ]
