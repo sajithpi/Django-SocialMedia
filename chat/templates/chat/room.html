@@ -1,7 +1,7 @@
 <!-- chat/templates/chat/room.html -->
 {% extends 'base.html' %}
 {% load static %}
-
+{% load thumbnail %}
 {% block title %}
 Chat Room
 {% endblock title %}
@@ -9,17 +9,9 @@ Chat Room
 {% block content %}
     
 
-    
-    <div class="container">
-        <!-- <div id="chat-log"></div> -->
-    </div>
-    <div class="container">
-        <!-- <input id="chat-message-input" type="text" size="100"><br> -->
-        <!-- <input id="chat-message-submit" type="button" value="Send"> -->
-    </div>
-    
+   
     {{ room_name|json_script:"room-name" }}
-
+    {{ room.id|json_script:"room_id" }}
 
 
 
@@ -27,30 +19,39 @@ Chat Room
 <!-- Template -->
 
 <!-- component -->
-<div class="flex-1 p:2 sm:p-6 justify-between flex flex-col h-screen">
+<div class="flex-1 p:2 sm:p-6 justify-between flex flex-col h-screen ">
+   <div class="mx-32 md:mx-72 lg:mx-96"></div>
+   {{room.id}}
     <div class="flex sm:items-center justify-between py-3 border-b-2 border-gray-200">
-       <div class="flex items-center space-x-4">
-          <img src="https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144" alt="" class="w-10 sm:w-16 h-10 sm:h-16 rounded-full">
+       <div class="flex items-center space-x-4 ml-3">
+         <span class="text-xl md:text-4xl me-1"><a href="{% url 'chat:index' %}"><i class='bx bx-arrow-back'></i></a></span>
+          
+         {% thumbnail received_user.profile.image "100x100" crop="center" as img %}
+            <img src="{{img.url}}" alt="user image" class="w-10 sm:w-16 h-10 sm:h-16 rounded-full border border-gray-100 m-0 shadow-sm">
+         {% endthumbnail %}
+        
           <div class="flex flex-col leading-tight">
              <div class="text-2xl mt-1 flex items-center">
-                <span class="text-gray-700 mr-3">{{request.user.username | capfirst }}</span>
+                <span class="text-gray-700 mr-3 text-xl md:text-2xl">{{received_user.username | capfirst }}</span>
                 <span class="text-green-500">
                    <svg width="10" height="10">
                       <circle cx="5" cy="5" r="5" fill="currentColor"></circle>
                    </svg>
                 </span>
              </div>
-             <span class="text-lg text-gray-600">Junior Developer</span>
+             <!-- <span class="text-lg text-gray-600">Junior Developer</span> -->
           </div>
        </div>
        
     </div>
+   
+    <!-- Chat Log -->
     <div id="chat-log" class="flex flex-col space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch">
-        <input id="room_id" value="{{room.id}}">
+     
         
-       {{ room.id|json_script:"room_id" }}
-       {{ received_user.image.url|json_script:"user_avatar" }}
-       <input  id="user_avatar" value="{{received_user.image.url}}">
+       
+       {{ received_user.profile.image.url|json_script:"user_avatar" }}
+     
        
        <!-- Reading Messages From data base -->
        
@@ -65,7 +66,7 @@ Chat Room
                     {% endif %}
                     <div class="chat-message">
                         <div class="flex items-end justify-end">
-                                <div class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-1 items-end">
+                                <div class="flex flex-col space-y-2 text-xs max-w-xs mx-10 md:-2 order-1 items-end">
                                         <div><span class="px-4 py-2 rounded-lg inline-block rounded-br-none bg-blue-600 text-white ">{{chat.content}}</span></div>
                                 </div>
                                                 
@@ -84,7 +85,11 @@ Chat Room
                             <div class="flex items-end">
 
                                     <div class="flex space-y-2 text-xs max-w-xs mx-2 order-2 items-start items-center">
-                                             <div><img src="{{ received_user.image.url }}" width="25" height="25" alt="received_user profile avatar"></div>
+                                             <div>
+                                                {% thumbnail received_user.profile.image "100x100" crop="center" as img %}
+                                                <img src="{{ img.url }}" width="25" height="25" alt="received_user profile avatar rounded-full" class=" rounded-full"></div>
+                                                {% endthumbnail %}
+                                              
                                             <div class="m-auto"><span class="px-4 py-2 rounded-lg inline-block bg-gray-300 text-gray-600">{{chat.content}}</span></div>
                                     </div>
                                                 
@@ -101,19 +106,14 @@ Chat Room
     
   
     </div>
-    <div class="border-t-2 border-gray-200 px-4 pt-4 mb-2 sm:mb-0">
-       <div class=" flex">
-          <span class=" inset-y-0 flex items-center">
-             <button type="button" class="inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6 text-gray-600">
-                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path>
-                </svg>
-             </button>
-          </span>
-         
-          <input id="chat-message-input" type="text" placeholder="Write Something" class="w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-12 bg-gray-200 rounded-full py-3">
+    <!-- Chat Buttons -->
+    <div class="border-t-2 border-gray-200 px-1 md:px-4 pt-0.5 md:pt-4 mb-0 md:mb-2 sm:mb-0">
+       <div class=" flex items-center">
+       
+      
+          <input id="chat-message-input" type="text" placeholder="Write Something" class="w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-2 md:pl-12 bg-gray-200 rounded-full py-0.5 md:py-3 text-sm md:tex-base">
                
-          <div class="absolute right-0 items-center inset-y-0 hidden sm:flex">
+          <div class="right-0 items-center inset-y-0 hidden sm:flex">
                   
                     
                 </div>
@@ -124,13 +124,12 @@ Chat Room
                     </svg>
                 </button>
              
-                
-                <button id="chat-message-submit" type="button" value="Send" class="inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-white bg-blue-500 hover:bg-blue-400 focus:outline-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-6 w-6 transform rotate-90">
-                    <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
-                    </svg>
+               
+                <button id="chat-message-submit" type="button" value="Send" class="inline-flex items-center justify-center rounded-full h-7 p-2 md:p-3 transition duration-500 ease-in-out text-white bg-blue-500 hover:bg-blue-400 focus:outline-none">
+                   <i class='bx bx-send'></i>
                 </button>
                 {{request.user.id|json_script:"user_id"}}
+                {{ room.id | json_script:"room_id" }}
                 <br>
        </div>
     </div>

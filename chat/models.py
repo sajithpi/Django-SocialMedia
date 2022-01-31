@@ -1,6 +1,7 @@
 from sqlite3 import Timestamp
 from django.db import models
 from django.contrib.auth.models import User
+from profiles.models import Profile
 # Create your models here.
 
 class Chat(models.Model):
@@ -17,3 +18,5 @@ class Chatroom(models.Model):
 class RoomChat(models.Model):
     receiver = models.CharField(max_length=1055)
     sender = models.CharField(max_length=1055)
+    sender_profile = models.ForeignKey(User,on_delete=models.CASCADE, related_name="+")
+    receiver_profile = models.ForeignKey(User,on_delete=models.CASCADE, related_name="+")

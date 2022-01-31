@@ -30,14 +30,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
-        # room_id = text_data_json['room_id']
+        room_id = text_data_json['room_id']
         self.user_id = self.scope['user'].id
         # print("room_id:",room_id)
         print("message:",message)
 
         #Find room object
 
-        room = await database_sync_to_async(RoomChat.objects.get)(id=self.room_name)
+        room = await database_sync_to_async(RoomChat.objects.get)(id=room_id)
         # room = await database_sync_to_async(RoomChat.objects.get)(receiver=self.room_name)
         #Create new chat object
         chat = Chat(

@@ -1,4 +1,5 @@
 
+import profile
 from django.dispatch import receiver
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
@@ -46,7 +47,7 @@ class Room(LoginRequiredMixin, View):
         # receiver = User.objects.get(username=room_name)
         receiver = room_name
         try:
-            received_user = Profile.objects.get(user__username=room_name)
+            received_user = User.objects.get(username=room_name)
         except Profile.DoesNotExist:
             received_user = None
 
@@ -71,7 +72,7 @@ class Room(LoginRequiredMixin, View):
           
 
         else:
-                room = RoomChat(sender=request.user.username,receiver=receiver)
+                room = RoomChat(sender=request.user.username,receiver=receiver,sender_profile=request.user, receiver_profile = received_user)
                 room.save()
                 # return render(request, 'chat/room.html', {'room_name': room_name, 'chats':chats, 'room':room})
        

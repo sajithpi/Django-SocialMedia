@@ -1,23 +1,68 @@
 <!-- chat/templates/chat/index.html -->
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8"/>
-    <title>Chat Rooms</title>
-</head>
-<body>
+
+    
+    {% block title %}
+        Chat Rooms
+    {% endblock title %}
+    
+    {% block content %}
+        
+   
+        
     What chat room would you like to enter?<br>
     <input id="room-name-input" type="text" size="100"><br>
     <input id="room-name-submit" type="button" value="Enter">
     {% for room in rooms.all %}
 
+    {% if request.user != room.receiver %}
+    <div class="mx-auto flex max-w-7xl  bg-white rounded-lg items-center relative "
+        x-data="{
+            comment : false,
+        }">
+    
+    
+        <div class="flex flex-col  bg-white shadow-md hover:shodow-lg rounded-2xl w-full h-full ">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center mx-1 md:mx-3">
+                    <div class="flex w-16 md:w-24 h-16 md:h-24 items-center ml-1 md:ml-5">
+                        <a href="{% url 'profiles:detail' room.receiver %}" class="object-scale-down">
+                          
+                            <img src="{{ room.receiver.image.url }}"
+                                class="rounded-lg object-scale-down ">
+                          
+                        </a>
+                    </div>
+                    <div class="flex flex-col ml-3">
+                        <div class="font-medium leading-none uppercase text-sm md:text-base mt-3 font-semibold">{{room.receiver}}</div>
+                    
+                        <span class="text-sm text-gray-600 leading-none mt-1 capitalize">{{room.receiver.gender}}</p>
+                        <span class="text-sm text-black leading-none mt-1 capitalize font-semibold">{{user.country}}</p>
+                    </div>
+                </div>
+                <div class="mx-4 md:mx-1 w-20 md:w-24">
+                    <a href="{% url 'profiles:detail' room.receiver %}" class="">
+                    <button  class="bg-blue-500 px-0 md:px-3 py-1 md:py-2 w-full text-xs md:text-sm shadow-sm hover:shadow-lg  border-2 border-blue-500 text-white rounded font-bold">View Profile</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <div class="row mb-3">
         <div class="card col-md-12 p-5 shadow-sm">
            
                 
-                    
-                 <h5>{{ room.sender }} - {{ room.receiver }}</h5>
+        
+                
+                {% if request.user.username == room.sender %}
+                    <a href="{% url 'chat:room' room.receiver %}"><h5>{{ room.sender }} - {{ room.receiver }}</h5></a>
+                {% else %}
+                    <a href="{% url 'chat:room' room.sender %}"><h5>{{ room.sender }} - {{ room.receiver }}</h5></a>
+                {% endif %}
+                       
+               
                  
                  {% if message_list %}
                     
@@ -63,8 +108,5 @@
     
 {% endfor %}
 
-    <script src="{% static 'js/index.js' %}">
-       
-    </script>
-</body>
-</html>
+    
+ {% endblock content %}
