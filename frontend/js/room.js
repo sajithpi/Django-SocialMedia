@@ -23,16 +23,33 @@ chatSocket.onmessage = function(e) {
     const messageElement = document.createElement('div')
     const user_id = data['user_id']
     const logged_in_id = JSON.parse(document.getElementById('user_id').textContent)
+
+    const user_avatar = JSON.parse(document.getElementById('user_avatar').textContent)
+
     // messageElement.innerText = data.message
     console.log("logged_in_user_id:",logged_in_id)
+    // console.log("user avatar:",user_avatar)
     if(user_id == logged_in_id){
 
         messageElement.classList.add('message','sender')
-        messageElement.innerHTML = `<span class="px-4 py-2 rounded-lg inline-block bg-blue-600 text-white  float-right">${data.message}</span>` + messageElement.innerHTML
+        messageElement.innerHTML = `
+        <div class="flex items-end justify-end">
+            <div class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-1 items-end">
+                    <div><span class="px-4 py-2 rounded-lg inline-block rounded-br-none bg-blue-600 text-white ">${data.message}</span></div>
+            </div>
+                        
+        </div>  
+        ` + messageElement.innerHTML
         
     }else{
         messageElement.classList.add('message','receiver')
-        messageElement.innerHTML = `<div class="max-w-lg px-4 py-2 rounded-lg inline-block rounded-br-none bg-gray-300 text-gray-600 float-left">${data.message}</div>` + messageElement.innerHTML
+        messageElement.innerHTML = `
+        <div class="flex items-end">
+            <div class="flex space-y-2 text-xs max-w-xs mx-2 order-2 items-start items-center">
+                <div><img src="${user_avatar}" width="25" height="25" alt="received_user profile avatar"></div>
+                <div class="m-auto"><span class="px-4 py-2 rounded-lg inline-block bg-gray-300 text-gray-600 ">${data.message}</span></div>
+            </div>
+        </div>` + messageElement.innerHTML
 
     }
    
@@ -59,10 +76,8 @@ document.querySelector('#chat-message-input').onkeyup = function(e) {
 document.querySelector('#chat-message-submit').onclick = function(e) {
     const messageInputDom = document.querySelector('#chat-message-input');
     const message = messageInputDom.value;
-    // const roomInputDom = document.querySelector('#room_id');
-    // const room_id = roomInputDom.value;
-    
-   console.log("room:",room_id)
+
+   
     chatSocket.send(JSON.stringify({
         'message': message
         // 'room_id':room_id,

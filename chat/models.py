@@ -8,6 +8,7 @@ class Chat(models.Model):
     timestamp = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     room = models.ForeignKey('RoomChat',on_delete=models.CASCADE)
+    is_read = models.BooleanField(default=False)
 
 class Chatroom(models.Model):
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name="+")

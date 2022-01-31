@@ -10,6 +10,58 @@
     What chat room would you like to enter?<br>
     <input id="room-name-input" type="text" size="100"><br>
     <input id="room-name-submit" type="button" value="Enter">
+    {% for room in rooms.all %}
+
+    <div class="row mb-3">
+        <div class="card col-md-12 p-5 shadow-sm">
+           
+                
+                    
+                 <h5>{{ room.sender }} - {{ room.receiver }}</h5>
+                 
+                 {% if message_list %}
+                    
+                    {% for message in message_list reversed %}
+                            
+                         {% if message.room.id == room.id %}
+                            
+                            {% if forloop.counter < 2 %}
+                            {{message.is_read}}
+                                {% if message.is_read == False %}
+                                    
+                                    {{message.sender}}
+                                        
+                                        {% if message.sender == request.user %}
+                                            <span class="">{{message.sender}}:{{message.content}}</span>
+                                        {% else %}
+                                        <span class="font-bold">{{message.sender}}:{{message.content}}</span>
+                                        {% endif %}
+                                            
+                                 
+                                        
+                                        
+                               
+                                        
+                                    
+                                {% else %}
+                                    {{message.sender}}:{{message.content}}
+                                {% endif %}
+                                <a href="#"><button class="btn btn-primary">See Message</button></a>  
+                                
+                            {% endif %}
+                                
+                             
+                         {% endif %}
+                           
+                    {% endfor %}
+                        
+                 {% endif %}
+                     
+         
+        </div>
+    </div>
+    
+{% endfor %}
 
     <script src="{% static 'js/index.js' %}">
        

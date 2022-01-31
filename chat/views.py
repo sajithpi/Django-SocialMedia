@@ -1,10 +1,11 @@
-from re import U
+
 from django.dispatch import receiver
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
+from profiles.models import Profile
 from django.views import View
 
 from chat.models import Chat, Chatroom, RoomChat
@@ -13,7 +14,14 @@ def index(request):
     return render(request, 'chat/index.html')
 class Index(LoginRequiredMixin, View):
     def get(self, request):
-         return render(request, 'chat/index.html')
+        rooms = RoomChat.objects.filter(Q(sender = request.user.username) | Q(receiver = request.user.username))
+        # rooms = RoomChat.objects.all()
+        message_list = Chat.objects.all()
+        context = {
+            'rooms' : rooms,
+            'message_list' :message_list,
+        }
+        return render(request, 'chat/index.html',context)
 # def room(request, room_name):
 #     return render(request, 'chat/room.html', {
 #         'room_name': room_name
@@ -37,6 +45,11 @@ class Room(LoginRequiredMixin, View):
     # Using Sender and receiver
         # receiver = User.objects.get(username=room_name)
         receiver = room_name
+        try:
+            received_user = Profile.objects.get(user__username=room_name)
+        except Profile.DoesNotExist:
+            received_user = None
+
         chats = []
        
            
@@ -63,5 +76,5 @@ class Room(LoginRequiredMixin, View):
                 # return render(request, 'chat/room.html', {'room_name': room_name, 'chats':chats, 'room':room})
        
         
-        return render(request, 'chat/room.html', {'room_name': room_name, 'chats':chats, 'room':room})
+        return render(request, 'chat/room.html', {'room_name': room_name, 'chats':chats, 'room':room, 'received_user':received_user})
    

@@ -35,7 +35,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
         # print("room_id:",room_id)
         print("message:",message)
 
-
         #Find room object
 
         room = await database_sync_to_async(RoomChat.objects.get)(id=self.room_name)
