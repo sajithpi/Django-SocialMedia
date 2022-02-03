@@ -2,7 +2,10 @@
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
+from django.dispatch import receiver
+from django.http import request
 from chat.models import Chat, Chatroom, RoomChat
+from django.contrib.auth.models import User
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
@@ -34,18 +37,47 @@ class ChatConsumer(AsyncWebsocketConsumer):
         self.user_id = self.scope['user'].id
         # print("room_id:",room_id)
         print("message:",message)
-
         #Find room object
 
         room = await database_sync_to_async(RoomChat.objects.get)(id=room_id)
+      
         # room = await database_sync_to_async(RoomChat.objects.get)(receiver=self.room_name)
         #Create new chat object
+        
+       
+        
+
+        
+        sender_user = room.sender
+        receiver_user = room.receiver
+        
+        if self.scope['user'].username == room.receiver:
+            sender_user = room.receiver
+            receiver_user = room.sender
+            print("room sender_profile1:",sender_user)
+            print("room receiver_profile1:",receiver_user)
+            room.sender = sender_user
+            room.receiver = receiver_user
+            await database_sync_to_async(room.save)()
+        elif self.scope['user'].username == room.sender:
+            sender_user = room.sender
+            receiver_user = room.receiver
+            print("room sender_profile2:",sender_user)
+            print("room receiver_profile2:",receiver_user)
+            room.sender = sender_user
+            room.receiver = receiver_user
+
+            await database_sync_to_async(room.save)()
+        received_user = await database_sync_to_async(User.objects.get)(username=receiver_user)
         chat = Chat(
             content = message,
-            user = self.scope['user'],
-            room = room
+            sender = self.scope['user'],
+            receiver = received_user,
+            room = room,
         )    
         await database_sync_to_async(chat.save)()
+
+        
         # Send message to room group
         await self.channel_layer.group_send(
             self.room_group_name,

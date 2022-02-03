@@ -84,7 +84,6 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'profiles.context_processors.notification_counts',
                 'profiles.context_processors.notification_message_counts',
-                
 
             ],
         },

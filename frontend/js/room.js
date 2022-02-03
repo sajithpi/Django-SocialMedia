@@ -23,11 +23,12 @@ chatSocket.onmessage = function(e) {
     const messageElement = document.createElement('div')
     const user_id = data['user_id']
     const logged_in_id = JSON.parse(document.getElementById('user_id').textContent)
-
     const user_avatar = JSON.parse(document.getElementById('user_avatar').textContent)
+  
 
     // messageElement.innerText = data.message
     console.log("logged_in_user_id:",logged_in_id)
+    
     // console.log("user avatar:",user_avatar)
     if(user_id == logged_in_id){
 
@@ -83,6 +84,7 @@ document.querySelector('#chat-message-submit').onclick = function(e) {
     chatSocket.send(JSON.stringify({
         'message': message,
         'room_id':room_id,
+        
         // 'room_id':room_id,
         
     }));
