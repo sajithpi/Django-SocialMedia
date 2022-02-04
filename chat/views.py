@@ -1,7 +1,9 @@
 
+from pickle import FALSE
 import profile
+import re
 from django.dispatch import receiver
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -56,6 +58,15 @@ class Room(LoginRequiredMixin, View):
                 room = RoomChat.objects.filter(sender=request.user.username,receiver=receiver).first()
                 chats = Chat.objects.filter(room=room)
                 room_name = room.id
+                # unread_message = Chat.objects.filter(room=room).last()
+                unread_message = Chat.objects.filter(room=room,is_read=False)
+                
+                for message in unread_message:
+                    if message.sender.username != request.user.username:
+                        print("chat message 1:",message.content)
+                        message.is_read = True
+                        message.save()
+
                 
                 print("im hereeee")
                
@@ -66,6 +77,14 @@ class Room(LoginRequiredMixin, View):
                 chats = Chat.objects.filter(room=room)
                 room_name = room.id
                 room_profile = RoomChat.objects.get(id=room.id)
+                unread_message = Chat.objects.filter(room=room,is_read=False)
+                
+
+                for message in unread_message:
+                    if message.sender.username != request.user.username:
+                        print("chat message 2:",message.content)
+                        message.is_read = True
+                        message.save()
                 print("im hereeaa")
                 # return redirect('profiles:thread', pk = threads.pk)
                 # return render(request, 'chat/room.html', {'room_name': room_name, 'chats':chats, 'room':room})
@@ -123,3 +142,4 @@ class MessageReadSet(LoginRequiredMixin,View):
                 print("im hereeaa")
 
         return redirect('chat:room',room_name)
+

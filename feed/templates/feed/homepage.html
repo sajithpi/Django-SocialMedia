@@ -11,17 +11,21 @@ homepage
 {% block body %}
 
     {% if request.user.is_authenticated %}
-    <div class="fixed top-0 left-0 right-0 z-30">
+    <div class="fixed top-0 left-0 right-0 z-30 ">
       {% include 'includes/navbar.html' %}
     </div>
-    <div class="mt-24 z-20">
-      <div id="posts-container">
+    <div class="flex mt-24 z-50 max-w-md md:max-w-7xl ">
+      <div id="posts-container " class="mr-0  lg:mr-16">
           {% for post in posts  %}
               
                     {% include 'includes/post.html' with post=post  comment_form=comment_form profile=profile show_detail_link=True show_comment_list=False %}
     
           {% endfor %}
       </div>
+      <div class="p-0 md:p-3 border-2 max-h-screen sticky top-24 right-0 bg-gray-100 shadow-lg">
+        {% include 'chat/index.html' with rooms=rooms chats=chats%}
+      </div>
+
     </div> 
   {% else %}
     {% include 'includes/login.html' %}

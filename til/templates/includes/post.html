@@ -18,12 +18,12 @@
 	
 {% include 'includes/background.html' %}
 
-<div class="mx-auto flex justify-center max-w-3xl md:mb-1 mt-1 bg-white rounded items-center relative  border "
+<div class="mx-auto flex justify-center  md:mb-1 mt-1 bg-white rounded items-center relative  border "
 	x-data="{
         comment : false,
     }">
 	
-	<div class="h-full relative post ">
+	<div class="h-full relative post max-w-3xl">
 	
 		<div class="py-1 px-2">
 			<div class="flex justify-between items-center pt-2">
@@ -71,7 +71,7 @@
 				<span class="post-text">
 					<input type="hidden" class="post{{post.id}}" id="{{post.id}}" value="{{post.id}}">
 					<p id="post-text{{post.id}}"
-						class="post-text{{post.id}} text-black-500 text-base md:text-lg ml-6  leading-snug md:leading-normal  font-semibold capitalize">
+						class="post-text{{post.id}} text-black-500 text-sm md:text-lg ml-6  font-semibold capitalize">
 						{{post.text}}
 					</p>
 				</span>

@@ -8,6 +8,8 @@ from django.views.generic.edit import CreateView, UpdateView
 from django.contrib import messages
 from profiles.models import MessageModel, Profile, ThreadModel
 from .models import Comment, Notification, Post,Like
+from django.db.models import Q
+from chat.models import Chat, RoomChat
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
@@ -41,10 +43,23 @@ class HomePage(TemplateView):
         comment_form = CommentForm()
         posts= Post.objects.all().order_by('-id')[0:30]
         profile= Profile.objects.get(user=self.request.user)
+
+        # Fetching chat History
+        rooms = RoomChat.objects.filter(Q(sender =self.request.user.username) | Q(receiver = self.request.user.username))
+        chats = []
+        for room in rooms:
+            chat = Chat.objects.filter(room = room).last()
+            chats.append(chat)
+            
+        for i in chats:
+            print(i.content)
+    
         
         context['posts'] = posts
         context['comment_form'] = comment_form
         context['profile'] = profile
+        context['rooms'] = rooms
+        context['chats'] = chats
         
         
         return context

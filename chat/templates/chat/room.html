@@ -14,6 +14,7 @@ Chat Room
     {{ room.id|json_script:"room_id" }}
     {{ received_user.username|json_script:"received_user" }}
 
+
  
 
 
@@ -23,6 +24,7 @@ Chat Room
 <div class="flex-1 p:2 sm:p-6 justify-between flex flex-col h-screen ">
    <div class="mx-32 md:mx-72 lg:mx-96"></div>
    {{room.id}}
+   {{room.sender}}
    {{request.user}}
     <div class="flex sm:items-center justify-between py-3 border-b-2 border-gray-200">
        <div class="flex items-center space-x-4 ml-3">
@@ -57,48 +59,50 @@ Chat Room
        
        <!-- Reading Messages From data base -->
        
-       {% for chat in chats.all  %}
+         {% for chat in chats.all  %}
+            {% if chat.content %}  
+               {% if chat.sender.id == request.user.id %}
 
-                {% if chat.sender.id == request.user.id %}
-                                            
-                    {% if message.image %}
-                            <div>
-                                    <img src="{{message.image.url}}" alt="Photo Attachements" width="115" height="115">
-                            </div>
-                    {% endif %}
-                    <div class="chat-message">
-                        <div class="flex items-end justify-end">
-                                <div class="flex flex-col space-y-2 text-xs max-w-xs mx-10 md:-2 order-1 items-end">
-                                        <div><span class="px-4 py-2 rounded-lg inline-block rounded-br-none bg-blue-600 text-white ">{{chat.content}}</span></div>
-                                </div>
-                                                
-                        </div>
-                    </div>              
+                     {% if message.image %}
+                              <div>
+                                       <img src="{{message.image.url}}" alt="Photo Attachements" width="115" height="115">
+                              </div>
+                     {% endif %}
+                     <div class="chat-message" >
+                       
+                        
+                           <div class="flex items-end justify-end">
+                                 <div class="flex flex-col space-y-2 text-xs max-w-xs mx-10 md:-2 order-1 items-end">
+                                          <div><span class="px-4 py-2 rounded-lg inline-block rounded-br-none bg-blue-600 text-white ">{{chat.content}}</span></div>
+                                 </div>
+                                                   
+                           </div>
+                     </div>              
                   
-                {% else %}
-                        {% if message.image %}
-                                <div class="flex items-end justify-end">
-                                        <img src="{{chat.user.profile.image.url}}" alt="Photo Attachements" width="115" height="115">
-                                </div>
-                        {% endif %}
-                                     
-                    <div class="chat-message">
-                       <!-- {{received_user.image.url}} -->
-                            <div class="flex items-end">
+               {% else %}
+                           {% if message.image %}
+                                 <div class="flex items-end justify-end">
+                                          <img src="{{chat.user.profile.image.url}}" alt="Photo Attachements" width="115" height="115">
+                                 </div>
+                           {% endif %}
+                                       
+                     <div class="chat-message">
+                        <!-- {{received_user.image.url}} -->
+                              <div class="flex items-end">
 
-                                    <div class="flex space-y-2 text-xs max-w-xs mx-2 order-2 items-start items-center">
-                                             <div>
-                                                {% thumbnail received_user.profile.image "100x100" crop="center" as img %}
-                                                <img src="{{ img.url }}" width="25" height="25" alt="received_user profile avatar rounded-full" class=" rounded-full"></div>
-                                                {% endthumbnail %}
-                                              
-                                            <div class="m-auto"><span class="px-4 py-2 rounded-lg inline-block bg-gray-300 text-gray-600">{{chat.content}}</span></div>
-                                    </div>
+                                       <div class="flex space-y-2 text-xs max-w-xs mx-2 order-2 items-start items-center">
+                                                <div>
+                                                   {% thumbnail received_user.profile.image "100x100" crop="center" as img %}
+                                                   <img src="{{ img.url }}" width="25" height="25" alt="received_user profile avatar rounded-full" class=" rounded-full"></div>
+                                                   {% endthumbnail %}
                                                 
-                            </div>
-                    </div>
-                    
-                {% endif %}
+                                             <div class="m-auto"><span class="px-4 py-2 rounded-lg inline-block bg-gray-300 text-gray-600">{{chat.content}}</span></div>
+                                       </div>
+                                                   
+                              </div>
+                     </div>
+               {% endif %}
+            {% endif %}
         {% endfor %}
        
        
@@ -127,7 +131,8 @@ Chat Room
                 </button>
              
                
-                <button id="chat-message-submit" type="button" value="Send" class="inline-flex items-center justify-center rounded-full h-7 p-2 md:p-3 transition duration-500 ease-in-out text-white bg-blue-500 hover:bg-blue-400 focus:outline-none">
+                <button id="chat-message-submit" type="button" value="Send" class="inline-flex items-center justify-center rounded-full h-7 p-2 md:p-3 transition duration-500 ease-in-out text-white 
+                        bg-blue-500 hover:bg-blue-400 focus:outline-none" >
                    <i class='bx bx-send'></i>
                 </button>
                 {{request.user.id|json_script:"user_id"}}

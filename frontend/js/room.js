@@ -24,7 +24,8 @@ chatSocket.onmessage = function(e) {
     const user_id = data['user_id']
     const logged_in_id = JSON.parse(document.getElementById('user_id').textContent)
     const user_avatar = JSON.parse(document.getElementById('user_avatar').textContent)
-  
+    
+ 
 
     // messageElement.innerText = data.message
     console.log("logged_in_user_id:",logged_in_id)
@@ -61,6 +62,8 @@ chatSocket.onmessage = function(e) {
         document.querySelector('#emptyText').remove()
     }
     console.log("Data:",data)
+   
+
 };
 
 chatSocket.onclose = function(e) {

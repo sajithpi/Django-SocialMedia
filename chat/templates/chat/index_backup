@@ -120,3 +120,97 @@
   </div>
     
  {% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <!-- chat/templates/chat/index.html -->
+{% extends 'base.html' %}
+{% load static %}
+{% load thumbnail %}
+
+    
+    {% block title %}
+        Chat Rooms
+    {% endblock title %}
+    
+    {% block content %}
+        
+   <div class="container max-w-3xl">
+       
+   
+        
+        What chat room would you like to enter?<br>
+        <input id="room-name-input" type="text" ><br>
+        <input id="room-name-submit" type="button" value="Enter">
+        {{request.user}}
+        {% for room in rooms.all %}
+
+        <div class="row mb-3">
+            <div class="card col-md-12 p-5 shadow-sm">
+               
+                
+                    
+                {% if request.user.username == room.sender %}
+                    <a href="{% url 'chat:room' room.receiver %}" class="stretched-link"></a><h5>{{ room.sender }} - {{ room.receiver }}</h5></a>
+                {% else %}
+                    <a href="{% url 'chat:room' room.sender %}" class="stretched-link"></a><h5>{{ room.sender }} - {{ room.receiver }}</h5></a>
+                {% endif %}
+                    
+                     
+                     
+                        
+                        {% for chat in chats %}
+                                
+                            {% if chat.room.id == room.id %}
+                          
+                               
+                               
+                                    {{chat.is_read}}
+                                    {% if chat.is_read == False %}
+                                        
+                                        {{chat.sender}}
+                                            {{forloop.counter}}
+                                            
+                                            {% if chat.sender == request.user %}
+                                                <span class="">{{chat.sender}}:{{chat.content}}</span>
+                                            {% else %}
+                                            <span class="font-bold">{{chat.sender}}:{{chat.content}}</span>
+                                            {% endif %}    
+                                    {% else %}
+                                        {{chat.sender}}:{{chat.content}}
+                                    {% endif %}
+                                    <a href=""><button class="btn btn-primary">See Message</button></a>  
+                                    
+                               
+                              
+                               
+                                 
+                             {% endif %}
+                        
+                               
+                        {% endfor %}
+                            
+                     
+                         
+             
+            </div>
+        </div>
+        
+    {% endfor %}
+
+   
+  
+  </div>
+    
+ {% endblock content %}

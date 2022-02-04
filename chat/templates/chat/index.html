@@ -1,80 +1,133 @@
 <!-- chat/templates/chat/index.html -->
-{% extends 'base.html' %}
+
 {% load static %}
 {% load thumbnail %}
 
-    
-    {% block title %}
-        Chat Rooms
-    {% endblock title %}
-    
-    {% block content %}
-        
-   <div class="container max-w-3xl">
-       
+<html>
    
-        
-        What chat room would you like to enter?<br>
-        <input id="room-name-input" type="text" ><br>
-        <input id="room-name-submit" type="button" value="Enter">
-        {{request.user}}
-        {% for room in rooms.all %}
+    
+  
 
-        <div class="row mb-3">
-            <div class="card col-md-12 p-5 shadow-sm">
-               
+    <body>
+        
+   
+        <div class="w-24 sm:w-32 md:w-48 lg:w-72">
+            
+        
                 
-                    
-                {% if request.user.username == room.sender %}
-                    <a href="{% url 'chat:room' room.receiver %}" class="stretched-link"></a><h5>{{ room.sender }} - {{ room.receiver }}</h5></a>
-                {% else %}
-                    <a href="{% url 'chat:room' room.sender %}" class="stretched-link"></a><h5>{{ room.sender }} - {{ room.receiver }}</h5></a>
+                <!-- What chat room would you like to enter? -->
+             
+                 <!-- <input hidden id="room-name-input" type="text" class="w-20 md:w-48" ><br>
+                <input hidden id="room-name-submit" type="button" value="Enter">  -->
+              
+                <div class="w-auto h-7 sm:w-full md:h-10  bg-white border  flex justify-between items-center m-0.5 md:m-2">
+   
+                    <input type="text" name="keyword" id="room-name-input" placeholder=" Search "
+                        class="w-full outline-none rounded focus:outline-none px-3  text-xs md:text-base" />
+                    <button id="room-name-submit" type="button" class=" outline-none focus:outline-none active:outline-none self-center">
+                        <div class="items-center mt-1 ">
+                            <i class='bx bx-search-alt-2 text-base md:text-xl' ></i>
+                        </div>
+                        
+                    </button>
+               
+              </div>
+                {% if rooms %}
+                    {% else %}
                 {% endif %}
                     
-                     
-                     
-                        
-                        {% for chat in chats %}
-                                
-                            {% if chat.room.id == room.id %}
-                          
-                               
-                               
-                                    {{chat.is_read}}
-                                    {% if chat.is_read == False %}
-                                        
-                                        {{chat.sender}}
-                                            {{forloop.counter}}
-                                            
-                                            {% if chat.sender == request.user %}
-                                                <span class="">{{chat.sender}}:{{chat.content}}</span>
-                                            {% else %}
-                                            <span class="font-bold">{{chat.sender}}:{{chat.content}}</span>
-                                            {% endif %}    
-                                    {% else %}
-                                        {{chat.sender}}:{{chat.content}}
-                                    {% endif %}
-                                    <a href=""><button class="btn btn-primary">See Message</button></a>  
-                                    
-                               
-                              
-                               
-                                 
-                             {% endif %}
-                        
-                               
-                        {% endfor %}
-                            
-                     
-                         
-             
-            </div>
-        </div>
-        
-    {% endfor %}
+                {% for room in rooms.all %}
 
-   
-  
-  </div>
+                
+            
+                    <div class="mx-auto flex  items-center relative "
+                        x-data="{
+                            comment : false,
+                        }">
+                    
+                    
+                        <div class="flex flex-col  bg-white shadow-md hover:shadow-lg  w-full h-full p-0 md:p-1 border ">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center mx-0 md:mx-3">
+                                    <div class="flex w-6 md:w-10 lg:w-14  md:h-10 items-center my-3 mx-0 md:mx-1">
+                                    
+                                        {% if request.user.username == room.sender %}
+                                            <a href="{% url 'profiles:detail' room.receiver %}" class="object-scale-down ">
+                                                {% thumbnail room.receiver_profile.profile.image "55x55" crop="center" as img%}
+                                                    <img src="{{ img.url }}"class="object-scale-down rounded-full border-solid border-white border-2 ">
+                                                {% endthumbnail %}
+                                            
+                                            </a>
+                                        {% else %}
+                                            <a href="{% url 'profiles:detail' room.sender %}" class="object-scale-down ">
+                                                {% thumbnail room.sender_profile.profile.image "55x55" crop="center" as img %}
+                                                    <img src="{{ img.url }}"class="object-scale-down rounded-full border-solid border-white border-2">
+                                                {% endthumbnail %}
+                                                
+                                            </a>
+                                        {% endif %}
+                                        
+                                    </div> 
+                                    <div class="flex flex-col md:w-24 lg:w-36 my-3 ml-0 md:ml-2">
+                                        {% if request.user.username == room.sender %}
+                                            <a href="{% url 'chat:room' room.receiver %}" class="stretched-link">
+                                                <div class="font-medium  text-xs  lg:text-sm  font-semibold overflow-hidden">{{room.receiver |capfirst }}</div>
+                                            </a>
+                                        {% else %}
+                                            <a href="{% url 'chat:room' room.sender %}" class="stretched-link">
+                                                <div class="font-medium  text-xs  lg:text-sm font-semibold">{{room.sender |capfirst }}</div>
+                                            </a>
+                                        {% endif %}
+                                        
+                                      
+                                        {% for chat in chats %}
+                                            
+                                            {% if chat.content  %}
+                                                
+                                            {% if chat.room.id == room.id %}
+                                                {% if chat.is_read == False %}
+                                                        {% if chat.sender == request.user %}
+                                                            <span class="text-xs lg:text-sm text-gray-500">{{chat.sender}}:{{chat.content}}</span>
+                                                        {% else %}
+                                                        <span class="text-xs lg:text-sm font-bold">{{chat.sender}}:{{chat.content}}</span>
+                                                        {% endif %}    
+                                                {% else %}
+                                                    {{chat.sender}}:{{chat.content}}
+                                                {% endif %}
+                                            {% endif %}   
+                                            {% endif %}
+                                                
+                                        {% endfor %}
+                                            
+                                    </div>
+                                    
+                                    {% for chat in chats  %}
+                                    {% if chat.room.id == room.id %}
+                                        <div class="flex flex-col my-3 hidden sm:flex">
+                                            <span class="text-xs text-gray-700 ">{{chat.timestamp | date:"g:i:a"}}</span>
+                                        
+                                                
+                                        </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                        
+                                
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                
+        
+            
+            {% endfor %}
+
+        
+        
+        </div>
     
- {% endblock content %}
+    </body>
+</html>
+
+
+
