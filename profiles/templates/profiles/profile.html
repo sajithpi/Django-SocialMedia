@@ -1,13 +1,13 @@
+{% extends 'base.html' %}
 {% load thumbnail %}
-
 <!-- {% block title %}{{ user.username }}{% endblock title %} -->
 
 {% block body %}
 
 <title>{{ user.username }}</title>
 <div class="flex  bg-gray-100 ">
-    <div class="flex sticky w-24 -ml-7 md:ml-0 sm:w-auto z-30 md:z-40 ">{% include "base.html" %}</div>
-    <div class="overflow-hidden shadow w-full h-fit z-50 md:z-30 my-3 bg-gray-100">
+    
+    <div class="overflow-hidden shadow w-full h-fit z-40 md:z-30 my-3 bg-gray-100">
         <div class="w-auto bg-cover bg-center h-48"
             style="background-image: url('https://images.unsplash.com/photo-1593642532454-e138e28a63f4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=869&q=80');">
         </div>
@@ -39,7 +39,7 @@
                         <path fill="currentcolor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
                     </svg>
                 </button>
-             
+               
             </div>
             {% endif %}
             {% else %}

@@ -11,7 +11,7 @@
     <div class="flex flex-col  bg-white shadow-md hover:shodow-lg rounded-2xl w-full h-full ">
         <div class="flex items-center justify-between">
             <div class="flex items-center mx-1 md:mx-3">
-                <div class="flex w-16 md:w-24 h-16 md:h-24 items-center ml-1 md:ml-5">
+                <div class="flex w-16 md:w-24 h-16 md:h-auto items-center ml-1 md:ml-5">
                     <a href="{% url 'profiles:detail' user.user %}" class="object-scale-down">
                       
                         <img src="{{ user.image.url }}"
@@ -27,8 +27,13 @@
                 </div>
             </div>
             <div class="mx-4 md:mx-1 w-20 md:w-24">
-                <a href="{% url 'profiles:detail' user.user %}" class="">
-                <button  class="bg-blue-500 px-0 md:px-3 py-1 md:py-2 w-full text-xs md:text-sm shadow-sm hover:shadow-lg  border-2 border-blue-500 text-white rounded font-bold">View Profile</button></a>
+
+                    <button  class="flex bg-white text-gray-800 font-bold rounded border-b-2 border-blue-500 hover:border-green-600 hover:bg-blue-600 hover:text-gray-400 shadow-md py-1 px-3 text-xs inline-flex items-center">
+                        <a href="{% url 'chat:room' user.user %}" class="flex items-center">
+                           <div class="text-xs md:text-sm">Message</div>
+                            <i class='bx bxs-paper-plane text-indigo-500 text-xl md:text-2xl'></i>
+                        </a>
+                    </button>
             </div>
         </div>
     </div>

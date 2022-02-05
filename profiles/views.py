@@ -26,29 +26,10 @@ def password_success(request):
     messages.success(request,"Your Password has been Updated SuccessFully")
     return render(request,'account/password_success.html',{})
 
-class UserDetailView(TemplateView):
-    http_method_names = ["get"]
-    template_name = "profiles/profile.html"
-    model = User
-    context_object_name = "user"
-    slug_field = "username"
-    slug_url_kwarg = "username"
-
-    
-    def get_context_data(self, **kwargs):
-        user = self.request.user
-
-        context = super().get_context_data(**kwargs)
-        context['total_posts'] = Post.objects.filter(author=user).count()
-        context['total_followers'] = Follower.objects.filter(following=user).count()
-       
-        return context
-    
-    
 
 class ProfileDetailView(DetailView):
     http_method_names = ["get"]
-    template_name = "profiles/detail.html"
+    template_name = "profiles/my_profile_details.html"
     model = User
     context_object_name = "user"
     slug_field = "username"

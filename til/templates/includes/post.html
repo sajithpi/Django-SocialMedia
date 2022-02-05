@@ -29,7 +29,7 @@
 			<div class="flex justify-between items-center pt-2">
 				<div class="relative mt-1 flex">
 					<div class="flex mb-1 m-3 md:m-0">
-						<a href="{% url 'profiles:detail' post.author.username %}">
+						<a href="{% url 'profiles:user_profile' post.author.username %}">
 							{% thumbnail post.author.profile.image "51x51" crop="center" as im %}
 							<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"
 								class="rounded-full object-scale-down ">
@@ -141,19 +141,6 @@
 											{{post.total_like}} Likes</div>
 									
 										</div>
-										<div class="flex post-text ">
-											<input type="hidden" class="post{{post.id}}" id="{{post.id}}" value="{{post.id}}">
-											<div class="flex-auto ">
-												<span class="text-sm md:text-base font-bold my-1 capitalize pr-0.5 md:pr-3">{{post.author.username}}  </span>	
-											</div>
-											
-											<div id="post-text{{post.id}}"
-												class="post-text{{post.id}}  flex-auto w-max text-black-500  text-sm md:text-base my-1 capitalize">
-													{{post.text}}
-											</div>
-											
-									</div>
-									
 										<div class="flex flex-col  py-1 md:py-1">
 
 										

@@ -9,7 +9,7 @@
 <div class="relative">
 
     <!--  TODO:Navbar -->
-    <div class="fixed top-0 left-0 right-0">
+    <div class="fixed top-0 left-0 right-0 z-50">
         {% include 'includes/navbar.html' %}
     </div>
     
@@ -69,7 +69,12 @@
                                         <path fill="currentcolor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
                                     </svg>
                                 </button>
-                                
+                                <button  class="flex bg-white text-gray-800 font-bold rounded border-b-2 border-blue-500 hover:border-green-600 hover:bg-blue-600 hover:text-gray-400 shadow-md py-1 px-3 text-xs inline-flex items-center">
+                                    <a href="{% url 'chat:room' user.username %}" class="flex items-center">
+                                       <div class="text-xs md:text-sm">Message</div>
+                                        <i class='bx bxs-paper-plane text-indigo-500 text-xl md:text-2xl'></i>
+                                    </a>
+                                </button>
                             </div>
                             
                         {% endif %}
