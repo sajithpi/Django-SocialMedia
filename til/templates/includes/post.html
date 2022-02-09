@@ -63,7 +63,17 @@
 											<a class="update-icon" id="{{post.id}}">
 												<i class='bx bxs-edit'></i>
 												</a>
-									</button>
+							</button>
+							<!-- Favourites -->
+							<button id=" favourites-box{{post.id}}" type="button"
+											class="relative p-0 md:p-2 mr-3 focus:outline-none border-none bg-gray-100 rounded-full">
+											<a class="favorite-icon" id="{{post.id}}" href="{% url 'feed:add_to_favorites' %}">
+												<span id="favorite-icon{{post.id}}">
+													<i class='bx bx-star'></i>
+												</span>
+											</a>
+							</button>
+							
 						</div>
 						{% endif %}
 					</div>

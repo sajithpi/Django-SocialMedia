@@ -12,7 +12,7 @@
         <div class="flex items-center justify-between">
             <div class="flex items-center mx-1 md:mx-3">
                 <div class="flex w-16 md:w-24 h-16 md:h-auto items-center ml-1 md:ml-5">
-                    <a href="{% url 'profiles:detail' user.user %}" class="object-scale-down">
+                    <a href="{% url 'profiles:user_profile' user.user.username %}" class="object-scale-down">
                       
                         <img src="{{ user.image.url }}"
                             class="rounded-lg object-scale-down ">
@@ -21,9 +21,16 @@
                 </div>
                 <div class="flex flex-col ml-3">
                     <div class="font-medium leading-none uppercase text-sm md:text-base mt-3 font-semibold">{{user.user}}</div>
-                
-                    <span class="text-sm text-gray-600 leading-none mt-1 capitalize">{{user.gender}}</p>
-                    <span class="text-sm text-black leading-none mt-1 capitalize font-semibold">{{user.country}}</p>
+                    
+                    {% if user.gender %}
+                        <span class="text-sm text-gray-600 leading-none mt-1 capitalize">{{user.gender}}</p>
+                    {% endif %}
+                    
+                    {% if user.country %}
+                        <span class="text-sm text-black leading-none mt-1 capitalize font-semibold">{{user.country}}</p>    
+                    {% endif %}
+                        
+                        
                 </div>
             </div>
             <div class="mx-4 md:mx-1 w-20 md:w-24">

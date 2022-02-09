@@ -11,6 +11,9 @@ homepage
 {% block body %}
 
     {% if request.user.is_authenticated %}
+    {% if room_users %}
+          aaaaaa
+        {% endif %}
     <div class="fixed top-0 left-0 right-0 z-50 ">
       {% include 'includes/navbar.html' %}
     </div>
@@ -23,7 +26,10 @@ homepage
           {% endfor %}
       </div>
       <div class="p-0 md:p-3 border-2 max-h-screen sticky top-24 right-0 bg-gray-100 shadow-lg">
-        {% include 'chat/index.html' with rooms=rooms chats=chats%}
+        
+        
+          
+        {% include 'chat/index.html' with rooms=rooms chats=chats room_users=room_users%}
       </div>
 
     </div> 

@@ -6,7 +6,7 @@ from channels.db import database_sync_to_async
 from django.dispatch import receiver
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
-from chat.models import Chat, Chatroom, RoomChat, Connected
+from chat.models import Chat, RoomChat, Connected
 from django.contrib.auth.models import User
 from asgiref.sync import sync_to_async
 class ChatConsumer(AsyncWebsocketConsumer):

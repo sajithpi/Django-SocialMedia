@@ -111,6 +111,11 @@
 
             </div>
             <div class="grid grid-cols-2 mt-3 h-auto">
+              <label class="px-4 py-2 font-semibold" for="id_gender">Bio:</label>
+              <textarea class="px-1 md:px-4 py-1 md:py-2 text-sm md:text-base mx-2 md:mx-0 border-2 h-fit" 
+                name="bio" maxlength="100" required id="id_bio">{{user.profile.bio}}</textarea>
+            </div>
+            <div class="grid grid-cols-2 mt-3 h-auto">
               <label class="px-4 py-2 font-semibold" for="id_gender">Gender:</label>
               <input class="px-1 md:px-4 py-1 md:py-2 text-sm md:text-base mx-2 md:mx-0 border-2 h-fit" type="text"
                 name="gender" value="{{user.profile.gender}}" maxlength="100" required id="id_gender">

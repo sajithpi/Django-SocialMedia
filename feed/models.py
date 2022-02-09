@@ -1,6 +1,7 @@
 from distutils.command.upload import upload
 from django.db import models
 from django.contrib.auth.models import User
+from django.forms import IntegerField
 from profiles.models import MessageModel, Profile, ThreadModel
 from django.db.models.deletion import CASCADE
 from sorl.thumbnail import ImageField
@@ -51,6 +52,13 @@ class Comment(models.Model):
 
     def __str__(self):
         return str(self.content)
+        
+class Favorites(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+
+    def  __str__(self):
+        return self.user.username
 
 
 class Notification(models.Model):

@@ -11,7 +11,7 @@ from django.contrib.auth.models import User
 from profiles.models import Profile
 from django.views import View
 
-from chat.models import Chat, Chatroom, RoomChat
+from chat.models import Chat, RoomChat
 # Create your views here.
 def index(request):
     return render(request, 'chat/index.html')
@@ -36,10 +36,6 @@ class Index(LoginRequiredMixin, View):
 
     
 
-# def room(request, room_name):
-#     return render(request, 'chat/room.html', {
-#         'room_name': room_name
-#     })
 class Room(LoginRequiredMixin, View):
     def get(self, request, room_name):
         print("room name:",room_name)
@@ -143,3 +139,26 @@ class MessageReadSet(LoginRequiredMixin,View):
 
         return redirect('chat:room',room_name)
 
+
+def Send_Image(request,room_name):
+    if request.method =='POST':
+        text_message = request.POST.get("text")
+        photo = request.FILES.get("photo")
+        sender = User.objects.get(id=request.POST.get("sender"))
+        receiver = User.objects.get(username=request.POST.get("receiver"))
+        room_id = RoomChat.objects.get(id=request.POST.get("room_id"))
+        print("text:",text_message)
+        print("photo:",photo)
+        print("receiver:",receiver)
+        print("sender:",sender)
+        print("room:",room_id)
+        chat = Chat.objects.create(
+            content = text_message,
+            sender = sender,
+            receiver = receiver,
+            photo = photo,
+            room = room_id
+        )
+        chat.save()
+        return JsonResponse({"message":"success","current_sender":request.POST.get("sender"),"receiver":request.POST.get("receiver"),"sender_avatar":sender.profile.image})
+    return JsonResponse({"message":"not"})

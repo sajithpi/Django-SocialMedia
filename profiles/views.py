@@ -1,5 +1,4 @@
 from django.contrib.auth.models import User
-from django.dispatch import receiver
 from django.forms import forms
 from django.shortcuts import redirect, render
 from django.contrib import messages
@@ -11,7 +10,7 @@ from django.views.generic.base import TemplateView
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.forms import PasswordChangeForm
 from django.urls import reverse_lazy
-from feed.models import Notification, Post
+from feed.models import Favorites, Notification, Post
 from followers.models import Follower
 from profiles.forms import MessageForm, ThreadForm, UserForm
 from profiles.models import  MessageModel, Profile, ThreadModel
@@ -46,10 +45,12 @@ class ProfileDetailView(DetailView):
         # U.save()
         user = User.objects.get(id = self.request.user.id)
         email = user.email
+        favorites = Favorites.objects.filter(user__id = self.request.user.id)
         context = super().get_context_data(**kwargs)
         context['total_posts'] = Post.objects.filter(author=user).count()
         context['total_followers'] = Follower.objects.filter(following=user).count()
         context['total_following'] = Follower.objects.filter(followed_by = user).count()
+        context['favorites'] = favorites
         context['profile_name'] = email.split('@')[0]
         context['posts'] = Post.objects.filter(author = user)
     
@@ -58,7 +59,7 @@ class ProfileDetailView(DetailView):
         return context
 
 class ProfilePersonalUpdate(UpdateView):
-    template_name = "profiles/update.html"
+    template_name = "profiles/profile_update.html"
     model = Profile
     # form_class = UserForm
     fields = "__all__"
@@ -144,6 +145,8 @@ class FollowView(LoginRequiredMixin, View):
             'success': True,
             'wording': "Unfollow" if data['action'] == "follow" else "Follow"
         })
+
+
 
 
 class ListThreads(View):

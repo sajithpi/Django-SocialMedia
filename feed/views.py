@@ -1,12 +1,15 @@
 from email import message
+from turtle import pos
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, request 
 from django.http.response import HttpResponseBadRequest, JsonResponse,HttpResponse
+from django.template import context
 from django.views.generic import TemplateView
 from django.views.generic import  DetailView, View,ListView,FormView
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib import messages
 from profiles.models import MessageModel, Profile, ThreadModel
+from feed.models import Favorites
 from .models import Comment, Notification, Post,Like
 from django.db.models import Q
 from chat.models import Chat, RoomChat
@@ -185,7 +188,7 @@ def Like_post(request):
         }
         return JsonResponse(data, safe=False)
 
-    return redirect('feed:home')
+    return JsonResponse({"message":"error"}, safe=False)
 
 def Comment_post(request):
 
@@ -248,6 +251,39 @@ def delete_post(request):
         return JsonResponse({"message":"success"})
     return JsonResponse({"message":"not "})
 
+def AddFavorites(request):
+    if request.method == 'POST':
+        post_id = request.POST['post_id']
+        user = User.objects.get(id=request.user.id)
+        posts = Post.objects.get(id=post_id)
+        try:
+            favorite = Favorites.objects.get(user__id = user.id, post__id = posts.id)
+            favorite.delete()
+            return JsonResponse({"message":"success","choice":"delete"})
+        except:
+            favoriteForm = Favorites.objects.create(
+                
+                user = user,
+                post = posts,
+            )
+            favoriteForm.save()
+        return JsonResponse({"message":"success","choice":"add"})
+    return JsonResponse({"message":"not"})
+  
+
+def Search_Room(request):
+    if request.method == 'POST':
+        keyword = request.POST['search_keyword']
+        print("keyword:",keyword)
+        users = Profile.objects.order_by("-user").filter(user__username__icontains=keyword).values()
+        username = User.objects.order_by("-username").filter(username__icontains=keyword).values()
+        context = {
+            "room_users":users
+        }
+        # return render(request,'feed/homepage.html',context)
+        return JsonResponse({"message":"success","room_users":list(users),"username":list(username)})
+    return JsonResponse({"message":"not"})
+
 def delete_comment(request):
     user = request.user
     if request.method == 'POST':
@@ -288,6 +324,8 @@ def update_comment(request):
             messages.success(request,"Your Comment Updated SuccessFully")
             return JsonResponse({"message" : "success"})
     return JsonResponse({"message" : "not"})
+
+
     
 def updatePost(request):
     user = request.user
@@ -318,6 +356,7 @@ def updatePost(request):
 
 
 
+
 #Notification user has seen will be enabled after clicking on posts and user profile  
 def post_notification(request,notification_pk,post_pk):
     notification = Notification.objects.get(pk = notification_pk)
@@ -335,17 +374,4 @@ def user_profile_notification(request,notification_pk,user_pk):
 
     return redirect('profiles:detail', username=user.username)
 
-def thread_message_notification(request,notification_pk,object_pk):
-    
-    notification = Notification.objects.get(pk = notification_pk)
-    thread = ThreadModel.objects.get(pk = object_pk)
-    messages = MessageModel.objects.filter(thread = object_pk,is_read = False)
-    # print("message from notification:",message.body)
-    for message in messages:
-        message.is_read = True
-        message.save()
-        print("messages from loop:",message.body)
-    notification.user_has_seen = True
-    notification.save()
-    
-    return redirect('profiles:thread', pk = object_pk)
+

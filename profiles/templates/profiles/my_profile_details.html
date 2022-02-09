@@ -40,6 +40,7 @@
                          
                              
                             </div>
+                             
                            {% if request.user == user %}
                         
                             <a href="{% url 'profiles:update' user.id %}">
@@ -95,19 +96,24 @@
                                 <span id="followers" class="font-bold px-1">{{total_following}} </span>Following
                             </span>
                         </div>
+                        <div class="text-left pl-4 pt-3">
+                            <span class="text-base text-gray-700 mr-2 capitalize">{{user.profile.bio}}</span>
+                        </div>
     
                         <div class="text-left pl-4 pt-3">
-                            <span class="text-base font-bold text-gray-700 mr-2 capitalize">{{user.profile.country}}</span>
-                            <span class="text-base font-bold text-gray-700 mr-2 capitalize">{{user.profile.place}}</span>
+                            
+                            {% if user.profile.country != 'None' %}
+                                <span class="text-base font-bold text-gray-700 mr-2 capitalize">{{user.profile.country}}</span>
+                            {% endif %}
+                            
+                            {% if user.profile.place != 'None' %}
+                                <span class="text-base font-bold text-gray-700 mr-2 capitalize">{{user.profile.place}}</span>
+                            {% endif %}
+                                    
                         </div>
     
                         <div class="text-left pl-4 pt-3 px-2">
-                              <p
-                                class="text-base text-gray-700 text-xl mr-2 font-semibold uppercase">{{profile_name}}</span>     
-                              </p>
-                              <p
-                              class="text-base text-gray-700 text-base mr-2">{{user.profile.bio}}</span>     
-                            </p>
+                            <!-- <p class="text-base text-gray-700 text-xl mr-2 font-semibold uppercase">{{profile_name}}</span></p> -->
                             <p class="text-base font-medium text-blue-700 mr-2 mt-2">#graphicsdesigner #traveller #reader
                                 #blogger #digitalmarketer</p>
                             <a href="mailto:{{user.email}}"><p class="text-base font-medium text-blue-500 mr-2 break-words">{{user.email}}</p></a>
@@ -121,36 +127,31 @@
                 </div>
     
                 <!--status show icon-->
-    
+                <div class="text-xl font-semibold text-gray-700 mr-2">Highlights</div>
                 <div class="flex text-left pl-4 pt-3 px-3">
-                    <div class="text-center px-0 md:px-4 py-2 mx-1 md:mx-4">
-                        <div
-                            class="shadow-xl mx-auto w-16 h-16 md:w-20 md:h-20  border-white rounded-full overflow-hidden border-4">
-                            <img class="object-cover h-full"
-                                src="https://images.unsplash.com/photo-1502164980785-f8aa41d53611?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80" />
-                         
-                        </div>
-                        <h1 class="text-base font-semibold text-gray-900">Fun</h1>
-                    </div>
-    
-                    <div class="text-center px-0 md:px-4 py-2 mx-1 md:mx-4 ">
-                        <div
-                            class="shadow-xl mx-auto w-16 h-16 md:w-20 md:h-20  border-white rounded-full overflow-hidden border-4">
-                            <img class="object-cover h-full"
-                                src="https://images.unsplash.com/photo-1456415333674-42b11b9f5b7b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80" />
-                        </div>
-                        <h1 class="text-base font-semibold text-gray-900">Travel</h1>
-                    </div>
-    
-                    <div class="text-center px-0 md:px-4 py-2 mx-1 md:mx-4">
-                        <div
-                            class="shadow-xl mx-auto w-16 h-16 md:w-20 md:h-20 border-white rounded-full overflow-hidden border-4">
-                            <img class="object-cover  h-full"
-                                src="https://images.unsplash.com/photo-1494972308805-463bc619d34e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1052&q=80" />
-                        </div>
-                        <h1 class="text-base font-semibold text-gray-900">Food</h1>
-                    </div>
-    
+                    
+                    
+                    {% if favorites %}
+                        
+                        {% for favorite in favorites %}
+                            <div class="text-center px-0 md:px-4 py-2 mx-1 md:mx-4">
+                                <div class="shadow-xl mx-auto w-16 h-16 md:w-20 md:h-20  border-white rounded-full overflow-hidden border-4">
+                                    <a href="{% url 'feed:detail' favorite.post.id %}">
+                                    <img class="object-cover h-full rounded-full"
+                                        src="{{favorite.post.photo.url}}" />
+
+                                    </a>
+                                </div>
+                                <h1 class="text-base font-semibold text-gray-900">{{favorite.post.text}}</h1>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="text-sm font-semibold text-gray-700 mr-2">Add Your Highlighted Moments Here From Your Posts</div>
+                            
+                    {% endif %}
+                        
+<!--     
+            
     
                 </div>
     

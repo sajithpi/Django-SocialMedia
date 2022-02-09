@@ -8,6 +8,7 @@ class ProfileAdmin(admin.ModelAdmin):
 class ThreadModelAdmin(admin.ModelAdmin):
     list_display = ['user','receiver']
 
+
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(ThreadModel,ThreadModelAdmin)
 admin.site.register(MessageModel)

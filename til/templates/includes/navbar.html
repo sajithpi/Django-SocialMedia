@@ -86,26 +86,7 @@
                     </div>
                 </div>
                     <!-- Message -->
-                    <div x-data="{ dropdownOpen: false }" class="relative my-36  pr-1 md:pr-4">
-                        <button @click="dropdownOpen = !dropdownOpen" class="relative flex-shrink-0 pt-1 border-transparent text-gray-700 rounded-full hover:text-gray-600 focus:outline-none">
-                            <i class='bx bxs-paper-plane text-indigo-500 text-xl md:text-2xl'></i>
-                            <span class="absolute inset-0 object-left-top -ml-6">
-                                <div class="inline-flex items-center px-0.5 py-0 border-2 border-white rounded-full text-xs font-semibold leading-4 bg-red-500 text-white">
-                                 {{new_messages_count}}
-                                </div>
-                              </span>
-                        </button>
-                     
-                      
-                        <div x-show="dropdownOpen" @click="dropdownOpen = false" class="fixed inset-0 h-full w-full z-10"></div>
-                      
-                        <div x-show="dropdownOpen" class="absolute right-0 mt-2 py-2 w-64 pl-8 md:pl-0 md:w-80 bg-white rounded-md shadow-xl z-50 ">
-                          {% show_message_notifications %}
-                          </a>
-                          
-                        </div>
-                      
-                    </div>
+                 
                     <!-- <button
                     class="flex-shrink-0 pr-0.5 md:pr-4 border-transparent text-gray-700 rounded-full hover:text-gray-600 focus:outline-none "
                     aria-label="Notifications">

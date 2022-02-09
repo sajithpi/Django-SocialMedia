@@ -347,7 +347,38 @@ $(document)
   $(".js-update-model").addClass("hidden")
 })
 
+.on("click",".favorite-icon",function(e){
+  e.preventDefault()
+  console.log("clicked favorites")
+  const post_id = $(this).attr('id')
+  console.log("post_id:",post_id)
+  const url = $(this).attr('href')
+  const favIcon = document.getElementById(`favorite-icon${post_id}`)
+  console.log("url:",url)
+  $.ajax({
+    type:'POST',
+    url:url,
+    dataType:'JSON',
+    data:{
+      'post_id':post_id
+    },
+    success:function(response){
+      if(response.message == 'success'){
+        if(response.choice == 'add'){
+          console.log("Added to favorites successfully")
+          favIcon.innerHTML = `<i class='bx bxs-star text-blue-500'></i>`
+        }else if(response.choice == 'delete'){
+          console.log("Deleted From Favorites SuccessFully")
+          favIcon.innerHTML = `<i class='bx bx-star text-blue-500'></i>`
+        }
+      }
+      else{
+        console.log(response.message)
+      }
+    }
 
+  })
+})
 
 
 

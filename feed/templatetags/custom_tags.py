@@ -15,10 +15,5 @@ def show_notifications(context):
 
     return {"notifications":notifications}
 
-@register.inclusion_tag('feed/show_message_notification.html', takes_context=True)
-def show_message_notifications(context):
-    request_user = context['request'].user
-    print("request_user:",request_user)
-    notifications = Notification.objects.filter(to_user = request_user,message__is_read = False).order_by('-date')
-    return {"notifications":notifications}
+
 

@@ -18,9 +18,10 @@ urlpatterns = [
     path("update/",views.updatePost,name="update"),
     path("search/",views.FindFriends.as_view(),name="search"),
     path("comment/",views.Comment_post,name="comment"),
+    path("favorites/",views.AddFavorites,name="add_to_favorites"),
+    path('search_rooms/',views.Search_Room,name="search_room"),
     path("notification/<int:notification_pk>/post/<int:post_pk>",views.post_notification,name="post_notification"),
     path("notification/<int:notification_pk>/user_profile/<str:user_pk>",views.user_profile_notification,name="user_profile_notification"),
-    path("notification/<int:notification_pk>/messages/<int:object_pk>",views.thread_message_notification,name="thread_message_notification"),
     path("delete_comment/",views.delete_comment,name="delete_comment"),
     path("update_comment/",views.update_comment,name="update_comment"),
    

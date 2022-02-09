@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-homepage 22222
 
 {% block title %}
     Find Friends
@@ -13,20 +12,6 @@ homepage 22222
   <div class=" z-20 max-w-screen-2xl">
     
     {% if request.user.is_authenticated %}
-
-        <h1 class="pt-3 text-indigo-500 mx-7 md:mx-56 text-sm md:text-3xl invisible ">Find Friends</h1>
-        <!-- component -->
-        <!-- <form action="{% url 'feed:search' %}" method="get" >
-        <div class="w-full h-10  bg-white border rounded-full flex justify-between items-center relative mx-1 pl-3  pr-2">
-        
-                <input type="search" name="keyword" id="search" placeholder="Search"
-                    class="w-full outline-none focus:outline-none active:outline-none "/>
-                <button type="submit" class=" outline-none focus:outline-none active:outline-none self-center">
-                    <i class='bx bx-search-alt-2' ></i>
-                </button>
-        
-        </div>
-        </form> -->
             
             {% if user_details %}
                 <h3 class="pb-3 text-base md:text-2xl  mx-1">Search Results for <span class="capitalize font-bold">{{keyword}}</span></p>

@@ -12,6 +12,7 @@ class Chat(models.Model):
     count = 0
 
     content = models.CharField(max_length=1555,null=True)
+    photo = models.ImageField(upload_to="uploads/message_photos", blank = True, null = True)
     timestamp = models.DateTimeField(auto_now=True)
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name="+")
     receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name="+")
