@@ -52,7 +52,7 @@ class Room(LoginRequiredMixin, View):
            
         if RoomChat.objects.filter(sender = request.user.username, receiver = receiver):
                 room = RoomChat.objects.filter(sender=request.user.username,receiver=receiver).first()
-                chats = Chat.objects.filter(room=room)
+                chats = Chat.objects.filter(room=room).order_by("-timestamp")
                 room_name = room.id
                 # unread_message = Chat.objects.filter(room=room).last()
                 unread_message = Chat.objects.filter(room=room,is_read=False)
@@ -70,7 +70,7 @@ class Room(LoginRequiredMixin, View):
                
         elif RoomChat.objects.filter(sender = receiver,receiver = request.user):
                 room = RoomChat.objects.filter(sender = receiver,receiver = request.user.username).first()
-                chats = Chat.objects.filter(room=room)
+                chats = Chat.objects.filter(room=room).order_by("-timestamp")
                 room_name = room.id
                 room_profile = RoomChat.objects.get(id=room.id)
                 unread_message = Chat.objects.filter(room=room,is_read=False)
@@ -157,8 +157,9 @@ def Send_Image(request,room_name):
             sender = sender,
             receiver = receiver,
             photo = photo,
-            room = room_id
+            room = room_id,
+            is_read = False,
         )
         chat.save()
-        return JsonResponse({"message":"success","current_sender":request.POST.get("sender"),"receiver":request.POST.get("receiver"),"sender_avatar":sender.profile.image})
+        return JsonResponse({"message":"success","current_sender":request.POST.get("sender"),"receiver":request.POST.get("receiver"),"sender_avatar":sender.profile.image.url})
     return JsonResponse({"message":"not"})

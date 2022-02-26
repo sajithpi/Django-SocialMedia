@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load thumbnail %}
 homepage 
 
 {% block title %}
@@ -17,13 +18,111 @@ homepage
     <div class="fixed top-0 left-0 right-0 z-50 ">
       {% include 'includes/navbar.html' %}
     </div>
-    <div class="flex mt-24 z-50 max-w-md md:max-w-7xl ">
-      <div id="posts-container " class="mx-0.5  lg:mx-7">
-          {% for post in posts  %}
+    <div class="flex mt-20 z-50 max-w-md md:max-w-7xl ">
+      <div  class="mx-0.5  lg:mx-7">
+        
+        <!-- Stories -->
+
+          <div class="stories mt-24 bg-white px-5 py-3 rounded border border-gray-400 flex mb-6">
+              <!-- <div class="js-story-icon">
+               <i class='bx bx-plus'></i>
+              </div> -->
               
-                    {% include 'includes/post.html' with post=post  comment_form=comment_form profile=profile show_detail_link=True show_comment_list=False %}
-    
-          {% endfor %}
+              {% if stories %}
+                  
+                  {% for story in stories %}
+                    <div class="storie-item flex flex-col mr-6 flex flex-col items-center space-y-1 relative">
+                      <div class="rounded-full p-1 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 ">
+                        <div class="rounded-full bg-white wrapper overflow-hidden h-14 w-14 ">
+                          <button>
+                            <a class="story-icon" id={{story.id}}>
+                              
+                              {% thumbnail story.author.profile.image "51x51" crop="center" as img %}
+                                <img id="story-icon{{story.id}}" src="{{ img.url }}"class="object-scale-down rounded-full border-solid border-white border-2">
+                              {% endthumbnail %}
+                          
+                              <input  hidden id="story-caption{{story.id}}" type="text" value="{{story.text}}">
+                              <input  hidden id="story-author-name{{story.id}}" type="text" value="{{story.author.username}}">
+                              <input  hidden id="story-author-img{{story.id}}" type="text" value="{{user.profile.image.url}}">
+                              <input  hidden id="story-time{{story.id}}" type="text" value="{{story.created_time | time:'i\m' }} ago">
+                              <input  hidden id="story-duration{{story.id}}" type="text" value="{{ story.created_time |timeuntil:story.created_time }}">
+                              
+                            </a>
+                          </button>
+                        </div>
+                      </div>
+                 
+                      {% if forloop.first %}
+
+                          <button class="js-story-icon absolute bottom-8 right-1 bg-purple-800 rounded-full h-5 w-5 text-2xl
+                                text-white font-semibold border-2 border-white flex justify-center items-center font-mono hover:bg-blue-700">
+                                +
+                          </button>
+
+                          <div class="user-name text-center pt-1">
+                              <span class="text-gray-700 text-sm">
+                                  Your Story
+                              </span>
+                          </div>
+                      {% else %}
+
+                          <div class="user-name text-center pt-1">
+                            <span class="text-gray-700 text-sm">
+                              
+                              {% if story.author != request.user %}
+                                
+                              {% endif %}
+                                
+                                {{story.author}}
+                            </span>
+                          </div>
+                      {% endif %}
+                    </div>
+                  {% endfor %}
+                    
+              {% endif %}
+          
+          <!-- <div class="storie-item flex flex-col mr-6 flex flex-col items-center space-y-1 relative">
+                <div class="rounded-full p-1 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
+                  <div class="rounded-full bg-white wrapper overflow-hidden h-14 w-14">
+                    <img src="https://scontent-nrt1-1.cdninstagram.com/v/t51.2885-19/s150x150/119515245_239175997499686_2853342285794408974_n.jpg?_nc_ht=scontent-nrt1-1.cdninstagram.com&_nc_ohc=KDVS6kR76AYAX9tg6_K&oh=81ca965572b7c99626143aacdd38c3ce&oe=5F94DE5B" class="-full h-full object-contain p-2" alt="">
+                  </div>
+                </div>
+                <button class="absolute bottom-8 right-1 bg-purple-800 rounded-full h-5 w-5 text-2xl
+                        text-white font-semibold border-2 border-white flex justify-center items-center font-mono hover:bg-blue-700">
+                        +
+                </button>
+                <a href="#">
+                  Your Story
+                </a>
+          </div> -->
+                
+			
+				  </div>
+          <div id="posts-container" >
+            {% if posts %}
+              {% for post in posts  %}
+                  
+                        {% include 'includes/post.html' with post=post  comment_form=comment_form profile=profile show_detail_link=True show_comment_list=False %}
+        
+              {% endfor %}
+            {% else %}
+              <div class="max-w-3xl mx:4 md:mx-36 lg:mx-72">
+                <span class="text-sm md:text-lg font-bold ">No Posts For you</span>
+                <div class="mx-auto text-sm md:text-base">Do you like to post something?</div>
+                <button
+                      class="flex-shrink-0 pr-0.5 md:pr-4 border-transparent text-gray-700 rounded-full hover:text-gray-600 focus:outline-none "
+                      aria-label="Notifications">
+                          <a href="{% url 'feed:new_post' %}"
+                          class="js-model-icon flex flex-col md:flex-row items-center h-12 text-gray-500 hover:text-gray-800 ">
+                          <span class="inline-flex items-center content-start md:content-center  h-12 w-7  text-gray-400"><i
+                              class="bx bx-message-alt-add text-indigo-500 text-xl md:text-2xl"></i></span>
+                      
+                          </a>
+                </button>
+              </div>
+            {% endif %}
+        </div>
       </div>
       <div class="p-0 md:p-3 border-2 max-h-screen sticky top-24 right-0 bg-gray-100 shadow-lg">
         

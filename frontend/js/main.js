@@ -31,8 +31,6 @@ $.ajaxSetup({
 const txt = document.getElementById("id_text");
 const photo = document.getElementById("id_photo");
 const alertBox = document.getElementById("alert-box");
-const imgbox = document.getElementById("img-box");
-const imgboxUp = document.getElementById("img-box-update")
 const liketext = document.getElementById("js-like-text");
 const likebox = document.getElementById("like-box");
 const handleAlerts = (type, text, color) => {
@@ -45,73 +43,29 @@ const handleAlerts = (type, text, color) => {
     </div>
   </div>`;
 };
-var url = "";
-var img_data = "";
-var file = "";
-let photos = document.getElementById("id_photo");
+// Forms For Store Datas
 const fd = new FormData();
 const updateForm = new FormData();
-// TODO:Photo listener
-photos.addEventListener("change", function (e) {
-  e.preventDefault();
-  img_data = photos.files[0];
-  url = URL.createObjectURL(img_data);
-  console.log(url);
-  const reader = new FileReader();
-  reader.addEventListener(
-    "load",
-    function () {
-      console.log(reader.result);
-    },
-    false
-  );
-
-  if (file) {
-    reader.readAsDataURL(img_data);
-  }
-  imgbox.src = `${url}`;
-  fd.append("photo", photos.files[0]);
-});
-
-// TODO:Update form photo listener
-
-let UpPhotos = document.getElementById("id_update_photo")
-
-UpPhotos.addEventListener("change", function (e) {
-  e.preventDefault();
-  img_data = UpPhotos.files[0];
-  url = URL.createObjectURL(img_data);
-  console.log(url);
-  const reader = new FileReader();
-  reader.addEventListener(
-    "load",
-    function () {
-      console.log(reader.result);
-    },
-    false
-  );
-
-  if (file) {
-    reader.readAsDataURL(img_data);
-  }
-  imgboxUp.src = `${url}`;
-  updateForm.append("photo", UpPhotos.files[0]);
-  console.log("image url from photo listener:",UpPhotos.files[0])
-});
+let story_form = new FormData(); 
 
 
+// Photo Listener For Update Post Photo
+let photos = "id_update_photo"
+let imgbox = "img-box-update"
+type = 'update_post'
+PhotoListener(photos,imgbox,type)
 
 
-
-
-
-
-  
 $(document)
 .on("click", ".js-model-icon", function (e) {
   e.preventDefault();
   console.log("I was clicked");
   $(".js-model").toggleClass("hidden");
+  // Photo Listener For Photo Uploading
+  let photos = "id_photo"
+  let imgbox = "img-box"
+  type = 'post'
+  PhotoListener(photos,imgbox,type)
 })
 $(document)
   .on("click", ".js-toggle-model-cancel", function (e) {
@@ -326,7 +280,7 @@ $(document)
 .on("click",".update-icon",function(e){
   e.preventDefault()
   $(".js-update-model").toggleClass("hidden")
-
+    // TODO:Update form photo listener
   console.log("clicked update")
   const post_id = $(this).attr('id')
   const post_des = $(`.post-text${post_id}`).text()
@@ -342,9 +296,10 @@ $(document)
   imgbox.src = post_img
 
 })
-.on("click",".js-toggle-update",function(e){
+.on("click",".js-toggle-update-cancel",function(e){
   e.preventDefault()
   $(".js-update-model").addClass("hidden")
+
 })
 
 .on("click",".favorite-icon",function(e){
@@ -526,13 +481,15 @@ $(".comment-form").submit(function(e){
 
 
 // TODO:Update Button
+$(document)
 .on("click",".js-update-post",function(e){
   e.preventDefault();
   console.log("clicked");
   const post_id = document.getElementById("postId").value
   const imgbox = document.getElementById("img-box-update").src
-  const post_des = document.getElementById("post-updateText").value
-  const post_img = document.getElementById(`postImg${post_id}`).src
+  let post_des = document.getElementById("post-updateText").value
+  console.log("post description:",post_des)
+  let post_img = document.getElementById(`postImg${post_id}`)
   const url = $(".js-post-textUpdate").data("url") 
   console.log("post_id value from update button:",post_id)
   console.log("post_img value from update button:",imgbox)
@@ -555,7 +512,7 @@ $(".comment-form").submit(function(e){
           document.getElementById(`post-text${post_id}`).textContent =  post_des
            console.log("img src:","http://127.0.0.1:8000/media/"+response.photourl)
            
-            document.getElementById(`postImg${post_id}`).src = "http://127.0.0.1:8000/media/"+response.photourl
+           post_img.src = "http://127.0.0.1:8000/media/"+response.photourl
           
           console.log("Updated successfully")
           setTimeout(() => {
@@ -637,3 +594,203 @@ $(".comment-form").submit(function(e){
 setTimeout(function(){
   $('#message').fadeOut('slow')
 }, 1000)
+
+
+
+
+
+
+$(document)
+.on("click", ".js-story-icon", function (e) {
+  e.preventDefault();
+  console.log("I was clicked");
+  $(".js-story-model").toggleClass("hidden");
+  let image = "id_photos";
+  const image_preview = "img-preview"; 
+  type = "story"
+  PhotoListener(image,image_preview,type)
+
+})
+$(document)
+  .on("click", ".js-story-model-cancel", function (e) {
+    e.preventDefault();
+    console.log("I was clicked");
+    $(".js-story-model").addClass("hidden");
+  })
+
+
+
+  // TODO:Add Story
+.on("click", ".js-story-submit", function (e) {
+  e.preventDefault();
+  const text = $(".js-story-text").val().trim();
+  const imgLength = $(".js-story-photo").val();
+  let image_preview = document.getElementById('img-preview')
+  const $btn = $(this);
+  console.log(text);
+  if (!imgLength.length) {
+    handleAlerts("Danger", "Please upload any image", "red");
+    return false;
+  }
+  if (!text.length) {
+    handleAlerts("Danger", "Please fill the photo description", "red");
+    return false;
+  }
+
+  story_form.append("text", text);
+
+  // TODO:Photo
+
+  $btn.prop("disabled", true).text("Posting!");
+  $.ajax({
+    type: "POST",
+    url: $(".js-story-text").data("post-url"),
+    enctype: "multipart/form-data",
+    data: story_form,
+    success:function(response){
+
+      if(response.message === 'success'){
+
+        console.log("success")
+        $("#posts-container").prepend(response);
+        $btn.prop("disabled", false).text("Create Post");
+  
+        handleAlerts("success", "Succesfully saved", "green");
+        setTimeout(() => {
+          alertBox.innerHTML = "";
+          $(".js-story-text").val("");
+          photos.value = "";
+          image_preview.innerHTML = "";
+          image_preview.src = "";
+          $(".js-story-model").addClass("hidden");
+        }, 500);
+      }
+      else {
+      console.warn(error);
+      $btn.prop("disabled", false).text("Error");
+      handleAlerts("Danger", "Something went wrong", "red");
+    }
+  },
+  cache: false,
+  contentType: false,
+  processData: false,
+  });
+})
+
+
+
+// Showing Story in View
+.on("click",".story-icon",function(e){
+  e.preventDefault()
+  $(".js-story-view-model").toggleClass("hidden")
+  const story_id = $(this).attr('id')
+  let story_author = document.getElementById(`story-author-name${story_id}`).value
+  let story_author_image = document.getElementById(`story-author-img${story_id}`).value
+  console.log("story author:",story_author)
+
+  let story_image_view = document.getElementById('story-image')
+  let story_caption_view = document.getElementById('story-caption')
+  let story_user_view = document.getElementById('story-user')
+  let url = $('#story-caption').data('story-seen-url')
+  console.log("story id:",story_id)
+  console.log("url:",url)
+  console.log("clicked")
+
+  $.ajax({
+    type : 'POST',
+    url:$("#story-caption").data('story-seen-url'),
+    data:{
+      'story_id':story_id,
+      'story_author':story_author,
+
+    },
+    success:function(response){
+      if(response.message === 'success'){
+        console.log("success")
+        // console.log(response.story)
+        console.log(response.count)
+        for(let i = 0; i < response.count; i ++){
+        
+          setTimeout(()=>{
+            console.log(response.story[i])
+            console.log(response.story[i].text)
+            // Finding Time Difference
+
+            timeDifference(response.story[i].created_time.slice(0,19))
+
+            console.log("photo:",response.story[i].photo)
+            story_image_view.src = 'media/'+response.story[i].photo
+            story_user_view.src = story_author_image
+            story_caption_view.textContent = response.story[i].text
+          },5000 * i)
+        }
+
+      }
+      else{
+        console.log("not")
+      }
+    }
+   
+  })
+})
+.on("click","#story-view-cancel",function(e){
+  e.preventDefault()
+  $('.js-story-view-model').addClass('hidden')
+})
+
+
+// Function Used To Find the status time difference
+function timeDifference(d){
+  let date = new Date(d)
+  let today = new Date()
+  let story_time_view = document.getElementById('story-time')
+  var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
+  var created_time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
+  var diffHour = Math.abs(today.getHours() - date.getHours() ) 
+  var diffMinute = Math.abs(today.getMinutes() - date.getMinutes())
+  if(diffHour > 0){
+    story_time_view.textContent = diffHour + 'h:' + diffMinute + 'm ago'
+  }else{
+    story_time_view.textContent =  diffMinute + ' ago'
+  }
+}
+
+
+ // Function For Story Image Listener
+function PhotoListener(image_id,image_preview_id,type){
+ 
+var url = "";
+var img_data = "";
+var file = "";
+let image = document.getElementById(image_id);
+const image_preview = document.getElementById(image_preview_id);
+
+// TODO:Photo listener
+image.addEventListener("change", function (e) {
+  e.preventDefault();
+  img_data = image.files[0];
+  url = URL.createObjectURL(img_data);
+  console.log(url);
+  const reader = new FileReader();
+  reader.addEventListener(
+    "load",
+    function () {
+      console.log(reader.result);
+    },
+    false
+  );
+
+  if (file) {
+    reader.readAsDataURL(img_data);
+  }
+  image_preview.src = `${url}`;
+  if(type === 'story')
+    story_form.append("photo", image.files[0]);
+  else if(type === 'post'){
+    fd.append("photo", image.files[0]);
+  }
+  else if(type === 'update_post'){
+    updateForm.append("photo", image.files[0]);
+  }
+});
+}

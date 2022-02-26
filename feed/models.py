@@ -1,4 +1,3 @@
-from distutils.command.upload import upload
 from django.db import models
 from django.contrib.auth.models import User
 from django.forms import IntegerField
@@ -29,12 +28,15 @@ class Post(models.Model):
     def total_like(self):
         return self.likes.all().count()
 
-    
+
 STATUS =  (
         ('Like','Like'),
         ('Dislike','Dislike'),
     )
 
+
+     
+    
 class Like(models.Model):
     user = models.ForeignKey(User,on_delete=CASCADE)
     post = models.ForeignKey(Post,on_delete=CASCADE)
@@ -43,6 +45,19 @@ class Like(models.Model):
     def __str__(self):
        return str(self.post) 
 
+class Stories(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.CharField(max_length=55,blank=True)
+    created_time = models.DateTimeField(auto_now=True)
+    photo = ImageField(upload_to="uploads/stories")
+    viewers = models.ManyToManyField(User, related_name="viewers")
+   
+    def __str__(self):
+        return str(self.author.username + ' ') + str('- ' + self.text)
+
+
+
+ 
 class Comment(models.Model):
     
     user = models.ForeignKey(Profile,on_delete=CASCADE)

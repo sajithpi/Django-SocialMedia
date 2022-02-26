@@ -1,5 +1,7 @@
+from ast import Store
 from email import message
-from turtle import pos
+from turtle import pos, st
+from django import views
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, request 
 from django.http.response import HttpResponseBadRequest, JsonResponse,HttpResponse
@@ -10,7 +12,7 @@ from django.views.generic.edit import CreateView, UpdateView
 from django.contrib import messages
 from profiles.models import MessageModel, Profile, ThreadModel
 from feed.models import Favorites
-from .models import Comment, Notification, Post,Like
+from .models import Comment, Notification, Post,Like, Stories
 from django.db.models import Q
 from chat.models import Chat, RoomChat
 from django.shortcuts import get_object_or_404, redirect, render
@@ -46,16 +48,30 @@ class HomePage(TemplateView):
         comment_form = CommentForm()
         posts= Post.objects.all().order_by('-id')[0:30]
         profile= Profile.objects.get(user=self.request.user)
+        user = User.objects.get(id=self.request.user.id)
+        try:
+            stories = Stories.objects.order_by('author')
+            for story in stories:
+                hour = story.created_time.hour
+                story = Stories.objects.get(id=story.id)
+                if hour > 24 :
+                     story.delete()
+                     print("Story Time Exeeded 1 Day")
+        except Stories.DoesNotExist:
+            pass
 
         # Fetching chat History
-        rooms = RoomChat.objects.filter(Q(sender =self.request.user.username) | Q(receiver = self.request.user.username))
-        chats = []
-        for room in rooms:
-            chat = Chat.objects.filter(room = room).last()
-            chats.append(chat)
-            
-        for i in chats:
-            print(i.content)
+        try:
+            rooms = RoomChat.objects.filter(Q(sender =self.request.user.username) | Q(receiver = self.request.user.username))
+            chats = []
+            for room in rooms:
+                chat = Chat.objects.filter(room = room).last()
+                chats.append(chat)
+                
+            for i in chats:
+                print(i.content)
+        except:
+            pass
     
         
         context['posts'] = posts
@@ -63,7 +79,7 @@ class HomePage(TemplateView):
         context['profile'] = profile
         context['rooms'] = rooms
         context['chats'] = chats
-        
+        context['stories'] = stories
         
         return context
 
@@ -145,6 +161,36 @@ class FindFriends(ListView):
             return context
 
 
+def addStory(request):
+    if request.method == 'POST':
+        image = request.FILES.get('photo')
+        description = request.POST.get('text')
+        user = User.objects.get(id = request.user.id)
+        print("text:",description)
+        print("image:",image)
+        print("username:",user.username)
+        stories = Stories.objects.create(
+            text = description,
+            photo = image,
+            author = user
+        )
+        stories.save()
+        return JsonResponse({"message":"success"})
+    return JsonResponse({'message':'not'})
+
+def View_story(request):
+    if request.method == 'POST':
+        story_id = request.POST.get('story_id')
+        story_author = request.POST.get('story_author')
+        print("story_id:",story_id)
+        print("story_author:",story_author)
+        story = Stories.objects.filter(author__username=story_author).values()
+        # print("story count:",story))
+        story_count = story.count()
+        user = User.objects.get(id= request.user.id)
+        # story.viewers.add(user)
+        return JsonResponse({'message':'success','story':list(story),'count':story_count})
+    return JsonResponse({"message":"not"})
 def Like_post(request):
     user = request.user
     if request.method == 'POST':
@@ -350,8 +396,9 @@ def updatePost(request):
     
 
         post_object.save()
+        print("photo object url:",post_object.photo)
         messages.success(request,"Your Post Updated SuccessFully")
-        return JsonResponse({"message":"Success","photourl":str(photo)})
+        return JsonResponse({"message":"Success","photourl":str(post_object.photo)})
     return JsonResponse({"message":"Wrong response"})
 
 

@@ -265,3 +265,6 @@ class CreateMessage(View):
         return redirect('profiles:thread', pk = pk)
 
 
+
+def welcome_email(request,username):
+    return render(request,'profiles/welcome_user_email.html')

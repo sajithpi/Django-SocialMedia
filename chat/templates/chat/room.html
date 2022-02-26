@@ -23,20 +23,20 @@ Chat Room
 <!-- Template -->
 
 <!-- component -->
-<div class="flex-1 p:2 sm:p-6 justify-between flex flex-col h-screen ">
+<div class="flex p:2 sm:p-6 justify-between flex flex-col h-screen max-w-screen-lg ">
    <div class="mx-32 md:mx-72 lg:mx-96"></div>
 
-    <div class="flex sm:items-center justify-between py-3 border-b-2 border-gray-200">
+    <div class="flex-none static sm:items-center justify-between py-3 border-b-2 border-gray-200">
        <div class="flex items-center space-x-4 ml-3">
-         <span class="text-xl md:text-4xl me-1"><a href="{% url 'chat:index' %}"><i class='bx bx-arrow-back'></i></a></span>
+         <span class="text-xl md:text-3xl me-1"><a href="{% url 'chat:index' %}"><i class='bx bx-arrow-back'></i></a></span>
           
          {% thumbnail received_user.profile.image "100x100" crop="center" as img %}
-            <img src="{{img.url}}" alt="user image" class="w-10 sm:w-16 h-10 sm:h-16 rounded-full border border-gray-100 m-0 shadow-sm">
+            <img id="user_dp" src="{{img.url}}" alt="user image" class="w-10 h-10  rounded-full border border-gray-100 m-0 shadow-sm">
          {% endthumbnail %}
         
           <div class="flex flex-col leading-tight">
              <div class="text-2xl mt-1 flex items-center">
-                <span class="text-gray-700 mr-3 text-xl md:text-2xl">{{received_user.username | capfirst }}</span>
+                <span class="text-gray-700 mr-3 text-lg md:text-xl">{{received_user.username | capfirst }}</span>
                 <span class="text-green-500">
                    <svg width="10" height="10">
                       <circle cx="5" cy="5" r="5" fill="currentColor"></circle>
@@ -50,7 +50,7 @@ Chat Room
     </div>
    
     <!-- Chat Log -->
-    <div id="chat-log" class="flex flex-col space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch">
+    <div id="chat-log" class="flex-auto  w-full h-24 flex-col space-y-1 px-3 self-end overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch">
      
         
        
@@ -58,22 +58,44 @@ Chat Room
      
        
        <!-- Reading Messages From data base -->
+       <div id="chat_list"class="flex flex-col-reverse h-full mt-3 border overflow-y-auto">
+
        
-         {% for chat in chats.all  %}
+         {% for chat in chats  %}
             {% if chat.content %}  
+       
+            <div class="text-center ">
+               {% ifchanged chat.timestamp.date %}
+                  <div class="my-3">
+                     <span class="bg-gray-300 border p-1 rounded-full text-xs md:text-sm">{{ chat.timestamp | date:"d F y"}}</span>
+                  </div>
+               {% endifchanged %}
+            </div>
                {% if chat.sender.id == request.user.id %}
 
                      {% if chat.photo %}
                               <div class="flex items-end justify-end">
-                                       <img src="{{chat.photo.url}}" alt="Photo Attachements" width="115" height="115">
+                                       <img class="w-22 h-16 md:w-48 md:h-32 mr-14" src="{{chat.photo.url}}" alt="Photo Attachements">
                               </div>
                      {% endif %}
-                     <div class="chat-message" >
-                       
+                     <div class="chat-message mb-1" >
+                      
                         
-                           <div class="flex items-end justify-end">
-                                 <div class="flex flex-col space-y-2 text-xs max-w-xs mx-10 md:-2 order-1 items-end">
-                                          <div><span class="px-4 py-2 rounded-lg inline-block rounded-br-none bg-blue-600 text-white ">{{chat.content}}</span></div>
+                           <div class="flex items-end justify-end bottom-0">
+                                 <div class="flex flex-col space-y-2 text-xs max-w-xs mx-1 md:-2 order-1 items-end">
+                                          <div><span class="px-4 py-2 rounded-lg inline-block rounded-br-none bg-blue-600 text-white ">{{chat.content}}</span>
+                                             <span>
+                                                <small>
+                                                   
+                                                   {% load tz %}
+                                                   {% timezone "Asia/Kolkata" %}
+                                                      {{chat.timestamp | time:"h:i:A"}}
+                                                   {% endtimezone %}
+                                                   
+                                             
+                                                </small>
+                                             </span>
+                                          </div>
                                  </div>
                                                    
                            </div>
@@ -82,21 +104,22 @@ Chat Room
                {% else %}
                            {% if chat.photo %}
                                  <div class="flex items-end">
-                                          <img src="{{chat.photo.url}}" alt="Photo Attachements" width="115" height="115">
+                                          <img class="w-22 h-16 md:w-48 md:h-32 ml-14" src="{{chat.photo.url}}" alt="Photo Attachements">
                                  </div>
                            {% endif %}
                                        
-                     <div class="chat-message">
+                     <div class="chat-message mb-1">
+                  
                         <!-- {{received_user.image.url}} -->
                               <div class="flex items-end">
 
                                        <div class="flex space-y-2 text-xs max-w-xs mx-2 order-2 items-start items-center">
-                                                <div>
+                                                <div class="mr-1">
                                                    {% thumbnail received_user.profile.image "100x100" crop="center" as img %}
                                                    <img src="{{ img.url }}" width="25" height="25" alt="received_user profile avatar rounded-full" class=" rounded-full"></div>
                                                    {% endthumbnail %}
                                                 
-                                             <div class="m-auto"><span class="px-4 py-2 rounded-lg inline-block bg-gray-300 text-gray-600">{{chat.content}}</span></div>
+                                             <div class="m-auto"><span class="px-2 py-2 rounded-lg inline-block bg-gray-300 text-gray-600">{{chat.content}}</span></div>
                                        </div>
                                                    
                               </div>
@@ -104,7 +127,7 @@ Chat Room
                {% endif %}
             {% endif %}
         {% endfor %}
-       
+      </div>
        
        
        
@@ -113,7 +136,7 @@ Chat Room
   
     </div>
     <!-- Chat Buttons -->
-    <div class="border-t-2 border-gray-200 px-1 md:px-4 pt-0.5 md:pt-4 mb-0 md:mb-2 sm:mb-0">
+    <div class="border-t-2 border-gray-200 px-1 md:px-4 pt-0.5 md:pt-4 mt-4 mb-0 md:mb-2 sm:mb-0">
        <div class=" flex items-center">
        
       
@@ -148,7 +171,7 @@ Chat Room
  </div>
  
          <!-- TODO:Upload Post -->
-         <div class="min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-40 outline-none focus:outline-none bg-no-repeat bg-center bg-cover  js-sendphoto-model"  id="modal-id">
+         <div class="min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-40 outline-none focus:outline-none bg-no-repeat bg-center bg-cover hidden js-sendphoto-model"  id="modal-id">
             <div class="absolute bg-black opacity-75 inset-0 z-0 w-100"></div>
             <div class="relative mx-auto my-auto rounded-xl shadow-lg  bg-white  w-fit h-auto md:w-2/5 p-1 md:p-3 ">
             <!--content-->
@@ -165,7 +188,7 @@ Chat Room
                         <!-- <div id="img-box"  class="w-1/2 h-12 md:h-1/4 md:w-1/2 relative mx-auto"></div> -->
                         <img id="img-send-box"  alt="Upload Photo" class="w-22 h-16 md:w-48 md:h-32 border relative mx-auto ext-xs md:text-sm "></img>
                       
-                      <textarea class="js-message-text  text-xs md:text-sm border-2 border-blue-500 mt-2 md:mt-4 w-3/5 h-9 md:h-11"  rows="2" placeholder="Post Description" maxlength="255"  required id="id_text" data-message-url="{% url 'chat:send_image' received_user.username  %} " ></textarea>
+                      <textarea class="js-message-text  text-xs md:text-sm border-2 border-blue-500 mt-2 md:mt-4 w-3/5 h-9 md:h-11"  rows="2" placeholder="Message Text" maxlength="255"  required id="id_text" data-message-url="{% url 'chat:send_image' received_user.username  %} " ></textarea>
                               
                         
                   </div>
@@ -176,7 +199,7 @@ Chat Room
                                 md-py-2 border-b-2 border-green-500 shadow-sm font-medium tracking-wider border 
                                 rounded-full hover:shadow-lg hover:bg-gray-100 mr-2 hover:border-green-600 hover:bg-green-500 hover:text-white
                                 shadow-md inline-flex text-xs md:text-sm mr-2">
-                                Create Post
+                                Send Message
                   
                   </button>
                   

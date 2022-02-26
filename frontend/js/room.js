@@ -24,7 +24,16 @@ chatSocket.onmessage = function(e) {
     const user_id = data['user_id']
     const logged_in_id = JSON.parse(document.getElementById('user_id').textContent)
     const user_avatar = JSON.parse(document.getElementById('user_avatar').textContent)
-    
+    var imgBox = document.getElementById("user_dp");
+    // Getting current time
+    var time = new Date()
+    var hours = time.getHours()
+    var minute = time.getMinutes()
+    let AmPm = hours > 12 ? 'PM' : 'AM'
+    hours = hours % 12 
+    hours = hours ? hours : 12
+    minute = minute.toString().padStart(2,'O')
+    let strTime = hours + ':' + minute + '' + AmPm
  
 
     // messageElement.innerText = data.message
@@ -36,8 +45,19 @@ chatSocket.onmessage = function(e) {
         messageElement.classList.add('message','sender')
         messageElement.innerHTML = `
         <div class="flex items-end justify-end">
-            <div class="flex flex-col space-y-2 text-xs max-w-xs mx-7 order-1 items-end">
-                    <div><span class="px-4 py-2 rounded-lg inline-block rounded-br-none bg-blue-600 text-white ">${data.message}</span></div>
+            <div class="flex flex-col space-y-2 text-xs max-w-xs mx-1 order-1 items-end">
+                    <div><span class="px-4 py-2 rounded-lg inline-block rounded-br-none bg-blue-600 text-white ">${data.message}</span>
+                    <span>
+                    <small>
+                       
+                  
+                        ${strTime}
+                   
+                   
+                 
+                    </small>
+                 </span>
+                    </div>
             </div>
                         
         </div>  
@@ -47,9 +67,9 @@ chatSocket.onmessage = function(e) {
         messageElement.classList.add('message','receiver')
         messageElement.innerHTML = `
         <div class="flex items-end">
-            <div class="flex space-y-2 text-xs max-w-xs order-2 items-start items-center">
-                <div><img src="${user_avatar}" alt="received_user profile avatar" class="rounded-full avatar w-7 h-7 object-cover"></div>
-                <div class="m-auto"><span class="px-2 py-2 rounded-lg inline-block bg-gray-300 text-gray-600 ">${data.message}</span></div>
+            <div class="flex space-y-2 text-xs max-w-xs mx-2 order-2 items-start items-center">
+                <div><img src="${imgBox.src}" alt="received_user profile avatar" class="rounded-full avatar w-6 h-6 object-cover"></div>
+                <div class="m-auto pl-1"><span class="px-2 py-2 rounded-lg inline-block bg-gray-300 text-gray-600 ">${data.message}</span></div>
             </div>
         </div>` + messageElement.innerHTML
 
@@ -120,8 +140,9 @@ $(document)
 .on("change","#id_attachment", function(e){
 
     e.preventDefault();
+    // Taking the image url path from input
     var img_data = document.querySelector('input[type=file]')['files'][0];
-  
+    
     url = URL.createObjectURL(img_data);
     var imgBox = document.getElementById("img-send-box");
     console.log(url);
@@ -137,8 +158,9 @@ $(document)
     if (file) {
       reader.readAsDataURL(img_data);
     }
+    // displaying selected image in imagebox
     imgBox.src = `${url}`;
-    fd.append("photo", img_data);
+   
 
 })
 
@@ -152,7 +174,7 @@ $(document)
     let sender = JSON.parse(document.getElementById('sender_id').textContent)
     let receiver = JSON.parse(document.getElementById('received_user').textContent)
     let room_id = JSON.parse(document.getElementById('room_id').textContent)
-    const chatLog = document.querySelector('#chat-log')
+    const chatLog = document.querySelector('#chat_list')
     var img_data = document.querySelector('input[type=file]')['files'][0];
     const $btn = $(this);
     console.log(imgLength.length);
@@ -166,7 +188,7 @@ $(document)
       handleAlerts("Danger", "Please fill the photo description", "red");
       return false;
     }
-
+    // Appending data items into form fd
     fd.append("text", text);
     fd.append("sender",sender)
     fd.append("receiver",receiver)
@@ -174,7 +196,7 @@ $(document)
 
     // TODO:Photo
 
-    $btn.prop("disabled", true).text("Posting!");
+    $btn.prop("disabled", true).text("Sending!");
     $.ajax({
       type: "POST",
       url: $(".js-message-text").data("message-url"),
@@ -188,7 +210,7 @@ $(document)
             handleAlerts("success", "Successfully Sented", "green");
 
             const messageElement = document.createElement('div')
-    
+            // Displaying sent message in chatbox
               if(sender == response.current_sender){
     
                 messageElement.classList.add('message','sender')
@@ -206,10 +228,10 @@ $(document)
                 messageElement.classList.add('message','receiver')
                 messageElement.innerHTML = `
                 <div class="flex items-end">
-                    <div class="flex space-y-2 text-xs max-w-xs order-2 items-start items-center">
-                        <div><img src="${sender_avatar}" alt="received_user profile avatar" class="rounded-full avatar w-7 h-7 object-cover"></div>
+                    <div class="flex space-y-2 text-xs max-w-xs  mx-7 order-2 items-start items-center">
+                        <div><img src="${response.sender_avatar}" alt="received_user profile avatar" class="rounded-full avatar w-7 h-7 object-cover"></div>
                         <div class="m-auto"><span class="px-2 py-2 rounded-lg inline-block bg-gray-300 text-gray-600 ">${text}</span></div>
-                        <img src='${document.getElementById("img-send-box").src}' class="w-22 h-16 md:w-48 md:h-32">
+                        <img src='${document.getElementById("img-send-box").src}' class="w-22 h-16 md:w-48 md:h-32" mt-4>
                     </div>
                 </div>` + messageElement.innerHTML
         

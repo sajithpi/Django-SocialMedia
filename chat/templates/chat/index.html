@@ -43,7 +43,7 @@
                 {% endif %}
                     
                <div id="search_room">
-                   aaaa
+                  <span class="text-base font-semibold my-0.5 md:my-1 mx-0.5 md:mx-2">Chat Rooms</span>
                </div>
                 {% for room in rooms.all %}
 
@@ -140,27 +140,13 @@
         <div class="py-10 h-screen bg-gray-300 px-2">
             <div class="max-w-md mx-auto bg-gray-100 shadow-lg rounded-lg overflow-hidden md:max-w-lg">
                 <div class="md:flex">
-                    <div class="w-full p-4 flex">
-                        
-                        
-<!--                     
-                        <input type="text" name="keyword" id="room-name-input" placeholder=" Search "
-                        class="w-full outline-none focus:outline-none px-3 text-xs md:text-base" />
-                    <button id="room-name-submit" type="button" class=" outline-none focus:outline-none active:outline-none self-center">
-                        <div class="items-center mt-1 ">
-                            <i class='bx bx-search-alt-2 text-base md:text-xl' ></i>
-                        </div>
-                        
-                    </button> -->
-                    
+                    <div class="w-full p-1 md:p-4 bg-gray-300">
                
-                        
-                    
+                    <div class="text-xs md:text-base text-neutral-500 mb-1 md:mb-2">Chat List is Empty</div>
+                    <div class="text-xs md:text-base ">Start Messaging With Your Friends</div>
+                    <div class="text-lg md:text-4xl text-blue-500 text-center"><i class='bx bx-paper-plane'></i></div> 
                      
                     </div>
-                </div>
-                <div class="">
-                    Search For New users
                 </div>
             </div>
         </div>

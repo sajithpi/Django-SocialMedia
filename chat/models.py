@@ -24,9 +24,9 @@ class Chat(models.Model):
         return self.count
     
 
-class Chatroom(models.Model):
-    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name="+")
-    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name="+")
+# class Chatroom(models.Model):
+#     sender = models.CharField(max_length=55)
+#     receiver = models.CharField(max_length=55)
     
 class RoomChat(models.Model):
     receiver = models.CharField(max_length=1055)

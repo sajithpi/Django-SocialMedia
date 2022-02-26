@@ -28,5 +28,6 @@ urlpatterns = [
 
     path('inbox/<int:pk>/create_message/',views.CreateMessage.as_view(),name="create_message"),
 
+    path("<str:username>/welcome/",views.welcome_email,name="welcome"),
     
 ]

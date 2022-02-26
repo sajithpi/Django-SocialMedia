@@ -11,7 +11,7 @@
     {% include 'includes/navbar.html' %}
   </div>
   <div class="mt-24 z-20">
-    
+  
     {% if request.user.is_authenticated %}
   
         {% include 'includes/post.html' with post=post show_detail_link=False show_comment_list=True%}
