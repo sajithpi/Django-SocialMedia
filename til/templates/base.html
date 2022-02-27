@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" />
   <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
   <link rel="stylesheet" type="text/css" href="{% static 'css/room.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/dropdown.css' %}">
 
 </head>
 
@@ -275,7 +276,7 @@
                         <!-- <div id="img-box"  class="w-1/2 h-12 md:h-1/4 md:w-1/2 relative mx-auto"></div> -->
                         <img id="img-preview"  alt="Upload Photo" class="w-22 h-16 md:w-48 md:h-32 border relative mx-auto ext-xs md:text-sm "></img>
                       
-                      <textarea class="js-story-text  text-xs md:text-sm border-2 border-blue-500 mt-2 md:mt-4 w-3/5 h-9 md:h-11"  rows="2" placeholder="Post Description" maxlength="255"  required id="id_text" data-post-url="{% url 'feed:add_story' %} " ></textarea>
+                      <textarea class="js-story-text  text-xs md:text-sm border-2 border-blue-500 mt-2 md:mt-4 w-3/5 h-9 md:h-11"  rows="2" placeholder="Story Description" maxlength="255"  required id="id_text" data-post-url="{% url 'feed:add_story' %} " ></textarea>
                               
                         
                   </div>
@@ -305,24 +306,29 @@
               
               
             <div class="absolute bg-black opacity-75 inset-0 z-0 w-100"></div>
-            <div class="relative mx-auto my-auto rounded-xl shadow-lg  bg-white  w-fit h-auto md:w-2/5 p-1 md:p-3 ">
+            <div class="relative mx-auto my-auto rounded-xl shadow-lg w-fit h-auto md:w-2/5 p-1 md:p-3 bg-gray-900">
             <!--content-->
               <div class=" m-auto">
               <!--body-->
               <!-- <i class='bx bx-upload text-5xl text-blue-500 text-center'></i> -->
-              <div class="absolute right-0 top-0 -mr-2 -mt-2 border cursor-pointer shadow-lg bg-white z-10 p-1 rounded-full p-2">
-                <i id="story-view-cancel" class='bx bx-arrow-back'></i>
+              <div class="absolute right-0 top-0 -mr-2 -mt-2 border cursor-pointer shadow-lg z-10 p-1 rounded-full p-2 bg-gray-900">
+                <i id="story-view-cancel" class='bx bx-arrow-back text-white'></i>
                 </div>
-                  <div class="text-center pt-1 md:pt-5  flex-auto justify-center ">
-                  
+                  <div class="text-center flex-auto justify-center ">
+                    <div class="flex pr-1" id="status-counter">
+                      <!-- <a class="w-8 mr-1 h-8 text-gray-700 rounded-full bg-white flex justify-center items-center" href="#slide-1">1</a> -->
+                    </div>
+                    <div class="flex pr-1" id="status-counter-tile">
+                      <!-- <a class="w-8 mr-1 h-8 text-gray-700 rounded-full bg-white flex justify-center items-center" href="#slide-1">1</a> -->
+                    </div>
                       <!-- TODO:Add the ajax form -->
-                        <div class="md:flex-row pt-3 px-0 md:px-3     " style="text-align: -webkit-center;">
+                        <div class="md:flex-row px-0 md:px-3     " style="text-align: -webkit-center;">
                           <div class="mt-1 flex">
-                            <div class="flex mb-1 m-3 md:m-0">
-                              <div class="flex mb-2 items-center">
+                            <div class="flex mb-1 m-1 md:m-0">
+                              <div class="flex items-center">
 
                                 <div class="rounded-full p-1 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 ">
-                                  <div class="rounded-full bg-white wrapper overflow-hidden h-10 w-10">
+                                  <div class="rounded-full bg-white wrapper overflow-hidden h-8 w-8">
                                     <button>
                                       <a class="story-icon">
             
@@ -335,20 +341,15 @@
                                   </div>
                                   
                                 </div>
-                                <div id="story-time">asd</div>
+                                <div id="story-username" class="capitalize text-sm md:text-lg px-2 py-1 text-white"></div>
+                                <div id="story-time" class="text-sm py-1 mt-1 self-center text-gray-200">asd</div>
                               </div>
-                              <!-- <img class="w-12 h-12 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"/> -->
-                              <div class="ml-2 mt-0.5">
-                                <span
-                                  class="block font-medium text-sm md:text-xl leading-snug text-black dark:text-gray-100 object-scale-down capitalize">{{post.author.username}}</span>
-                                <span
-                                  class="block text-xs md:text-sm text-gray-500 dark:text-gray-400 font-light leading-snug object-scale-down"">{{post.date_time}}</span>
-                                    </div>
+                           
                                   </div>
                           </div>
                         <div class="relative">
 
-                          <img id="story-image"  alt="Upload Photo" class="w-full h-auto border relative mx-auto ext-xs md:text-sm "></img>
+                          <img id="story-image"  alt="Upload Photo" class="w-full rounded-md h-auto relative mx-auto ext-xs md:text-sm "></img>
                          
                         </div>
                       
@@ -357,7 +358,7 @@
                         
                   </div>
               <!--footer-->
-              <div id="story-caption"class=" w-full " data-story-seen-url="{% url 'feed:view_story' %}"></div>
+              <div id="story-caption"class=" w-full text-white" data-story-seen-url="{% url 'feed:view_story' %}"></div>
                   <div id="alert-box"></div>
                 </div>
             </div>

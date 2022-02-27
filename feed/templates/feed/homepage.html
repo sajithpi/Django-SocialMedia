@@ -31,53 +31,59 @@ homepage
               {% if stories %}
                   
                   {% for story in stories %}
-                    <div class="storie-item flex flex-col mr-6 flex flex-col items-center space-y-1 relative">
-                      <div class="rounded-full p-1 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 ">
-                        <div class="rounded-full bg-white wrapper overflow-hidden h-14 w-14 ">
-                          <button>
-                            <a class="story-icon" id={{story.id}}>
+                      {% ifchanged  story.author %}
+                        <div class="storie-item flex flex-col mr-6 flex flex-col items-center space-y-1 relative">
+                          <div class="rounded-full p-1 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 ">
+                            <div class="rounded-full bg-white wrapper overflow-hidden h-14 w-14 ">
+                              <button>
+                                <a class="story-icon" id={{story.id}}>
                               
-                              {% thumbnail story.author.profile.image "51x51" crop="center" as img %}
-                                <img id="story-icon{{story.id}}" src="{{ img.url }}"class="object-scale-down rounded-full border-solid border-white border-2">
-                              {% endthumbnail %}
-                          
-                              <input  hidden id="story-caption{{story.id}}" type="text" value="{{story.text}}">
-                              <input  hidden id="story-author-name{{story.id}}" type="text" value="{{story.author.username}}">
-                              <input  hidden id="story-author-img{{story.id}}" type="text" value="{{user.profile.image.url}}">
-                              <input  hidden id="story-time{{story.id}}" type="text" value="{{story.created_time | time:'i\m' }} ago">
-                              <input  hidden id="story-duration{{story.id}}" type="text" value="{{ story.created_time |timeuntil:story.created_time }}">
+                                  {% thumbnail story.author.profile.image "51x51" crop="center" as img %}
+                                    <img id="story-icon{{story.id}}" src="{{ img.url }}"class="object-scale-down rounded-full border-solid border-white border-2">
+                                  {% endthumbnail %}
                               
-                            </a>
-                          </button>
+                                  
+                                  {% if request.user == story.author %}
+                                      <input  hidden id="story-author-name{{story.id}}" type="text" value="{{request.user.username}}">
+                                      <input  hidden id="story-author-img{{story.id}}" type="text" value="{{user.profile.image.url}}">
+                                  {% else %}
+                                    
+                                      <input  hidden id="story-author-name{{story.id}}" type="text" value="{{story.author.username}}">
+                                      <input  hidden id="story-author-img{{story.id}}" type="text" value="{{user.profile.image.url}}">
+                              
+                                  {% endif %}
+                                </a>
+                              </button>
+                            </div>
+                          </div>
+                        
+                          {% if forloop.first %}
+
+                              <button class="js-story-icon absolute bottom-8 right-1 bg-purple-800 rounded-full h-5 w-5 text-2xl
+                                    text-white font-semibold border-2 border-white flex justify-center items-center font-mono hover:bg-blue-700">
+                                    +
+                              </button>
+
+                              <div class="user-name text-center pt-1">
+                                  <span class="text-gray-700 text-sm">
+                                      Your Story
+                                  </span>
+                              </div>
+                          {% else %}
+
+                              <div class="user-name text-center pt-1">
+                                <span class="text-gray-700 text-sm">
+                                  
+                                  {% if story.author != request.user %}
+                                    {{story.author}}
+                                  {% endif %}
+                                    
+                                    
+                                </span>
+                              </div>
+                          {% endif %}
                         </div>
-                      </div>
-                 
-                      {% if forloop.first %}
-
-                          <button class="js-story-icon absolute bottom-8 right-1 bg-purple-800 rounded-full h-5 w-5 text-2xl
-                                text-white font-semibold border-2 border-white flex justify-center items-center font-mono hover:bg-blue-700">
-                                +
-                          </button>
-
-                          <div class="user-name text-center pt-1">
-                              <span class="text-gray-700 text-sm">
-                                  Your Story
-                              </span>
-                          </div>
-                      {% else %}
-
-                          <div class="user-name text-center pt-1">
-                            <span class="text-gray-700 text-sm">
-                              
-                              {% if story.author != request.user %}
-                                
-                              {% endif %}
-                                
-                                {{story.author}}
-                            </span>
-                          </div>
-                      {% endif %}
-                    </div>
+                      {% endifchanged %}
                   {% endfor %}
                     
               {% endif %}

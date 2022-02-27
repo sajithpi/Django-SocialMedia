@@ -184,12 +184,12 @@ def View_story(request):
         story_author = request.POST.get('story_author')
         print("story_id:",story_id)
         print("story_author:",story_author)
-        story = Stories.objects.filter(author__username=story_author).values()
+        story = Stories.objects.filter(author__username=story_author).order_by("created_time").values()
         # print("story count:",story))
         story_count = story.count()
         user = User.objects.get(id= request.user.id)
         # story.viewers.add(user)
-        return JsonResponse({'message':'success','story':list(story),'count':story_count})
+        return JsonResponse({'message':'success','story':list(story),'count':story_count,'username':user.username})
     return JsonResponse({"message":"not"})
 def Like_post(request):
     user = request.user

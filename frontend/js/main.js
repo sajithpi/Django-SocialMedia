@@ -47,7 +47,7 @@ const handleAlerts = (type, text, color) => {
 const fd = new FormData();
 const updateForm = new FormData();
 let story_form = new FormData(); 
-
+let myTimeOut
 
 // Photo Listener For Update Post Photo
 let photos = "id_update_photo"
@@ -687,11 +687,12 @@ $(document)
   let story_author = document.getElementById(`story-author-name${story_id}`).value
   let story_author_image = document.getElementById(`story-author-img${story_id}`).value
   console.log("story author:",story_author)
-
-  let story_image_view = document.getElementById('story-image')
-  let story_caption_view = document.getElementById('story-caption')
-  let story_user_view = document.getElementById('story-user')
+  
   let url = $('#story-caption').data('story-seen-url')
+  let status_counter = document.getElementById('status-counter')
+  let status_counter_tile = document.getElementById('status-counter-tile')
+  status_counter.innerHTML = ""
+  status_counter_tile.innerHTML = ""
   console.log("story id:",story_id)
   console.log("url:",url)
   console.log("clicked")
@@ -709,21 +710,47 @@ $(document)
         console.log("success")
         // console.log(response.story)
         console.log(response.count)
-        for(let i = 0; i < response.count; i ++){
+      
         
-          setTimeout(()=>{
+        for(let i = response.count-1; i >=0; i --){
+         
+          // status_counter.innerHTML = ` <label class="checkbox-btn">
+          //                             <input id="status${i}" type="radio" value="1" 
+          //                                     name="status" 
+                                         
+          //                                     class="bg-white w-full h-2 px-4 border mx-1"
+          //                                     onclick="StoryView('${response.story[i].photo}', '${story_author_image}', '${response.username}', '${response.story[i].text}',0,${i},'${response.story[i].created_time}')"/>
+          //                             <span class=""> ${i} </span></label>` + status_counter.innerHTML   
+
+          status_counter_tile.innerHTML = `<button id="status${i}" class="w-full bg-gray-700 border-2 border-black mt-2" onclick="StoryView('${response.story[i].photo}', '${story_author_image}', '${response.username}', '${response.story[i].text}',0,${i},'${response.story[i].created_time}')">
+                                          <div id="myBar${i}" class="w-0 h-1 bg-white">a</div></button>` + status_counter_tile.innerHTML
+         
+         
+         
+          var myTimeOut = setTimeout(()=>{
+          
+            console.log("i:",i)
             console.log(response.story[i])
             console.log(response.story[i].text)
+            console.log("username:", response.username)
+            console.log("photo:",response.story[i].photo)
             // Finding Time Difference
 
-            timeDifference(response.story[i].created_time.slice(0,19))
-
-            console.log("photo:",response.story[i].photo)
-            story_image_view.src = 'media/'+response.story[i].photo
-            story_user_view.src = story_author_image
-            story_caption_view.textContent = response.story[i].text
-          },5000 * i)
+            document.getElementById(`status${i}`).checked = true
+         
+            
+            
+            
+            time = timeDifference(response.story[i].created_time.slice(0,19))
+            console.log("time:",time)
+            StoryView(response.story[i].photo, story_author_image, response.username, response.story[i].text,time,i)
+        
+           
+          },3000 * i)
+        
         }
+
+      
 
       }
       else{
@@ -738,21 +765,68 @@ $(document)
   $('.js-story-view-model').addClass('hidden')
 })
 
+function move(i,index) {
+  if (i == 0) {
+    i = 1;
+    var elem = document.getElementById(`myBar${index}`);
+    var width = 0;
+    var id = setInterval(frame, 30);
+    function frame() {
+      if (width >= 100) {
+        console.log("full width")
+        console.log("index",i)
+        clearInterval(id);
+        clearTimeout(myTimeOut)
+        elem = document.getElementById(`myBar${index++}`);
+        i = 0;
+      } else {
+        width++;
+        elem.style.width = width + "%";
+        elem.style.backgroundColor = "blue"
+      }
+    }
+  }
+}
 
+function ViewStatus(response){
+  // console.log("Clicked:",index)
+  console.log("response:",response)
+}
+// Function StoryView 
+function StoryView(photo, author_image, username, story_caption, story_time, index,created_time){
+  let story_image_view = document.getElementById('story-image')
+  let story_username = document.getElementById('story-username')
+  let story_caption_view = document.getElementById('story-caption')
+  let story_user_view = document.getElementById('story-user')
+  move(0,index)
+  let story_time_view = document.getElementById('story-time')
+  story_image_view.src = 'media/'+photo
+  story_user_view.src = author_image
+  story_username.textContent = username
+  story_caption_view.textContent = story_caption
+  story_time_view.textContent = story_time
+  if(story_time==0){
+    story_time = timeDifference(created_time.slice(0,19))
+  }
+  story_time_view.textContent = story_time
+   console.log("index number:",index)
+  
+}
 // Function Used To Find the status time difference
 function timeDifference(d){
   let date = new Date(d)
   let today = new Date()
-  let story_time_view = document.getElementById('story-time')
+  
   var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
   var created_time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
   var diffHour = Math.abs(today.getHours() - date.getHours() ) 
   var diffMinute = Math.abs(today.getMinutes() - date.getMinutes())
   if(diffHour > 0){
-    story_time_view.textContent = diffHour + 'h:' + diffMinute + 'm ago'
+    time = diffHour + 'h:' + diffMinute + 'm ago'
   }else{
-    story_time_view.textContent =  diffMinute + ' ago'
+    time =  diffMinute + ' m ago'
   }
+  return time 
 }
 
 
