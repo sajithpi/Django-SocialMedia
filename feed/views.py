@@ -1,5 +1,6 @@
 from ast import Store
 from email import message
+import re
 from turtle import pos, st
 from django import views
 from django.contrib.auth.models import User
@@ -184,12 +185,18 @@ def View_story(request):
         story_author = request.POST.get('story_author')
         print("story_id:",story_id)
         print("story_author:",story_author)
-        story = Stories.objects.filter(author__username=story_author).order_by("created_time").values()
+        story = Stories.objects.filter(author__username=story_author).order_by("-created_time").values()
+        story_seen = Stories.objects.filter(author__username=story_author).order_by("created_time")
         # print("story count:",story))
         story_count = story.count()
         user = User.objects.get(id= request.user.id)
         # story.viewers.add(user)
         return JsonResponse({'message':'success','story':list(story),'count':story_count,'username':user.username})
+    return JsonResponse({"message":"not"})
+
+def Story_Seen(request):
+    if request.method == 'POST':
+        return JsonResponse({"message":"success"})
     return JsonResponse({"message":"not"})
 def Like_post(request):
     user = request.user

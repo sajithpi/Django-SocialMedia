@@ -12,7 +12,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <link rel="stylesheet" href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" />
-  <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
   <link rel="stylesheet" type="text/css" href="{% static 'css/room.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/dropdown.css' %}">
 
@@ -341,8 +341,8 @@
                                   </div>
                                   
                                 </div>
-                                <div id="story-username" class="capitalize text-sm md:text-lg px-2 py-1 text-white"></div>
-                                <div id="story-time" class="text-sm py-1 mt-1 self-center text-gray-200">asd</div>
+                                <div id="story-username" class="capitalize text-sm md:text-base px-2 py-1 text-white"></div>
+                                <div id="story-time" class="text-xs py-1 mt-1 self-center text-gray-200">asd</div>
                               </div>
                            
                                   </div>
@@ -359,14 +359,78 @@
                   </div>
               <!--footer-->
               <div id="story-caption"class=" w-full text-white" data-story-seen-url="{% url 'feed:view_story' %}"></div>
-                  <div id="alert-box"></div>
-                </div>
+              <input id="story-usernames" class="bg-black text-white border">
+              <input id="story-captions" class="bg-black text-white border">
+              <input id="story-id" class="bg-black text-white border">
+              <input id="story-img" class="bg-black text-white border">
+               <div id="story-seen-icon">
+                    <!-- <a class="w-8 mr-1 h-8 text-gray-700 rounded-full bg-white flex justify-center items-center" href="#slide-1">1</a> -->
+               </div>
+      
+               <div id="alert-box"></div>
+               
             </div>
+            </div>
+
           </div>
 
 
+          <!-- TODO:Story Seen Users View -->
+          <div class="min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-40 outline-none focus:outline-none bg-no-repeat bg-center bg-cover  hidden js-story-seen-model"  id="modal-id">
+      
+              
+              
+            <div class="absolute bg-black opacity-75 inset-0 z-0 w-100"></div>
+            <div class="relative mx-auto my-auto rounded-xl shadow-lg w-fit h-auto md:w-2/5 p-1 md:p-3 bg-gray-900">
+            <!--content-->
+              <div class=" m-auto">
+              <!--body-->
+              <!-- <i class='bx bx-upload text-5xl text-blue-500 text-center'></i> -->
+              <div class="absolute right-0 top-0 -mr-2 -mt-2 border cursor-pointer shadow-lg z-10 p-1 rounded-full p-2 bg-gray-900">
+                <i id="js-story-seen-cancel" class='bx bx-arrow-back text-white'></i>
+                </div>
+                  <div class="text-center flex-auto justify-center ">
+                 
+                
+                      <!-- TODO:Add the ajax form -->
+                        <div class="md:flex-row px-0 md:px-3     " style="text-align: -webkit-center;">
+                        
+                        <div class="relative">
+
+                          <div class="user-row flex flex-col w-full items-center justify-between cursor-pointer  p-4 duration-300 sm:flex-row sm:py-4 sm:px-8 hover:bg-[#f6f8f9]"
+                              data-story-seen-url="{% url 'feed:story_seen' %}">
+                            <div class="user-seen-view flex items-center w-full border text-center flex-col sm:flex-row sm:text-left">
+                                <div class="flex avatar-content mb-2.5 sm:mb-0 sm:mr-2.5 p-0.5">
+                                    <img class="avatar w-10 h-10 rounded-full" src="https://randomuser.me/api/portraits/men/32.jpg"/>
+                                    <a href="#" class="title font-medium no-underline text-white self-center px-2">Wade Warren</a>
+                                </div>
+                              
+                                
+                                
+                              </div>
+                              
+                            </div>
+                            
+                            <input id="story_username" class="bg-black text-white border">
+                            <input id="story_caption_text" class="bg-black text-white border">
+                            <input id="story_id" class="bg-black text-white border">
+                            
+                        </div>
+                      
+                     
+                              
+                        
+                  </div>
+              <!--footer-->
+
+               
+                </div>
+            </div>
+            </div>
+
+          </div>
   {% endif %}
-</div>
+ 
 
 
 
