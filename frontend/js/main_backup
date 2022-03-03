@@ -47,13 +47,20 @@ const handleAlerts = (type, text, color) => {
 const fd = new FormData();
 const updateForm = new FormData();
 let story_form = new FormData(); 
-let myTimeOut
-let view_type = "story"
-let move_id
+var view_type = 'auto'
+var index_value = 1
+var flag_last = 0
+var SeenTypeFinished = 0
+let StatusSeenTimeout 
+let myTimout_i = 0
+var response_story
+let story_id = 0
 // Photo Listener For Update Post Photo
 let photos = "id_update_photo"
 let imgbox = "img-box-update"
-type = 'update_post'
+let response_count = 0
+var type = 'update_post'
+var story_loading = 'true'
 PhotoListener(photos,imgbox,type)
 
 
@@ -616,6 +623,7 @@ $(document)
   .on("click", ".js-story-model-cancel", function (e) {
     e.preventDefault();
     console.log("I was clicked");
+    // clearTimeout(myTimeOut)
     $(".js-story-model").addClass("hidden");
   })
 
@@ -678,26 +686,29 @@ $(document)
   });
 })
 
+
+
 // Showing Story in View
+
 .on("click",".story-icon",function(e){
   e.preventDefault()
   $(".js-story-view-model").toggleClass("hidden")
-  const story_id = $(this).attr('id')
+  story_id = $(this).attr('id')
   let story_author = document.getElementById(`story-author-name${story_id}`).value
+  let status_counter_tile = document.getElementById('status-counter-tile')
   let story_author_image = document.getElementById(`story-author-img${story_id}`).value
+  let story_image_button = document.getElementById('story-image')
+  status_counter_tile.innerHTML = ""
+  story_image_button.innerHTML = ""
   console.log("story author:",story_author)
-  
+  story_loading = 'true'
   let url = $('#story-caption').data('story-seen-url')
   let status_counter = document.getElementById('status-counter')
-  let status_counter_tile = document.getElementById('status-counter-tile')
-  let story_seen_icon = document.getElementById("story-seen-icon")
-  status_counter.innerHTML = ""
-  status_counter_tile.innerHTML = ""
-  story_seen_icon.innerHTML = ""
+
   console.log("story id:",story_id)
   console.log("url:",url)
   console.log("clicked")
-  
+
   $.ajax({
     type : 'POST',
     url:$("#story-caption").data('story-seen-url'),
@@ -711,48 +722,34 @@ $(document)
         console.log("success")
         // console.log(response.story)
         console.log(response.count)
-      
-        
-        for(let i = response.count-1; i >=0; i --){
-         
-      
-          status_counter_tile.innerHTML = `<button id="status${i}" class="w-full bg-gray-700 border-2 border-black mt-2" onclick="StoryView('${response.story[i].photo}', '${story_author_image}', '${response.username}', '${response.story[i].text}',0,${i},'${response.story[i].created_time}','manual','${response.count}')">
-                                          <div id="myBar${i}" class="w-0 h-1 bg-white">a</div></button>` + status_counter_tile.innerHTML
-         
-          var myTimeOut = setTimeout(()=>{
-            // console.log("View Type From myTimeout:",view_type)
-            if (view_type === 'seen_by_user') 
-            { 
-              i = -1
-            
-            }
-            else{
+      //  var story = JSON.parse(response.story)
+      //  response_story(story)
+      response_story  = jQuery.parseJSON(JSON.stringify(response));
+      response_count = response.count
+      // console.log(story)
+      index_value = document.getElementById('story-id').value
+      for (let i = response.count-1;i >=0; i --) {
+        status_counter_tile.innerHTML = `<button id="status${i}" class="w-full bg-gray-700 border-2 border-black mt-2" onclick="StoryView('${response_story.story[i].photo}', '${story_author_image}', '${response_story.username}', '${response_story.story[i].text}',0,${i},'${response_story.story[i].created_time}','tile')">
+  <div id="myBar${i}" class="h-1 bg-white w-full"></div></button>` + status_counter_tile.innerHTML
 
-            
-            console.log("i:",i)
-            console.log(response.story[i])
-            console.log(response.story[i].text)
-            console.log("username:", response.username)
-            console.log("photo:",response.story[i].photo)
-            // Finding Time Difference
+      }
+      for(let i = 0; i <=response_count; i++){
+        const myTimeOut = setTimeout(()=>{
 
-            document.getElementById(`status${i}`).checked = true
-         
-            
-            story_seen_icon.innerHTML = `<button onclick=Story_SeenBy('${response.story[i].photo}','${story_author_image}','${response.username}','${response.story[i].text}',0,${i},'${response.story[i].created_time}','manual','${response.count}')><i id="story-id${i}" class="bi bi-eye text-white"></i></button>`
-            
-            time = timeDifference(response.story[i].created_time.slice(0,19))
-            console.log("time:",time)
-            if(view_type === 'story'){
-              StoryView(response.story[i].photo, story_author_image, response.username, response.story[i].text,time,i,'created_time','auto',response.count)
-            }
-              
-        
-          }
-          },5000 * i)
-        
+        if(story_loading === 'true'){
+        if(view_type==="auto"){
+          JsonResponse_Story(i)
         }
-
+        else{
+          clearTimeout(myTimeOut)
+        }
+      }
+      else{
+        console.log("Timeout")
+        clearTimeout(myTimeOut)
+      }
+        },3000 * i)
+    }
       
 
       }
@@ -763,74 +760,197 @@ $(document)
    
   })
 })
-// Story-View Cancel
 .on("click","#story-view-cancel",function(e){
   e.preventDefault()
+  view_type  = "auto"
+  story_loading = "false"
+  // clearTimeout(myTimeOut)
+
   $('.js-story-view-model').addClass('hidden')
+
 })
 // Story Seen Users View Cancel
 .on("click","#js-story-seen-cancel",function(e){
   e.preventDefault()
   $(".js-story-seen-model").addClass("hidden")
-  document.getElementById("story-username").value = document.getElementById("username").value
-  // view_type="story"
+  view_type="manual"
+  clearTimeout(StatusSeenTimeout)
+
+ 
   
   // move()
 
 })
 
 
-function Story_SeenBy(photo, author_image, username, story_caption, story_time, index,created_time,type,count){
-$(".js-story-seen-model").toggleClass("hidden")
-  console.log("Story-index ",index)
-  console.log("username:",username)
-  // view_type = "seen_by_user"
+
+
+function JsonResponse_Story(i){
+  let story_author_image = document.getElementById(`story-author-img${story_id}`).value
+  let story_seen_icon = document.getElementById("story-seen-icon")
+  story_seen_icon.innerHTML = ""
+  // console.log("response:",response_story)
+
  
-  document.getElementById("username").value = username
-  console.log("View Type From Story_Seenby F:",view_type)
-  // clearTimeout(myTimeOut)
-  // clearInterval(move_id)
-}
-function move(i,index) {
-  if (i == 0) {
-    i = 1;
-    var elem = document.getElementById(`myBar${index}`);
-    var width = 0;
-    move_id = setInterval(frame, 50);
-    function frame() {
-    
-        if (width >= 100) {
-          console.log("full width")
-          console.log("index",i)
-          clearInterval(move_id);
-          clearTimeout(myTimeOut)
-          if(view_type === 'story'){
-            elem = document.getElementById(`myBar${index++}`);
-          }
+  story_seen_icon.innerHTML = `<button onclick="Story_SeenBy('${response_story.username}','${response_story.story[i].photo}','${response_story.story[i].text}','${index_value}')"><i id="story-id${index_value + 1}" class="bi bi-eye text-white"></i></button>`
+
+  console.log("SeenType:",SeenTypeFinished)
+  console.log("View Type:",view_type)
+  console.log("i:",i)
+  console.log(response_story.story[i])
+  console.log(response_story.story[i].text)
+  console.log("username:", response_story.username)
+  console.log("photo:",response_story.story[i].photo)
+  // Finding Time Difference
+
+  // document.getElementById(`status${i}`).checked = true
+
+
+  index_value = document.getElementById('story-id').value
+
+  story_seen_icon.innerHTML = `<button class="story_tile" onclick="Story_SeenBy('${response_story.username}','${response_story.story[i].photo}','${response_story.story[i].text}','${index_value}')"><i id="story-id${index_value + 1}" class="bi bi-eye text-white"></i></button>`
+
+  time = timeDifference(response_story.story[i].created_time.slice(0,19))
+  console.log("time:",time)
+ 
+
+
+    if(view_type=='auto'){
+      
+      
+        StoryView(response_story.story[i].photo, story_author_image, response_story.username, response_story.story[i].text,time,i,'0/0/000','auto')
+        console.log("i value:",i)
+        if(i === response_story.count-1){
+          flag_last = 1
+          console.log("FLag Last")
+        }
+   
+    } 
+    else{
+      clearTimeout(myTimeOut)
+      StoryView(response_story.story[i].photo, story_author_image, response_story.username, response_story.story[i].text,time,i,'0/0/000','manual')
+      // StatusSeenTimeout = setTimeout(()=>{
+       
+      //    SeenTypeFinished  = 1
+      //   console.log("SeenTimeOut Finished")
+      //   console.log("SeenType:",SeenTypeFinished)
+      //   console.log("View Type:",view_type)
+      //   console.log("i:",i)
         
-          i = 0;
+      // },1000000)
+    }
+
+  
+
+
+  }
+
+
+
+
+
+
+function Story_SeenBy(username,story_img,story_caption,index){
+  view_type="seen"
+  clearInterval(myTimeOut)
+  console.log("Flag Last Value:",flag_last)
+
+    
+    
+      // document.getElementById("story-id").value = document.getElementById('story-id').value
+      document.getElementById("story_username").value = document.getElementById('story-usernames').value
+      document.getElementById("story_caption_text").value = document.getElementById('story-captions').value
+      document.getElementById("story_id").value = document.getElementById('story-id').value
+    
+
+
+
+   
+  $(".js-story-seen-model").toggleClass("hidden")
+    console.log("Story-index ",index)
+    console.log("username:",username)
+    // view_type = "seen_by_user"
+
+
+   
+    // clearTimeout(myTimeOut)
+    // clearInterval(move_id)
+  }
+
+
+function next_story() {
+  let story_id = document.getElementById('story-id').value
+  console.log("story_id:",parseInt(story_id)+1)
+  var elem_width = document.getElementById(`myBar${parseInt(story_id)}`).clientWidth
+  let next_story = parseInt(story_id)+1
+  if(response_count-1<next_story){
+    $(".js-story-view-model").addClass("hidden")
+  }
+  else{
+    console.log("width from next_story:",elem_width)
+    JsonResponse_Story(parseInt(story_id)+1)
+  }
+
+}
+
+function move(value,index) {
+
+
+ 
+  tile_id = document.getElementById(`status${index}`).textContent
+  var tile = document.getElementById(`status${index}`)
+  var elem = document.getElementById(`myBar${index}`);
+  console.log("story id:",index)
+  console.log("tile id:",tile_id)
+    if (value == 0) {
+      value = 1;
+      
+      var width = 0;
+      var id = setInterval(frame, 30);
+      function frame() {
+        
+        if (width == 100) {
+          console.log("full width")
+          console.log("index",index)
+          clearInterval(id);
+          // clearTimeout(myTimeOut)
+          tile.classList.add("bg-gray-700")
+          width=0
+          // elem = document.getElementById(`myBar${index++}`);
+          // document.getElementsByClassName("story_tile").disabled = false
+          value = 0;
         } else {
+         
           width++;
+          tile.classList.add("bg-blue-700")
           elem.style.width = width + "%";
           elem.style.backgroundColor = "blue"
         }
-     
+      }
     }
-  }
 }
-
-
 
 function ViewStatus(response){
   // console.log("Clicked:",index)
   console.log("response:",response)
 }
 // Function StoryView 
-function StoryView(photo, author_image, username, story_caption, story_time, index,created_time,type,count){
+function StoryView(photo, author_image, username, story_caption, story_time, index,created_time,type){
   let story_image_view = document.getElementById('story-image')
   let story_username = document.getElementById('story-username')
   let story_caption_view = document.getElementById('story-caption')
   let story_user_view = document.getElementById('story-user')
+  let story_id = document.getElementById('story-id')
+
+  document.getElementById("story-usernames").value = username
+  document.getElementById("story-captions").value = story_caption
+  document.getElementById("story-img").value = photo
+  story_id.value = index
+  view_type = type
+  console.log("View Type From StoryView:",type)
+  if(view_type==='tile'){
+    clearTimeout(myTimeOut)
+  }
   move(0,index)
   let story_time_view = document.getElementById('story-time')
   story_image_view.src = 'media/'+photo
@@ -838,19 +958,22 @@ function StoryView(photo, author_image, username, story_caption, story_time, ind
   story_username.textContent = username
   story_caption_view.textContent = story_caption
   story_time_view.textContent = story_time
+  
   if(story_time==0){
     story_time = timeDifference(created_time.slice(0,19))
   }
   story_time_view.textContent = story_time
-   console.log("index number:",index)
-   console.log("response.count:",count)
-  //  if(type==='manual'){
-
-  //  }
- 
+  console.log("index number:",index)
   
-  }
-  view_type ="story"
+    // story_seen_icon.innerHTML = `<button onclick="Story_SeenBy('${response.username}','${response.story[i].text}','${i}')"><i id="story-id${i}" class="bi bi-eye text-white"></i></button>`
+
+  console.log("view type:",view_type)
+
+  
+}
+
+
+
 
 // Function Used To Find the status time difference
 function timeDifference(d){
@@ -868,6 +991,8 @@ function timeDifference(d){
   }
   return time 
 }
+
+
 
 
  // Function For Story Image Listener

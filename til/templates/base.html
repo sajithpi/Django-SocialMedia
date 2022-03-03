@@ -303,7 +303,11 @@
           <!-- TODO:Story View -->
           <div class="min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-40 outline-none focus:outline-none bg-no-repeat bg-center bg-cover  hidden js-story-view-model"  id="modal-id">
       
-              
+            
+            
+
+
+
               
             <div class="absolute bg-black opacity-75 inset-0 z-0 w-100"></div>
             <div class="relative mx-auto my-auto rounded-xl shadow-lg w-fit h-auto md:w-2/5 p-1 md:p-3 bg-gray-900">
@@ -318,7 +322,7 @@
                     <div class="flex pr-1" id="status-counter">
                       <!-- <a class="w-8 mr-1 h-8 text-gray-700 rounded-full bg-white flex justify-center items-center" href="#slide-1">1</a> -->
                     </div>
-                    <div class="flex pr-1" id="status-counter-tile">
+                    <div class="flex pr-1 w-full" id="status-counter-tile" style="width: -webkit-fill-available;">
                       <!-- <a class="w-8 mr-1 h-8 text-gray-700 rounded-full bg-white flex justify-center items-center" href="#slide-1">1</a> -->
                     </div>
                       <!-- TODO:Add the ajax form -->
@@ -347,9 +351,10 @@
                            
                                   </div>
                           </div>
+              
                         <div class="relative">
 
-                          <img id="story-image"  alt="Upload Photo" class="w-full rounded-md h-auto relative mx-auto ext-xs md:text-sm "></img>
+                          <button id="story_photo_button_next" onclick="next_story()"><img id="story-image"  alt="Upload Photo" class="w-full rounded-md h-auto relative mx-auto ext-xs md:text-sm "></img></button>
                          
                         </div>
                       
