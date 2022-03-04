@@ -4,155 +4,143 @@
 {% load thumbnail %}
 
 <html>
-   
+<body>
+    <div id="search_room" class="mt-2">
+        <span class="text-sm md:text-base font-semibold my-0.5 md:my-1 mx-0.5 md:mx-2">Chat Rooms</span>
+    </div>
+    {% if chats %}
+    <div class="w-28 md:w-56 lg:w-80">
+        <div
+            class="flex justify-between items-center m-0.5 md:m-2">
     
-  
-
-    <body>
-
+            <label for="search" class="sr-only text-xs md:text-sm">Search</label>
+            <div class="w-28 sm:w-full  bg-white border rounded-lg md:rounded-full flex justify-between items-center relative mx-1 pl-3  pr-2">
+                <input hidden id="room_url" type="text" value="{% url 'feed:search_room' %}">
+                <input type="search" name="keyword" id="room-name-input" placeholder="Search"
+                    class="text-xs md:text-base w-full outline-none focus:outline-none active:outline-none  "/>
+              <button id="room-name-submit" type="button"
+                class=" outline-none focus:outline-none active:outline-none self-center">
+                <div class="items-center mt-1 ">
+                    <i class='bx bx-search-alt-2 text-base md:text-xl'></i>
+                </div>
+            </button>
+           
+          </div>
+        </div>
     
-       
-    
-   
-   {% if chats %}
-       
-   
-        <div class="w-64 md:w-64 lg:w-96 ">
-            
-        
-                
-                <!-- What chat room would you like to enter? -->
-             
-                 <!-- <input hidden id="room-name-input" type="text" class="w-20 md:w-48" ><br>
-                <input hidden id="room-name-submit" type="button" value="Enter">  -->
-              
-                <div class="w-auto h-7 sm:w-full md:h-10  bg-white border flex justify-between items-center m-0.5 md:m-2 rounded-lg">
-                    <input hidden id="room_url" type="text" value="{% url 'feed:search_room' %}">
-                    <input type="text" name="keyword" id="room-name-input" class="room_search" placeholder=" Search "
-                        class="w-full outline-none focus:outline-none px-3 text-xs md:text-base" />
-                    <button id="room-name-submit" type="button" class=" outline-none focus:outline-none active:outline-none self-center">
-                        <div class="items-center mt-1 ">
-                            <i class='bx bx-search-alt-2 text-base md:text-xl' ></i>
-                        </div>
-                        
-                    </button>
-               
-              </div>
-                {% if rooms %}
-                    {% else %}
-                {% endif %}
-                    
-               <div id="search_room">
-                  <span class="text-base font-semibold my-0.5 md:my-1 mx-0.5 md:mx-2">Chat Rooms</span>
-               </div>
-                {% for room in rooms.all %}
+        {% for room in rooms.all %}
 
-                
-            
-                    <div class="mx-auto flex  items-center relative h-16 md:h-20"
-                        x-data="{
+
+
+        <div class="mx-auto flex  items-center relative h-auto" x-data="{
                             comment : false,
                         }">
-                    
-                    
-                        <div class="flex flex-col  bg-white shadow-md hover:shadow-lg  w-full h-full p-0  border bg-gray-100 shadow-lg rounded-lg overflow-hidden my-0.5 md:my-1 mx-0.5 md:mx-2">
-                            <div class="flex items-center justify-between mx-auto">
-                                <div class="flex items-center mx-0 md:mx-3">
-                                    <div class="flex w-6 md:w-10 lg:w-14  md:h-10 items-center my-3 mx-0 md:mx-1">
-                                    
-                                        {% if request.user.username == room.sender %}
-                                            <a href="{% url 'profiles:user_profile' room.receiver %}" class="object-scale-down ">
-                                                {% thumbnail room.receiver_profile.profile.image "51x51" crop="center" as img%}
-                                                    <img src="{{ img.url }}"class="object-scale-down rounded-full border-solid border-white border-2 ">
-                                                {% endthumbnail %}
-                                            
-                                            </a>
-                                        {% else %}
-                                            <a href="{% url 'profiles:user_profile' room.sender %}" class="object-scale-down ">
-                                                {% thumbnail room.sender_profile.profile.image "51x51" crop="center" as img %}
-                                                    <img src="{{ img.url }}"class="object-scale-down rounded-full border-solid border-white border-2">
-                                                {% endthumbnail %}
-                                                
-                                            </a>
-                                        {% endif %}
-                                        
-                                    </div> 
-                                    <div class="flex flex-col w-40 md:w-32 lg:w-52 my-3 ml-0 md:ml-2">
-                                        {% if request.user.username == room.sender %}
-                                            <a href="{% url 'chat:room' room.receiver %}" class="stretched-link text-decoration-none">
-                                                <div class="font-medium  text-base  md:text-lg   overflow-hidden text-gray-700">{{room.receiver |capfirst }}</div>
-                                            </a>
-                                        {% else %}
-                                            <a href="{% url 'chat:room' room.sender %}" class="stretched-link">
-                                                <div class="font-medium  text-base  md:text-lg ">{{room.sender |capfirst }}</div>
-                                            </a>
-                                        {% endif %}
-                                        
-                                      
-                                        {% for chat in chats %}
-                                            
-                                            {% if chat.content  %}
-                                                
-                                            {% if chat.room.id == room.id %}
-                                                {% if chat.is_read == False %}
-                                                        {% if chat.sender == request.user %}
-                                                            <span class="text-sm lg:text-base text-gray-600 overflow-hidden">{{chat.sender | capfirst}}:{{chat.content}}</span>
-                                                        {% else %}
-                                                        <span class="text-sm md:lg-base text-gray-600 overflow-hidden"></span>{{chat.sender | capfirst}}</span>:<span class="text-xs lg:text-sm font-bold overflow-hidden">{{chat.content}}</span>
-                                                        {% endif %}    
-                                                {% else %}
-                                                    <span class="text-sm lg:text-base text-gray-600 overflow-hidden">{{chat.sender | capfirst}} : {{chat.content}}</span>
-                                                {% endif %}
-                                            {% endif %}   
-                                            {% endif %}
-                                                
-                                        {% endfor %}
-                                            
-                                    </div>
-                                    
-                                    {% for chat in chats  %}
-                                    {% if chat.room.id == room.id %}
-                                        <div class="flex flex-col my-3 ">
-                                            <span class="text-xs md:text-sm text-gray-400 ">{{chat.timestamp | date:"g:i:a"}}</span>
-                                        
-                                                
-                                        </div>
-                                    {% endif %}
-                                    {% endfor %}
-                                        
-                                
-                                </div>
-                            </div>
+
+
+            <div
+                class="flex flex-col shadow-md hover:shadow-lg  w-full h-full p-0  border bg-gray-100 shadow-lg rounded-lg overflow-hidden my-0.5 md:my-1 mx-0.5 md:mx-2">
+                <div class="flex items-center justify-between mx-auto">
+                    <div class="flex items-center mx-0 md:mx-3">
+                        <div class="flex w-7 h-7 md:w-10 md:h-10 items-center mx-0 md:mx-1">
+
+                            {% if request.user.username == room.sender %}
+                            <a href="{% url 'profiles:user_profile' room.receiver %}" class="object-scale-down ">
+                                {% thumbnail room.receiver_profile.profile.image "51x51" crop="center" as img%}
+                                <img src="{{ img.url }}"
+                                    class="object-scale-down rounded-full border-solid border-white border-2 ">
+                                {% endthumbnail %}
+
+                            </a>
+                            {% else %}
+                            <a href="{% url 'profiles:user_profile' room.sender %}" class="object-scale-down ">
+                                {% thumbnail room.sender_profile.profile.image "51x51" crop="center" as img %}
+                                <img src="{{ img.url }}"
+                                    class="object-scale-down rounded-full border-solid border-white border-2">
+                                {% endthumbnail %}
+
+                            </a>
+                            {% endif %}
+
                         </div>
-                        <hr>
-                    </div>
-                
-        
-            
-            {% endfor %}
+                        <div class="flex flex-col w-20 md:w-24 lg:w-44  ml-0 md:ml-2">
+                            {% if request.user.username == room.sender %}
+                            <a href="{% url 'chat:room' room.receiver %}" class="stretched-link text-decoration-none">
+                                <div class="text-xs  md:text-sm font-semibold overflow-hidden text-gray-700">
+                                    {{room.receiver |capfirst }}</div>
+                            </a>
+                            {% else %}
+                            <a href="{% url 'chat:room' room.sender %}" class="stretched-link">
+                                <div class="text-xs md:text-sm font-semibold">{{room.sender |capfirst }}</div>
+                            </a>
+                            {% endif %}
 
-        
-        
-        </div>
 
-    {% else %}
+                            {% for chat in chats %}
 
-        <div class="py-10 h-screen bg-gray-300 px-2">
-            <div class="max-w-md mx-auto bg-gray-100 shadow-lg rounded-lg overflow-hidden md:max-w-lg">
-                <div class="md:flex">
-                    <div class="w-full p-1 md:p-4 bg-gray-300">
-               
-                    <div class="text-xs md:text-base text-neutral-500 mb-1 md:mb-2">Chat List is Empty</div>
-                    <div class="text-xs md:text-base ">Start Messaging With Your Friends</div>
-                    <div class="text-lg md:text-4xl text-blue-500 text-center"><i class='bx bx-paper-plane'></i></div> 
-                     
+                            {% if chat.content  %}
+
+                            {% if chat.room.id == room.id %}
+                            {% if chat.is_read == False %}
+                            {% if chat.sender == request.user %}
+                            <span
+                                class="text-xs text-gray-600 truncate">{{chat.sender | capfirst}}:{{chat.content}}</span>
+                            {% else %}
+                            <div
+                                class="text-xs md:text-sm text-gray-600 truncate">{{chat.sender | capfirst}}:<span
+                                class="text-xs lg:text-sm font-bold truncate">{{chat.content}}</span></div>
+                            {% endif %}
+                            {% else %}
+                            <div class="text-xs text-gray-600 truncate">{{chat.sender | capfirst}}
+                                : {{chat.content}}</div>
+                            {% endif %}
+                            {% endif %}
+                            {% endif %}
+
+                            {% endfor %}
+
+                        </div>
+
+                        {% for chat in chats  %}
+                        {% if chat.room.id == room.id %}
+                        <div class="flex flex-col my-3 ">
+                            <span class="text-xs text-gray-400 ">{{chat.timestamp | date:"g:i:a"}}</span>
+
+
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+
+
                     </div>
                 </div>
             </div>
+            <hr>
         </div>
+
+
+
+        {% endfor %}
+
+
+
+    </div>
+
+    {% else %}
+
+    <div class="py-10 h-screen bg-gray-300 px-2">
+        <div class="max-w-md mx-auto bg-gray-100 shadow-lg rounded-lg overflow-hidden md:max-w-lg">
+            <div class="md:flex">
+                <div class="w-full p-1 md:p-4 bg-gray-300">
+
+                    <div class="text-xs md:text-base text-neutral-500 mb-1 md:mb-2">Chat List is Empty</div>
+                    <div class="text-xs md:text-base ">Start Messaging With Your Friends</div>
+                    <div class="text-lg md:text-4xl text-blue-500 text-center"><i class='bx bx-paper-plane'></i></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
     {% endif %}
-    </body>
+</body>
+
 </html>
-
-
-

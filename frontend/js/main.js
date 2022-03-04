@@ -962,6 +962,7 @@ function timeDifference(d){
   }else{
     time =  diffMinute + ' m ago'
   }
+ 
   return time 
 }
 

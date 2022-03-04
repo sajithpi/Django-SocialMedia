@@ -12,29 +12,23 @@ homepage
 {% block body %}
 
     {% if request.user.is_authenticated %}
-    {% if room_users %}
-          aaaaaa
-        {% endif %}
-    <div class="fixed top-0 left-0 right-0 z-50 ">
+    <div class="fixed top-0 left-0 right-0 z-40 ">
       {% include 'includes/navbar.html' %}
     </div>
-    <div class="flex mt-20 z-50 max-w-md md:max-w-7xl ">
-      <div  class="mx-0.5  lg:mx-7">
+    <div class="flex mt-20 z-20 max-w-md md:max-w-7xl  ">
+      <div  class="mx-0.5  lg:mx-9">
         
-        <!-- Stories -->
+        <!--TODO: Stories -->
 
-          <div class="stories mt-24 bg-white px-5 py-3 rounded border border-gray-400 flex mb-6">
-              <!-- <div class="js-story-icon">
-               <i class='bx bx-plus'></i>
-              </div> -->
-              
+          <div class="flex stories pl-1 md:pl-5 py-1 rounded flex">
+    
               {% if stories %}
                   
                   {% for story in stories %}
                       {% ifchanged  story.author %}
-                        <div class="storie-item flex flex-col mr-6 flex flex-col items-center space-y-1 relative">
-                          <div class="rounded-full p-1 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 ">
-                            <div class="rounded-full bg-white wrapper overflow-hidden h-14 w-14 ">
+                        <div class="storie-item flex flex-col mr-1 md:mr-6 flex flex-col items-center justify-end relative">
+                          <div class="rounded-full p-0.5 md:p-1 bg-gradient-to-b from-blue-400 via-green-500 to-indigo-700 ">
+                            <div class="rounded-full bg-white wrapper overflow-hidden h-7 w-7 md:h-12 md:w-12 ">
                               <button>
                                 <a class="story-icon" id={{story.id}}>
                               
@@ -59,27 +53,22 @@ homepage
                         
                           {% if forloop.first %}
 
-                              <button class="js-story-icon absolute bottom-8 right-1 bg-purple-800 rounded-full h-5 w-5 text-2xl
+                              <button class="js-story-icon absolute bottom-8 right-1 bg-purple-800 rounded-full h-4 w-4 md:h-5 md:w-5 text-sm md:text-2xl
                                     text-white font-semibold border-2 border-white flex justify-center items-center font-mono hover:bg-blue-700">
                                     +
                               </button>
 
-                              <div class="user-name text-center pt-1">
-                                  <span class="text-gray-700 text-sm">
-                                      Your Story
-                                  </span>
+                              <div class="w-max user-name text-center text-gray-700 text-xs md:text-base">
+                                      <small>Your Story</small>
                               </div>
                           {% else %}
 
-                              <div class="user-name text-center pt-1">
-                                <span class="text-gray-700 text-sm">
-                                  
+                              <div class="user-name text-center text-gray-700 text-xs md:text-base">
+                          
                                   {% if story.author != request.user %}
-                                    {{story.author}}
+                                  <small>{{story.author}}</small>
                                   {% endif %}
-                                    
-                                    
-                                </span>
+  
                               </div>
                           {% endif %}
                         </div>
@@ -87,24 +76,9 @@ homepage
                   {% endfor %}
                     
               {% endif %}
-          
-          <!-- <div class="storie-item flex flex-col mr-6 flex flex-col items-center space-y-1 relative">
-                <div class="rounded-full p-1 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
-                  <div class="rounded-full bg-white wrapper overflow-hidden h-14 w-14">
-                    <img src="https://scontent-nrt1-1.cdninstagram.com/v/t51.2885-19/s150x150/119515245_239175997499686_2853342285794408974_n.jpg?_nc_ht=scontent-nrt1-1.cdninstagram.com&_nc_ohc=KDVS6kR76AYAX9tg6_K&oh=81ca965572b7c99626143aacdd38c3ce&oe=5F94DE5B" class="-full h-full object-contain p-2" alt="">
-                  </div>
-                </div>
-                <button class="absolute bottom-8 right-1 bg-purple-800 rounded-full h-5 w-5 text-2xl
-                        text-white font-semibold border-2 border-white flex justify-center items-center font-mono hover:bg-blue-700">
-                        +
-                </button>
-                <a href="#">
-                  Your Story
-                </a>
-          </div> -->
-                
-			
+  
 				  </div>
+          <!-- TODO:Post Section -->
           <div id="posts-container" >
             {% if posts %}
               {% for post in posts  %}
@@ -130,10 +104,9 @@ homepage
             {% endif %}
         </div>
       </div>
-      <div class="p-0 md:p-3 border-2 max-h-screen sticky top-24 right-0 bg-gray-100 shadow-lg">
-        
-        
-          
+      <!-- TODO:Chat List Section -->
+      <div class="px-0 md:px-3 border-2 max-h-screen sticky top-10 right-0 bg-gray-100 shadow-lg">
+       
         {% include 'chat/index.html' with rooms=rooms chats=chats room_users=room_users%}
       </div>
 

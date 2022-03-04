@@ -28,19 +28,20 @@
 		<div class="py-1 px-2">
 			<div class="flex justify-between items-center pt-2">
 				<div class="relative mt-1 flex">
-					<div class="flex mb-1 m-3 md:m-0">
-						<a href="{% url 'profiles:user_profile' post.author.username %}">
-							{% thumbnail post.author.profile.image "51x51" crop="center" as im %}
-							<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"
-								class="rounded-full object-scale-down ">
-							{% endthumbnail %}
-						</a>
+					<div class="flex mb-1">
+						<div class="w-7 h-7 md:w-14 md:h-14">
+							<a href="{% url 'profiles:user_profile' post.author.username %}">
+								{% thumbnail post.author.profile.image "51x51" crop="center" as im %}
+								<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"
+									class="rounded-full object-scale-down ">
+								{% endthumbnail %}
+							</a>
+						</div>
 						<!-- <img class="w-12 h-12 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"/> -->
-						<div class="ml-2 mt-0.5">
+						<div class="self-center ml-0 md:ml-2 mt-0.5">
 							<span
-								class="block font-medium text-sm md:text-xl leading-snug text-black dark:text-gray-100 object-scale-down capitalize">{{post.author.username}}</span>
-							<span
-								class="block text-xs md:text-sm text-gray-500 dark:text-gray-400 font-light leading-snug object-scale-down"">{{post.date_time}}</span>
+								class="text-sm md:text-base text-black dark:text-gray-100 object-scale-down capitalize">{{post.author.username}}</span>
+							<!-- <span class="timeblock text-xs text-gray-500 text-gray-400 object-scale-down"><small>{{post.date_time}}</small></span> -->
             			</div>
           			</div>
 				</div>
@@ -52,24 +53,24 @@
 									<button id="delete-box{{post.id}}" type="button"
 										class="relative p-0 md:p-2 focus:outline-none border-none bg-gray-100 rounded-full">
 										<a class="delete-icon" href="{% url 'feed:delete' %}" id="{{post.id}}"">
-										<i class='bx bx-trash'></i>
+										<i class='bx bx-trash text-sm md:text-base'></i>
 										</a>
 								</button>
 								<!-- TODO:Delete form -->
 			
 							</form>
 							<button id=" edit-box{{post.id}}" type="button"
-											class="relative p-0 md:p-2 mx-3 focus:outline-none border-none bg-gray-100 rounded-full">
+											class="relative p-0 md:p-2 mx-1 md:mx-3 focus:outline-none border-none bg-gray-100 rounded-full">
 											<a class="update-icon" id="{{post.id}}">
-												<i class='bx bxs-edit'></i>
+												<i class='bx bxs-edit text-sm md:text-base'></i>
 												</a>
 							</button>
 							<!-- Favourites -->
 							<button id=" favourites-box{{post.id}}" type="button"
-											class="relative p-0 md:p-2 mr-3 focus:outline-none border-none bg-gray-100 rounded-full">
+											class="relative p-0 md:p-2 mr-0 md:mr-3 focus:outline-none border-none bg-gray-100 rounded-full">
 											<a class="favorite-icon" id="{{post.id}}" href="{% url 'feed:add_to_favorites' %}">
 												<span id="favorite-icon{{post.id}}">
-													<i class='bx bx-star'></i>
+													<i class='bx bx-star text-sm md:text-base'></i>
 												</span>
 											</a>
 							</button>
@@ -78,13 +79,7 @@
 						{% endif %}
 					</div>
 				</div>
-				<span class="post-text">
-					<input type="hidden" class="post{{post.id}}" id="{{post.id}}" value="{{post.id}}">
-					<p id="post-text{{post.id}}"
-						class="post-text{{post.id}} text-black-500 text-sm md:text-lg ml-6  font-semibold capitalize">
-						{{post.text}}
-					</p>
-				</span>
+		
 				{% if show_detail_link %}
 				<div class="post-img{{post.id}} relative w-full h-full">
 					<a href="{% url 'feed:detail' post.id %}">
@@ -101,80 +96,73 @@
 				</div>
 
 				{% endif %}
-				<div class="">
-
-					<!-- Comment -->
-					<div class="overflow-y-scroll w-full absolute inset-0 bg-white transform transition duration-200"
-						x-show="comment" x-transition:enter="transition ease-out duration-200"
-						x-transition:enter-start="opacity-0 transform scale-90"
-						x-transition:enter-end="opacity-100 transform scale-100"
-						x-transition:leave="transition ease-in duration-100"
-						x-transition:leave-start="opacity-100 transform scale-100"
-						x-transition:leave-end="opacity-0 transform scale-90">
-						<div class="flex justify-start items-center py-2 px-4 border-b" @click="comment = !comment">
-							<svg class="w-8 h-8 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-								xmlns="http://www.w3.org/2000/svg">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-									d="M7 16l-4-4m0 0l4-4m-4 4h18"></path>
-							</svg>
-						</div>
-
-					</div>
+				
+				<!-- TODO:Like Comment Buttons -->
+				<div class="Like_Comment">
 					<div class="mx-3 md:mx-5">
 						<!-- System Like and tools Feed -->
-						<div class="flex justify-between items-start pl-1 py-1 md:pl-4 md:py-2">
+						<div class="flex justify-between items-start py-0 md:py-2 h-6 md:h-8 my-1 md:mt-3">
 							<div class="flex space-x-2 items-center items-baseline">
 								<!-- <button class="js-like">Js test</button> -->
-								<form action="{% url 'feed:like_post' %}" method="POST" id="{{post.id}}" 
-									class="like-form mt-2" enctype="multipart/form-data">
+								<form class="mr-1 md:mr-5" action="{% url 'feed:like_post' %}" method="POST" id="{{post.id}}" 
+									class="like-form mt-0 md:mt-2" enctype="multipart/form-data">
 									{% csrf_token %}
 									<input type="hidden" name='post_id' value="{{post.id}}">
 
-									<button class=" font-bold text-lg md:text-2xl
-												rounded hover:text-blue-500 " type="submit">
+									<button class="flex font-bold 
+												rounded hover:text-blue-500 text-lg md:text-xl lg:text-3xl" type="submit">
 										{% if request.user not in post.likes.all %}
 										<!-- <i class="bx bx-like"></i> -->
-										<span id="like-box{{post.id}}"><i class='bx bx-heart'></i></span>
-										<h6 class="like-button{{post.id}} text-gray-500 text-xs md:text-sm my-0 w-14">
+										<span id="like-box{{post.id}}"><i class='bx bx-heart '></i></span>
+										<h6 hidden class="like-button{{post.id}} text-gray-500 text-xs md:text-sm my-0">
 											Like</h6>
 										{% else %}
 										<!-- <i class="bx bx-dislike text-blue-500"></i> -->
-										<span id="like-box{{post.id}}"><i class='bx bxs-heart text-red-500'></i></span>
-										<h6 class="like-button{{post.id}} text-gray-500 text-xs md:text-sm my-0 w-14">
+										<div id="like-box{{post.id}}"><i class='bx bxs-heart text-red-500'></i></div>
+										<h6 hidden class="like-button{{post.id}} text-gray-500 text-xs md:text-sm my-0">
 											Dislike</h6>
 
 										{% endif %}
 									</button>
-									<!-- Getting  Number of likes -->
-									<div class="">
-										<div class="like-count{{post.id}} text-sm md:text-base font-bold my-1 ">
-											{{post.total_like}} Likes</div>
-									
-										</div>
-										<div class="flex flex-col  py-1 md:py-1">
-
-										
-												<p class="font-normal text-xs text-gray-500">{{post.date_time }} ago</p>
-										
-										</div>
-									
-									
+		
 								</form>
 								<!-- Comment Button -->
-								<input type="hidden" name='post_id' value="{{post.id}}" class="post_id_value">
-								<div class="pr-4">
-									<button id="comment-box{{post.id}}" class="comment-button{{post.id}} font-bold text-lg md:text-2xl
+								<input class="mr-1 md:mr-5" type="hidden" name='post_id' value="{{post.id}}" class="post_id_value">
+								<div class="md:pr-0 pr-4">
+									<button id="comment-box{{post.id}}" class="comment-button{{post.id}} font-bold text-lg md:text-xl lg:text-3xl
 												rounded hover:text-blue-500">
 										<a href="{% url 'feed:detail' post.id %}" class="text-black"><span><i
 													class='bx bx-comment-dots'></i></span></a>
-										<div class="text-xs md:text-sm text-gray-500 ">Comment</div>
+										<div hidden class="text-xs md:text-sm text-gray-500 ">Comment</div>
 										
 									</button>
 								</div>
+								
 							</div>
 							
+							
 						</div>
-
+							<!-- TODO:Getting  Number of likes -->
+						<div class="Like_Count">
+								<div class="like-count{{post.id}} text-xs md:text-base font-bold my-0 md:my-1 ">
+									{{post.total_like}} Likes
+								</div>
+						</div>
+						<!-- TODO:Post Text -->
+						<div class="flex post-text mr-3 mt-0.5">
+							<input type="hidden" class="post{{post.id}}" id="{{post.id}}" value="{{post.id}}">
+									<span class="text-black-500 text-xs md:text-base font-bold">
+												{{request.user|capfirst}}
+									</span>
+									<div id="post-text{{post.id}}"
+										class="w-24 break-words post-text{{post.id}} text-black-500  ml-1 text-xs md:text-base  capitalize mr-3">
+										{{post.text}}
+								</div>
+						</div>
+						<div class="flex flex-col  py-1 md:py-1">
+							<p class="font-normal text-xs text-gray-500">{{post.date_time |timesince }} ago</p>
+						</div>
+					
 						<!-- TODO: Comment Section -->
 						<div class="z-50 ">
 							<input hidden name="post_id" value="{{post.id}}">
@@ -183,27 +171,28 @@
 								data-url="{% url 'feed:comment' %}" enctype='multipart/form-data'>
 								{% csrf_token %}
 
-								<div class="flex justify-between border-t items-center w-full border-b border-gray-300 p-0.5 md:p-2"
+								<div class="flex justify-between border-t items-center w-full border-b border-gray-300"
 									:class="comment ? 'absolute bottom-0' : '' ">
 
 									<div class="w-full" >
 										<input id="comment-content{{post.id}}" type="text" name="content"
 											placeholder="Add a comment here" required_id="id_content"
-											class="comment-content{{post.id}} w-full text-sm py-2 px-0.5 md:px-3 rounded-none ">
+											class="comment-content{{post.id}} w-full text-xs md:text-sm py-2 px-0.5 md:px-3 rounded-none ">
 									</div>
 									<div class="w-20">
 										<button
-											class="comment-button{{post.id}} border-none text-sm px-4 bg-white py-2 text-blue-600 focus:outline-none"
+											class="comment-button{{post.id}} border-none text-xs md:text-sm px-4 bg-white py-2 text-blue-600 focus:outline-none"
 											type="submit">Post</button>
 									</div>
 								</div>
 							</form>
 						</div>
+					
 						<!-- TODO:New Comment Section -->
 						<input hidden id="comment_flag" value="{{show_comment_list}}">
 
 						<div id="comment-container{{post.id}}" class=" pl-1  md:pl-4 ">
-							<input hidden type="text" value="This is the comment cona="> 
+							<input hidden type="text" value="This is the comment "> 
 						</div>
 						<!-- End System Like and tools Feed -->
 						<!-- TODO: Existing Comments Listing -->
@@ -290,20 +279,20 @@
 
 						<!-- TODO:If show comment list = False -->
 					{% else %}
-						<div class=" pl-1 md:pl-4 mb-1 md:mb-2 divide-y divide-slate-200">
+						<div class=" pl-1 md:pl-4 divide-y divide-slate-200">
 							{% if post.comment_set.all %}
 								{% for comment in post.comment_set.all reversed %}
 									{% if forloop.counter < 3 %}
-										<div class="flex " id="comments-list{{post.id}}">
-											<p class="text-base md:text-lg font-bold ">{{comment.user.user.username}}</p>
-											<p class="pl-1 md:pl-3 text-xs md:text-base self-center">{{comment.content}}</p>
+										<div class="flex my-1 " id="comments-list{{post.id}}">
+											<div class="text-xs md:text-base font-bold ">{{comment.user.user.username}}</div>
+											<div class="pl-1 md:pl-3 text-xs md:text-base self-center">{{comment.content}}</div>
 											<span></span>
 										</div>
 									{% endif %}
 								{% endfor %}
 								{% if post.comment_set.all.count > 1 %}
-									<input hidden id="comment-count{{post.id}}" value="{{post.comment_set.all.count}}">
-										<a class="text-xs text-gray-500" href="{% url 'feed:detail' post.id%}">View ALl
+									<input  hidden id="comment-count{{post.id}}" value="{{post.comment_set.all.count}}">
+										<a class="text-xs md:text-sm text-blue-500 my-3" href="{% url 'feed:detail' post.id%}">View ALl
 											<span id="comment_count_body{{post.id}}">{{post.comment_set.all.count}}</span> Comments
 										</a>
 								{% endif %}
