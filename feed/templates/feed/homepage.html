@@ -74,6 +74,30 @@ homepage
                         </div>
                       {% endifchanged %}
                   {% endfor %}
+              {% else %}
+                <div class="storie-item flex flex-col mr-1 md:mr-6 flex flex-col items-center justify-end relative">
+                  <div class="rounded-full p-0.5 md:p-1 bg-gradient-to-b from-blue-400 via-green-500 to-indigo-700 ">
+                    <div class="rounded-full bg-white wrapper overflow-hidden h-7 w-7 md:h-12 md:w-12 ">
+                      <button>
+                        <a class="js-story-icon" id={{story.id}}>
+                      
+                          {% thumbnail user.profile.image "51x51" crop="center" as img %}
+                            <img id="story-icon{{story.id}}" src="{{ img.url }}"class="object-scale-down rounded-full border-solid border-white border-2">
+                          {% endthumbnail %}
+                        </a>
+                      </button>
+                    </div>
+                      <button class="js-story-icon absolute bottom-8 right-1 bg-purple-800 rounded-full h-4 w-4 md:h-5 md:w-5 text-sm md:text-2xl
+                                      text-white font-semibold border-2 border-white flex justify-center items-center font-mono hover:bg-blue-700">
+                       +
+                      </button>
+                     
+                    </div>
+                    <div class="w-max user-name text-center text-gray-700 text-xs md:text-base">
+                      <small>Your Story</small>
+                  </div>
+                  </div>
+                    
                     
               {% endif %}
   

@@ -30,7 +30,7 @@
    
     <!-- <div class="flex flex-col w-4/5 md:w-1/5 md:pr-0 pr-1 bg-white rounded-r-3xl overflow-hidden"> -->
     {% if request.user.is_authenticated %}
-      <div class="flex flex-col px-0 md:px-3 w-12 md:w-14 lg:w-32 h-screen md:px-1 md:bg-transparent align-center bg-white rounded-r-3xl overflow-hidden sticky top-16 left-0 right-0 z-40">
+      <div class="flex flex-col px-0 md:px-3 w-12 md:w-14 lg:w-32 h-screen md:px-1  align-center bg-transparent shadow-lg shadow-indigo-500/40 rounded-r-3xl overflow-hidden sticky top-16 left-0 right-0 z-40">
    
             <ul class="flex flex-col py-4 px-0 md:px-3 text-decoration:none ml-0 md:ml-1 lg:ml-4">
               <li class="text-decoration: none   ">
@@ -100,7 +100,7 @@
       <div class="min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-40 outline-none focus:outline-none bg-no-repeat bg-center bg-cover  hidden js-model"  id="modal-id">
         <div class="absolute bg-black opacity-75 inset-0 z-0 w-100"></div>
        
-        <div class="relative mx-auto my-auto rounded-xl shadow-lg  bg-white  w-fit h-auto md:w-2/5 p-1 md:p-3 ">
+        <div class="relative mx-auto my-auto rounded-xl shadow-lg  bg-gray-900 opacity-95  w-fit h-auto md:w-2/5 p-1 md:p-3 ">
         <!--content-->
           <div class=" m-auto">
           <!--body-->
@@ -109,20 +109,20 @@
               
                   <!-- TODO:Add the ajax form -->
                     <div class="md:flex-row pt-3 px-0 md:px-3     " style="text-align: -webkit-center;">
-                      <div class=" flex flex-col md:flex-row w-3/5 items-baseline "><label  for="id_photo"  class="text-xs md:text-sm text-center">Photo:</label> </div>
-                      <input type="file" class="js-post-photo text-center flex flex-col md:flex-row text-xs md:text-sm w-3/5 items-baseline mb-2" name="photo" required id="id_photo"></div>
+                      <div class=" flex flex-col md:flex-row w-3/5 items-baseline "><label  for="id_photo"  class="text-xs md:text-sm text-center text-white">Photo:</label> </div>
+                      <input type="file" class="js-post-photo text-center text-white flex flex-col md:flex-row text-xs md:text-sm w-3/5 items-baseline mb-2 " name="photo" required id="id_photo"></div>
                     <!-- <div id="img-box"  class="w-1/2 h-12 md:h-1/4 md:w-1/2 relative mx-auto"></div> -->
-                    <img id="img-box"  alt="Upload Photo" class="w-22 h-16 md:w-48 md:h-32 border relative mx-auto ext-xs md:text-sm "></img>
+                    <img id="img-box"  alt="Upload Photo" class="w-22 h-16 md:w-48 md:h-32 border relative mx-auto ext-xs md:text-sm text-white"></img>
                   
-                  <textarea class="js-post-text  text-xs md:text-sm border-2 border-blue-500 mt-2 md:mt-4 w-3/5 h-9 md:h-11"  rows="2" placeholder="Post Description" maxlength="255"  required id="id_text" data-post-url="{% url 'feed:new_post' %} " ></textarea>
+                  <textarea class="js-post-text  text-xs md:text-sm text-white border-2 border-blue-500 mt-2 md:mt-4 w-3/5 h-9 md:h-11"  rows="2" placeholder="Post Description" maxlength="255"  required id="id_text" data-post-url="{% url 'feed:new_post' %} " ></textarea>
                           
                     
               </div>
           <!--footer-->
               <div class="  text-center space-x-1 md:block  mt-4">
 
-              <button class="js-submit  bg-blue-500 text-white font-semibold mb-2 md:mb-0 px-3 py-1 
-                            md-py-2 border-b-2 border-green-500 shadow-sm font-medium tracking-wider border 
+              <button class="js-submit  bg-blue-500 text-white bg-blue-500 shadow-lg shadow-blue-500/50 font-semibold mb-2 md:mb-0 px-3 py-1 
+                            md-py-2  border-green-500 shadow-sm font-medium tracking-wider border 
                             rounded-full hover:shadow-lg hover:bg-gray-100 mr-2 hover:border-green-600 hover:bg-green-500 hover:text-white
                             shadow-md inline-flex text-xs md:text-sm mr-2">
                             Create Post
@@ -141,7 +141,7 @@
       <!-- TODO:Update Post -->
       <div class="min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-40 outline-none focus:outline-none bg-no-repeat bg-center bg-cover  hidden js-update-model"  id="modal-id">
         <div class="absolute bg-black opacity-75 inset-0 z-0 w-100"></div>
-        <div class="relative mx-auto my-auto rounded-xl shadow-lg  bg-white  w-fit h-auto md:w-2/5 p-1 md:p-3 ">
+        <div class="relative mx-auto my-auto rounded-xl shadow-lg bg-gray-900 opacity-75 w-fit h-auto md:w-2/5 p-1 md:p-3 ">
         <!--content-->
           <div class=" m-auto">
             <form id="formEdit" action="">
@@ -260,7 +260,7 @@
           <div class="min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-40 outline-none focus:outline-none bg-no-repeat bg-center bg-cover  hidden js-story-model"  id="modal-id">
             <div class="absolute bg-black opacity-75 inset-0 z-0 w-100"></div>
            
-            <div class="relative mx-auto my-auto rounded-xl shadow-lg  bg-white  w-fit h-auto md:w-2/5 p-1 md:p-3 ">
+            <div class="relative mx-auto my-auto rounded-xl shadow-lg  bg-gray-900 opacity-75 w-fit h-auto md:w-2/5 p-1 md:p-3 ">
             <!--content-->
               <div class=" m-auto">
               <!--body-->
@@ -269,12 +269,12 @@
                   
                       <!-- TODO:Add the ajax form -->
                         <div class="md:flex-row pt-3 px-0 md:px-3     " style="text-align: -webkit-center;">
-                          <div class=" flex flex-col md:flex-row w-3/5 items-baseline "><label  for="id_photo"  class="text-xs md:text-sm text-center">Photo:</label> </div>
-                          <input type="file" class="js-story-photo text-center flex flex-col md:flex-row text-xs md:text-sm w-3/5 items-baseline mb-2" name="photo" required id="id_photos"></div>
+                          <div class=" flex flex-col md:flex-row w-3/5 items-baseline "><label  for="id_photo"  class="text-xs md:text-sm text-center text-white">Photo:</label> </div>
+                          <input type="file" class="js-story-photo text-center text-white flex flex-col md:flex-row text-xs md:text-sm w-3/5 items-baseline mb-2" name="photo" required id="id_photos"></div>
                         <!-- <div id="img-box"  class="w-1/2 h-12 md:h-1/4 md:w-1/2 relative mx-auto"></div> -->
-                        <img id="img-preview"  alt="Upload Photo" class="w-22 h-16 md:w-48 md:h-32 border relative mx-auto ext-xs md:text-sm "></img>
+                        <img id="img-preview"  alt="Upload Photo" class="w-22 h-16 md:w-48 md:h-32 border relative mx-auto ext-xs md:text-sm text-white"></img>
                       
-                      <textarea class="js-story-text  text-xs md:text-sm border-2 border-blue-500 mt-2 md:mt-4 w-3/5 h-9 md:h-11"  rows="2" placeholder="Story Description" maxlength="255"  required id="id_text" data-post-url="{% url 'feed:add_story' %} " ></textarea>
+                      <textarea class="js-story-text  text-xs md:text-sm text-white border-2 border-blue-500 mt-2 md:mt-4 w-3/5 h-9 md:h-11"  rows="2" placeholder="Story Description" maxlength="255"  required id="id_text" data-post-url="{% url 'feed:add_story' %} " ></textarea>
                               
                         
                   </div>

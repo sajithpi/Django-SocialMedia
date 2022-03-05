@@ -15,6 +15,7 @@ from profiles.models import MessageModel, Profile, ThreadModel
 from feed.models import Favorites
 from .models import Comment, Notification, Post,Like, Stories
 from django.db.models import Q
+import datetime
 from chat.models import Chat, RoomChat
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -53,11 +54,16 @@ class HomePage(TemplateView):
         try:
             stories = Stories.objects.order_by('author')
             for story in stories:
-                hour = story.created_time.hour
+                created_date = story.created_time.day
+                current_date = datetime.datetime.now().day
+                print("current date:",current_date)
+                print("Created Day:",created_date)
                 story = Stories.objects.get(id=story.id)
-                if hour > 24 :
-                     story.delete()
+                if current_date > created_date :
+                    #  story.delete()
                      print("Story Time Exeeded 1 Day")
+                else:
+                    print("Story Available")
         except Stories.DoesNotExist:
             pass
 
@@ -211,7 +217,7 @@ def Like_post(request):
         print("username:",user.username)
         print("post_photo:",post_object.author.profile.image.url)
        
-        # print("Post Author : ",post_object.author.username)
+        print("Post Author : ",post_object.author.username)
 
         if user in post_object.likes.all():
             post_object.likes.remove(user)
@@ -239,9 +245,9 @@ def Like_post(request):
             'value':like.value,
             'likes':post_object.likes.all().count()
         }
-        return JsonResponse(data, safe=False)
+        return JsonResponse({'message':'success','status':like.value})
 
-    return JsonResponse({"message":"error"}, safe=False)
+    return JsonResponse({"message":"error"})
 
 def Comment_post(request):
 

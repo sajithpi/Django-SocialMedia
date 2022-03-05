@@ -1,0 +1,230 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load thumbnail %}
+{% block title %}
+<!-- {{ user.username }} -->
+{% endblock title %}
+
+{% block body %}
+<div class="relative">
+
+    <!--  TODO:Navbar -->
+    <div class="fixed top-0 left-0 right-0 z-50">
+        {% include 'includes/navbar.html' %}
+    </div>
+    
+    <!-- component -->
+   
+    <div class="flex max-w-full z-50 mt-16 md:mt-32 ">
+        <div class="w-full ">
+            <div class=" h-auto mx-auto">
+                <div class="flex  flex-wrap px-1 md:px-3">
+                    <div class="flex md:w-1/4  text-center justify-start md:justify-end">
+                    
+                        <div class="w-3/5  md:w-3/4 text-center mt-8 ">
+    
+                          
+                            <div class="flex justify-center  ">
+                                {% thumbnail user.profile.image "155x155" crop="center" as im %}
+                                <img src="{{ im.url }}" class="rounded-full border-solid border-white border-2 -mt-3">
+                                {% endthumbnail %}
+                            </div>
+    
+                        </div>
+                    </div>
+                    <div class="w-full md:w-3/4  text-center ">
+                        <div class="flex text-left pl-4 pt-3 items-center ">
+                            <div
+                                class="text-base text-gray-700 text-xl md:text-2xl mr-2 capitalize py-1 
+                                md-py-2 mb-2">{{user.username}}</span>
+                         
+                             
+                            </div>
+                           {% if request.user == user %}
+                        
+                            <a href="{% url 'profiles:update' user.id %}">
+                                <button
+                                class="bg-transparent  bg-blue-500 text-gray-700 font-semibold mb-2 md:mb-0 px-3 py-1 
+                                md-py-2 border-b-2 border-green-500 shadow-sm font-medium tracking-wider border 
+                                rounded-full hover:shadow-lg hover:bg-gray-100 mr-2 hover:border-green-600 hover:bg-green-500 hover:text-black
+                                shadow-md inline-flex text-xs md:text-sm mr-2">Edit
+                                Profile
+                            </button> 
+                            </a>
+                            {% endif %}
+                            {% if request.user.is_authenticated %}
+                            {% if request.user != user %}
+                            <div class="mt-3">
+                                <button  class="bg-white text-gray-800 font-bold rounded border-b-2 border-green-500 hover:border-green-600 hover:bg-blue-600 hover:text-gray-400 shadow-md py-1 px-3 text-xs inline-flex items-center js-follow" 
+                                        data-username="{{ user.username }}" data-action="{% if you_follow %}un{% endif %}follow" 
+                                        data-url="{% url 'profiles:follow' user.username %}" type="button" >
+                                    <span id="follow-button" class="mr-2 js-follow-text" >
+                                        {% if you_follow %}
+                                            Unfollow
+                                        {% else %}
+                                            Follow
+                                        {% endif %}
+                                    </span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                        <path fill="currentcolor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+                                    </svg>
+                                </button>
+                                <button  class="flex bg-white text-gray-800 font-bold rounded border-b-2 border-blue-500 hover:border-green-600 hover:bg-blue-600 hover:text-gray-400 shadow-md py-1 px-3 text-xs inline-flex items-center">
+                                    <a href="{% url 'chat:room' user.username %}" class="flex items-center">
+                                       <div class="text-xs md:text-sm">Message</div>
+                                        <i class='bx bxs-paper-plane text-indigo-500 text-xl md:text-2xl'></i>
+                                    </a>
+                                </button>
+                            </div>
+                            
+                        {% endif %}
+                        {% else %}
+                            <div class="mt-3 text-sm">Login to follow this user</div>
+                        {% endif %}
+    
+                        </div>
+    
+                        <div class="text-left pl-4 pt-3 px-3" id="follow-container">
+                            <span class="text-base font-semibold text-gray-700 mr-2">
+                                <span id="posts" class="font-bold px-1">{{total_posts}} </span>Posts
+                            </span>
+                            <span class="text-base font-semibold text-gray-700 mr-2" >
+                                <span id="follower" class="font-bold px-1">{{total_followers}}</span> Followers
+                            </span>
+                            <span class="text-base font-semibold text-gray-700 font-bold px-1" >
+                                <span id="followers" class="font-bold px-1">{{total_following}} </span>Following
+                            </span>
+                        </div>
+    
+                        <div class="text-left pl-4 pt-3">
+                            
+                            {% if user.profile.country %}
+                                <span class="text-base font-bold text-gray-700 mr-2 capitalize">{{user.profile.country}}</span>
+                            {% endif %}
+                            
+                            {% if user.profile.place %}
+                                <span class="text-base font-bold text-gray-700 mr-2 capitalize">{{user.profile.place}}</span>                
+                            {% endif %}
+                            
+                        </div>
+    
+                        <div class="text-left pl-4 pt-3 px-2">
+                              <p
+                                class="text-sm text-gray-700 mr-2 font-semibold uppercase">{{profile_name}}</span>     
+                              </p>
+                              <p
+                              class="text-base text-gray-700 text-base mr-2">{{user.profile.bio}}</span>     
+                            </p>
+                            <p class="text-base font-medium text-blue-700 mr-2 mt-2">#graphicsdesigner #traveller #reader
+                                #blogger #digitalmarketer</p>
+                            <a href="mailto:{{user.email}}"><p class="text-base font-medium text-blue-500 mr-2 break-words">{{user.email}}</p></a>
+                        </div>
+                    </div>
+                    
+    
+                    
+    
+    
+                </div>
+    
+                <!--TODO:favorite show icon-->
+    
+                <div class="flex text-left pl-4 pt-3 px-3">
+                    
+                    {% if favorites %}
+                        {% for favorite in favorites %}
+                            
+                            <div class="text-center px-0 md:px-4 py-2 mx-1 md:mx-4">
+                                <div
+                                    class="shadow-xl mx-auto w-16 h-16 md:w-20 md:h-20  border-white rounded-full overflow-hidden border-4">
+                                    <img class="object-cover h-full"
+                                        src="{{favorite.post.photo.url}}" />
+                                
+                                </div>
+                                <h1 class="text-base font-semibold text-gray-900">{{favorite.post.text}}</h1>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                            <div class="flex text-base md:text-lg font-semibold text-gray-800">
+                                Add Your Favorite Posts Here
+                            </div>
+                        
+                    {% endif %}
+    
+                </div>
+    
+                <hr class="border-gray-500 mt-6" />
+    
+    
+                <!--post icon and title-->
+                <div class="flex flex-row justify-center ">
+                    <div class="flex text-gray-700 text-center py-2 m-2 ">
+                        <div class="flex inline-flex">
+                            <button
+                                class="border-transparent text-gray-800 rounded-full hover:text-blue-600 focus:outline-none focus:text-gray-600"
+                                aria-label="Notifications">
+                                <svg class="h-6 w-6" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M17 14v6m-3-3h6M6 10h2a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2zm10 0h2a2 2 0 002-2V6a2 2 0 00-2-2h-2a2 2 0 00-2 2v2a2 2 0 002 2zM6 20h2a2 2 0 002-2v-2a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2z" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="flex inline-flex ml-2 mt-1">
+                            <h3 class="text-sm font-bold text-gray-800 ">POSTS</h3>
+                        </div>
+                    </div>
+                </div>
+                {% if posts %}  
+                <div class="flex pt-4 ">
+                    <div class="flex pt-4 mx-auto flex-wrap text-center py-2 pl-3 md:pl-6 lg:pl-0">
+                            {% for post in posts %}
+                                    
+                                <div class="flex text-center px-1 my-1 md:my-2">
+                                    <a href="{% url 'feed:detail' post.id %}">
+                                    <img class="w-28 md:w-56 lg:w-72 object-scale-down"
+                                        src="{{post.photo.url}}" />
+                                    </a>
+                                </div>
+                        
+                            {% endfor %}
+                        
+                    </div> 
+                </div>
+                {% else %}
+
+                <div class="flex text-base md:text-lg font-semibold text-gray-800 mb-4">No Posts Yet, Do You Like To Add New Posts?
+                <button
+                class="flex-shrink-0 pr-0.5 md:pr-4 border-transparent text-gray-700 rounded-full hover:text-gray-600 focus:outline-none "
+                aria-label="Notifications">
+                    <a href="{% url 'feed:new_post' %}"
+                    class="js-model-icon flex flex-col md:flex-row items-center  text-gray-500 hover:text-gray-800 ">
+                    <span class="inline-flex items-center content-start md:content-center   text-gray-400"><i
+                        class="bx bx-message-alt-add text-indigo-500 text-xl md:text-3xl"></i></span>
+                
+                    </a>
+                </button>
+                </div>
+                {% endif %}
+        </div>
+        </div>
+    </div>
+
+
+
+{% endblock body%}
+
+<script>
+    
+    function updateFollower(){
+        const text= document.getElementById("follow-button").innerText
+        const follow_value = document.getElementById("follower").innerText
+
+        if( text === "Follow" ){
+            document.getElementById("follower").innerText = Number(follow_value) + 1
+        } else{
+            document.getElementById("follower").innerText = Number(follow_value) - 1
+        }
+      
+    }
+</script>

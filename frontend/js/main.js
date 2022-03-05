@@ -550,48 +550,57 @@ $(document)
 
 
   // TODO:Like
- $(".like-form").submit(function(e){
+ .on("click",".like-button",function(e){
+
    e.preventDefault()
    console.log("Works")
    const post_id = $(this).attr('id')
-   const like_text = $(`.like-button${post_id}`).text()
-   const trimmed_text = $.trim(like_text)
-   const url = $(this).attr('action')
-   const like_img = document.getElementById(`like-box${post_id}`)
-   console.log(url)
-   let res;
-   const like_count = $(`.like-count${post_id}`).text()
-   const trim_count = parseInt(like_count)
-   console.log(trim_count)
+   const url = $(this).data('like-url')
+   let like_icon = document.getElementById(`like-icon${post_id}`)
+  //  like_icon.innerHTML = ""
+   console.log("url:",url)
+   var like_count = $(`#like_count${post_id}`).val()
+  let like_count_div = document.getElementById(`like-count${post_id}`)
+   console.log("post_id:",post_id)
+   console.log("like_count:",like_count)
       $.ajax({
         type :  'POST',
         url : url,
         data : {
-          'csrfmiddlewaretoken' : $('input[name=csrfmiddlewaretoken]').val(),
+  
           'post_id':post_id,
 
         },
-        success:function(response){
-          if(trimmed_text ==='Dislike'){
-              $(`.like-button${post_id}`).text('Like')
-              like_img.innerHTML = '<i class="bx bx-heart"></i>'
-              
-              res = trim_count - 1
+        success:function(response) {
+          if(response.message === 'success'){
+            console.log("success")
+            console.log("response:",response.status)
+            if(response.status === 'Dislike'){
+                // like_icon.innerHTML = `<i class='bx bx-heart '></i>`
+                like_icon.classList.replace('bxs-heart','bx-heart')
+                like_icon.classList.replace('text-red-500','text-blue-500')
+                like_count = Math.abs(like_count,1)
+                console.log("like count:",like_count)
+                like_count_div.innerText = like_count
+            }
+            else if(response.status === 'Like'){
+                // like_icon.innerHTML = `<i  class='bx bxs-heart text-red-500'></i>`
+                like_icon.classList.replace('bx-heart','bxs-heart')
+                like_icon.classList.replace('text-blue-500','text-red-500')
+                like_count = parseInt(like_count) + 1
+                console.log("like count:",like_count)
+                like_count_div.innerText = like_count
+            }
           }
-          else {
-              $(`.like-button${post_id}`).text('Dislike')
-              like_img.innerHTML = '<i class="bx bxs-heart text-red-500"></i>'
-              res = trim_count + 1
+          else{
+            console.log(response.error)
           }
-          $(`.like-count${post_id}`).text(res+" Likes")
         },
-        error:function(response){
-          console.log('error',response)
-        },
-       
       })
+    })
+      
+ 
 
- })
 
  if(!!window.performance && window.performance.navigation.type === 2)
 {
