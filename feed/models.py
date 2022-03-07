@@ -52,10 +52,12 @@ class Stories(models.Model):
     photo = ImageField(upload_to="uploads/stories")
     viewers = models.ManyToManyField(User, related_name="viewers")
    
-    def __str__(self):
-        return str(self.author.username + ' ') + str('- ' + self.text)
+    # def __str__(self):
+    #     return str(self.author.username + ' ') + str('- ' + self.text)
 
-
+# class Stories_Seen(models.Model):
+#     story = models.ForeignKey(Stories,on_delete=models.CASCADE)
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
  
 class Comment(models.Model):

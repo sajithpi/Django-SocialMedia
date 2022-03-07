@@ -274,7 +274,7 @@
                         <!-- <div id="img-box"  class="w-1/2 h-12 md:h-1/4 md:w-1/2 relative mx-auto"></div> -->
                         <img id="img-preview"  alt="Upload Photo" class="w-22 h-16 md:w-48 md:h-32 border relative mx-auto ext-xs md:text-sm text-white"></img>
                       
-                      <textarea class="js-story-text  text-xs md:text-sm text-white border-2 border-blue-500 mt-2 md:mt-4 w-3/5 h-9 md:h-11"  rows="2" placeholder="Story Description" maxlength="255"  required id="id_text" data-post-url="{% url 'feed:add_story' %} " ></textarea>
+                      <textarea class="js-story-text  text-xs md:text-sm text-black border-2 border-blue-500 mt-2 md:mt-4 w-3/5 h-9 md:h-11"  rows="2" placeholder="Story Description" maxlength="255"  required id="id_text" data-post-url="{% url 'feed:add_story' %} " ></textarea>
                               
                         
                   </div>
@@ -361,7 +361,8 @@
                         
                   </div>
               <!--footer-->
-              <div id="story-caption"class=" w-full text-white" data-story-seen-url="{% url 'feed:view_story' %}"></div>
+              <div id="story-caption" class=" w-full text-white" data-story-seen-url="{% url 'feed:view_story' %}"></div>
+              <div id="story-seen-add" class=" w-full text-white" data-story-seen-add-url="{% url 'feed:story_seen_add' %}"></div>
               <input id="story-usernames" class="bg-black text-white border">
               <input id="story-captions" class="bg-black text-white border">
               <input id="story-id" class="bg-black text-white border">

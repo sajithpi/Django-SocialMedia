@@ -53,6 +53,7 @@ class HomePage(TemplateView):
         user = User.objects.get(id=self.request.user.id)
         try:
             stories = Stories.objects.order_by('author')
+          
             for story in stories:
                 created_date = story.created_time.day
                 current_date = datetime.datetime.now().day
@@ -79,7 +80,7 @@ class HomePage(TemplateView):
                 print(i.content)
         except:
             pass
-    
+        user_story = Stories.objects.filter(author__id=self.request.user.id).first()
         
         context['posts'] = posts
         context['comment_form'] = comment_form
@@ -87,9 +88,9 @@ class HomePage(TemplateView):
         context['rooms'] = rooms
         context['chats'] = chats
         context['stories'] = stories
+        context['user_story'] = user_story
         
         return context
-
 class PostDetailView(DetailView):
     http_method_names = ["get"]
     template_name = "feed/detail.html"
@@ -185,6 +186,24 @@ def addStory(request):
         return JsonResponse({"message":"success"})
     return JsonResponse({'message':'not'})
 
+# def View_story(request):
+#     if request.method == 'POST':
+#         story_id = request.POST.get('story_id')
+#         story_author = request.POST.get('story_author')
+#         print("story_id:",story_id)
+#         print("story_author:",story_author)
+#         story = Stories.objects.filter(author__username=story_author).order_by("-created_time").values()
+   
+#         story_seen = Stories.objects.filter(author__username=story_author).order_by("created_time")
+#         # print("story count:",story))
+#         story_count = story.count()
+#         user = Stories.objects.get(id= request.user.id)
+#         # story.viewers.add(user)
+#         return JsonResponse({'message':'success','story':list(story),'count':story_count,'username':user.username})
+
+    
+    # return JsonResponse({"message":"not"})
+
 def View_story(request):
     if request.method == 'POST':
         story_id = request.POST.get('story_id')
@@ -203,6 +222,21 @@ def View_story(request):
 def Story_Seen(request):
     if request.method == 'POST':
         return JsonResponse({"message":"success"})
+    return JsonResponse({"message":"not"})
+def Story_Seen_Add(request):
+    if request.method == 'POST':
+        story_id = request.POST.get('story_id')
+        story_text = request.POST.get('story_text')
+        user = User.objects.get(id=request.user.id)
+        story = Stories.objects.get(text=story_text)
+        print("story_text:",story_text)
+        print("story_id",story_id)
+        if user in story.viewers.all():
+            story.viewers.remove(user)
+        else:
+            story.viewers.add(user)
+        # print("story:",list(story))
+        return JsonResponse({'message':'success',"story_id":story_id})
     return JsonResponse({"message":"not"})
 def Like_post(request):
     user = request.user

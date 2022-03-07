@@ -2,13 +2,13 @@
 
 
 {% if request.user != user.user %}
-<div class="mx-auto flex max-w-7xl  bg-white rounded-lg items-center relative "
+<div class="mx-auto flex max-w-7xl  bg-transparent rounded-lg items-center relative "
 	x-data="{
         comment : false,
     }">
 
 
-    <div class="flex flex-col  bg-white shadow-md hover:shodow-lg rounded-2xl w-full h-full ">
+    <div class="flex flex-col   shadow-md hover:shodow-lg rounded-2xl w-full h-full ">
         <div class="flex items-center justify-between">
             <div class="flex items-center mx-1 md:mx-3">
                 <div class="flex w-16 md:w-24 h-16 md:h-auto items-center ml-1 md:ml-5 ">
@@ -20,7 +20,7 @@
                     </a>
                 </div>
                 <div class="flex flex-col ml-3">
-                    <div class="font-medium leading-none uppercase text-sm md:text-base mt-3 font-semibold">{{user.user}}</div>
+                    <div class=" text-sm md:text-base mt-3 font-semibold">{{user.user}}</div>
                     
                     {% if user.gender %}
                         <span class="text-sm text-gray-600 leading-none mt-1 capitalize">{{user.gender}}</p>

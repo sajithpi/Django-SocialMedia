@@ -671,7 +671,7 @@ $(document)
 
         console.log("success")
         $("#posts-container").prepend(response);
-        $btn.prop("disabled", false).text("Create Post");
+        $btn.prop("disabled", false).text("Add Your Story");
   
         handleAlerts("success", "Succesfully saved", "green");
         setTimeout(() => {
@@ -729,7 +729,7 @@ $(document)
     success:function(response){
       if(response.message === 'success'){
         console.log("success")
-        // console.log(response.story)
+        console.log(response.story)
         console.log(response.count)
         var myMoveInterval 
       
@@ -742,10 +742,11 @@ $(document)
         
           status_counter_tile.innerHTML = `<button id="status${i}" class="w-full bg-gray-700 border-2 border-black mt-2" onclick="StoryView('${response_story.story[i].photo}', '${story_author_image}', '${response_story.username}', '${response_story.story[i].text}',0,${i},'${response_story.story[i].created_time}','tile')">
                                           <div id="myBar${i}" class="h-1 bg-white w-full"></div></button>` + status_counter_tile.innerHTML
+                                          // console.log("Story:",response.story.viewers.all)
 
         }
             // Fetching the first story
-            JsonResponse_Story(0)  
+            JsonResponse_Story(0)      
         }
         else{
           console.log("not")
@@ -783,8 +784,8 @@ function JsonResponse_Story(i){
     let story_seen_icon = document.getElementById("story-seen-icon")
     story_seen_icon.innerHTML = ""
     
-    story_seen_icon.innerHTML = `<button onclick="Story_SeenBy('${response_story.username}','${response_story.story[i].photo}','${response_story.story[i].text}','${index_value}')"><i id="story-id${index_value + 1}" class="bi bi-eye text-white"></i></button>`
-
+    story_seen_icon.innerHTML = `<button onclick="Story_SeenBy('${response_story.story[i].author}','${response_story.story[i].photo}','${response_story.story[i].text}','${index_value}')"><i id="story-id${index_value + 1}" class="bi bi-eye text-white"></i></button>`
+    console.log("Story_authorrrrr:",response_story.story[i].author)
     console.log("SeenType:",SeenTypeFinished)
     console.log("View Type:",view_type)
     console.log("i:",i)
@@ -792,7 +793,7 @@ function JsonResponse_Story(i){
 
     index_value = document.getElementById('story-id').value
 
-    story_seen_icon.innerHTML = `<button class="story_tile" onclick="Story_SeenBy('${response_story.username}','${response_story.story[i].photo}','${response_story.story[i].text}','${index_value}')"><i id="story-id${index_value + 1}" class="bi bi-eye text-white"></i></button>`
+    // story_seen_icon.innerHTML = `<button class="story_tile" onclick="Story_SeenBy('${response_story.username}','${response_story.story[i].photo}','${response_story.story[i].text}','${index_value}')"><i id="story-id${index_value + 1}" class="bi bi-eye text-white"></i></button>`
     // Finding Time Difference
     time = timeDifference(response_story.story[i].created_time.slice(0,19))
     console.log("time:",time)
@@ -800,7 +801,7 @@ function JsonResponse_Story(i){
     if(view_type=='auto'){
       
       
-        StoryView(response_story.story[i].photo, story_author_image, response_story.username, response_story.story[i].text,time,i,'0/0/000','auto')
+        StoryView(response_story.story[i].photo, story_author_image, response_story.story[i].author, response_story.story[i].text,time,i,'0/0/000','auto')
         console.log("i value:",i)
         if(i === response_story.count-1){
           flag_last = 1
@@ -810,7 +811,7 @@ function JsonResponse_Story(i){
     } 
     else{
      
-      StoryView(response_story.story[i].photo, story_author_image, response_story.username, response_story.story[i].text,time,i,'0/0/000','manual')
+      StoryView(response_story.story[i].photo, story_author_image,response_story.story[i].author, response_story.story[i].text,time,i,'0/0/000','manual')
       // StatusSeenTimeout = setTimeout(()=>{
        
       //    SeenTypeFinished  = 1
@@ -822,6 +823,26 @@ function JsonResponse_Story(i){
       // },1000000)
     }
 
+    $.ajax({
+      type:'POST',
+      url:$("#story-seen-add").data('story-seen-add-url'),
+      data:{
+        'story_id':i,
+        'story_text':response_story.story[i].text
+        
+  
+      },
+      success:function (response) {
+        if(response.message === 'success'){
+          // console.log("Story Seen Id:",response.story_id)
+          console.log("Success Story Seen")
+        }else{
+          console.log(response.error)
+        }
+      }
+
+    })
+
   
 
 
@@ -830,17 +851,18 @@ function JsonResponse_Story(i){
 
 function Story_SeenBy(username,story_img,story_caption,index){
   view_type="seen"
-  clearInterval(myTimeOut)
   console.log("Flag Last Value:",flag_last)
-
+  $(".js-story-seen-model").toggleClass("hidden")
+  console.log("Story-index ",index)
+  console.log("username:",username)
+  
+  clearInterval(myTimeOut)
       // document.getElementById("story-id").value = document.getElementById('story-id').value
-      document.getElementById("story_username").value = document.getElementById('story-usernames').value
+      // document.getElementById("story_username").value = document.getElementById('story-usernames').value
       document.getElementById("story_caption_text").value = document.getElementById('story-captions').value
       document.getElementById("story_id").value = document.getElementById('story-id').value
     
-      $(".js-story-seen-model").toggleClass("hidden")
-        console.log("Story-index ",index)
-        console.log("username:",username)
+   
     // view_type = "seen_by_user"
 
   }
@@ -870,7 +892,7 @@ function Story_SeenBy(username,story_img,story_caption,index){
               JsonResponse_Story(index+1)
             }else{
               // It WIll Automatically close when it will reach at the last story
-              $('.js-story-view-model').addClass('hidden')
+              // $('.js-story-view-model').addClass('hidden')
             }
             tile.classList.add("bg-gray-700")
             width=0
@@ -921,8 +943,9 @@ function StoryView(photo, author_image, username, story_caption, story_time, ind
   let story_caption_view = document.getElementById('story-caption')
   let story_user_view = document.getElementById('story-user')
   let story_id = document.getElementById('story-id')
-
-  document.getElementById("story-usernames").value = username
+  story_username.innerText = username
+  console.log("Username Story author:",username)
+  // document.getElementById("story-username").value = username
   document.getElementById("story-captions").value = story_caption
   document.getElementById("story-img").value = photo
   story_id.value = index
