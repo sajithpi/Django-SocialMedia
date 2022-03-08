@@ -27,7 +27,7 @@ urlpatterns = [
     path("add_story/",views.addStory,name="add_story"),
     path("view_story/",views.View_story,name="view_story"),
     path("story_seen_add/",views.Story_Seen_Add,name="story_seen_add"),
-    path("story_seen/",views.Story_Seen,name="story_seen"),
+    path("story_seen/",views.Story_Seen,name="story_seen_eye"),
    
 
 

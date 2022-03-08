@@ -100,7 +100,7 @@
       <div class="min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-40 outline-none focus:outline-none bg-no-repeat bg-center bg-cover  hidden js-model"  id="modal-id">
         <div class="absolute bg-black opacity-75 inset-0 z-0 w-100"></div>
        
-        <div class="relative mx-auto my-auto rounded-xl shadow-lg  bg-gray-900 opacity-95  w-fit h-auto md:w-2/5 p-1 md:p-3 ">
+        <div class="relative mx-auto my-auto rounded-xl shadow-lg backdrop-opacity-10 backdrop-invert bg-white/30 shadow-lg border backdrop-filter backdrop-blur-xl w-fit h-auto md:w-2/5 p-1 md:p-3 ">
         <!--content-->
           <div class=" m-auto">
           <!--body-->
@@ -141,7 +141,7 @@
       <!-- TODO:Update Post -->
       <div class="min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-40 outline-none focus:outline-none bg-no-repeat bg-center bg-cover  hidden js-update-model"  id="modal-id">
         <div class="absolute bg-black opacity-75 inset-0 z-0 w-100"></div>
-        <div class="relative mx-auto my-auto rounded-xl shadow-lg bg-gray-900 opacity-75 w-fit h-auto md:w-2/5 p-1 md:p-3 ">
+        <div class="relative mx-auto my-auto rounded-xl shadow-lg backdrop-opacity-10 backdrop-invert bg-white/30 shadow-lg border backdrop-filter backdrop-blur-xl w-fit h-auto md:w-2/5 p-1 md:p-3 ">
         <!--content-->
           <div class=" m-auto">
             <form id="formEdit" action="">
@@ -150,13 +150,13 @@
               
                 <!-- TODO:Add the ajax form -->
                   <input type="hidden" id="postId">
-                  <div class="md:flex-row pt-3 px-0 md:px-3     " style="text-align: -webkit-center;">
-                    <div class=" flex flex-col md:flex-row w-3/5 items-baseline "><label  for="id_photo"  class="text-xs md:text-sm text-center">Photo:</label> </div>
-                    <input type="file" name="photo" class="js-post-photo text-center flex flex-col md:flex-row text-xs md:text-sm w-3/5 items-baseline mb-2" name="photo" required id="id_update_photo"></div>
+                  <div class="md:flex-row pt-3 px-0 md:px-3 text-white" style="text-align: -webkit-center;">
+                    <div class=" flex flex-col md:flex-row w-3/5 items-baseline "><label  for="id_photo"  class="text-xs md:text-sm text-center text-white">Photo:</label> </div>
+                    <input type="file" name="photo" class="js-post-photo text-center flex flex-col md:flex-row text-xs md:text-sm w-3/5 items-baseline mb-2"  required id="id_update_photo"></div>
 
-                  <img id="img-box-update"  alt="Upload Photo" class="w-22 h-16 md:w-48 md:h-32 border relative mx-auto ext-xs md:text-sm "></img>
+                  <img id="img-box-update"  alt="Upload Photo" class="w-22 h-16 md:w-48 md:h-32 border relative mx-auto ext-xs md:text-sm"></img>
                 
-                <textarea name="postDes" id="post-updateText" class="js-post-textUpdate  text-xs md:text-sm border-2 border-blue-500 mt-2 md:mt-4 w-3/5 h-9 md:h-11"  rows="2" placeholder="Post Description" maxlength="255" data-url="{% url 'feed:update'  %}" required id="id_text"  ></textarea>
+                <textarea name="postDes" id="post-updateText" class="js-post-textUpdate  text-xs md:text-sm border-2 border-blue-500 mt-2 md:mt-4 w-3/5 h-9 md:h-11 text-black"  rows="2" placeholder="Post Description" maxlength="255" data-url="{% url 'feed:update'  %}" required id="id_text"  ></textarea>
                         
                   
             </div>
@@ -188,22 +188,22 @@
       <!-- component -->
       <div class="min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-40  outline-none focus:outline-none bg-no-repeat bg-center bg-cover hidden js-delete-model"   id="modal-id">
         <div class="absolute bg-black opacity-75 inset-0 z-0 w-100"></div>
-        <div class="relative mx-auto my-auto rounded-xl shadow-lg  bg-white  w-auto h-auto md:w-3/5 p-1 md:p-3 ">
+        <div class="relative mx-auto my-auto rounded-xl shadow-lg  backdrop-opacity-10 backdrop-invert bg-white/30 shadow-lg border backdrop-filter backdrop-blur-xl  w-auto h-auto md:w-3/5 p-1 md:p-3 ">
         <!--content-->
         <div class="">
             <form id="formDelete" action="">
               {% csrf_token %}
             <!--body-->
                   <div class="text-center p-1 flex-auto justify-center">
-                    <input type="text" id="postIdDelete">
+                    <input hidden type="text" id="postIdDelete">
                           <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 -m-1 flex items-center text-red-500 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                           </svg>
                           <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 flex items-center text-red-500 mx-auto" viewBox="0 0 20 20" fill="currentColor">
                               <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
                           </svg>
-                          <h2 class="text-xl font-bold py-1 ">Are you sure?</h3>
-                          <p class="text-sm text-gray-500 px-1 ">Do you really want to delete?</p>    
+                          <h2 class="text-xl font-bold py-1 text-white">Are you sure?</h3>
+                          <p class="text-sm text-gray-300 px-1 ">Do you really want to delete?</p>    
                   </div>
             <!--footer-->
                   <div class="p-1 text-center space-x-4 md:block">
@@ -260,7 +260,7 @@
           <div class="min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-40 outline-none focus:outline-none bg-no-repeat bg-center bg-cover  hidden js-story-model"  id="modal-id">
             <div class="absolute bg-black opacity-75 inset-0 z-0 w-100"></div>
            
-            <div class="relative mx-auto my-auto rounded-xl shadow-lg  bg-gray-900 opacity-75 w-fit h-auto md:w-2/5 p-1 md:p-3 ">
+            <div class="relative mx-auto my-auto rounded-xl shadow-lg  backdrop-opacity-10 backdrop-invert bg-white/30 shadow-lg border backdrop-filter backdrop-blur-xl w-fit h-auto md:w-2/5 p-1 md:p-3 ">
             <!--content-->
               <div class=" m-auto">
               <!--body-->
@@ -308,19 +308,21 @@
 
               
             <div class="absolute bg-black opacity-75 inset-0 z-0 w-100"></div>
-            <div class="relative mx-auto my-auto rounded-xl shadow-lg w-fit h-auto md:w-2/5 p-1 md:p-3 bg-gray-900">
+            <div class="relative mx-auto my-auto rounded-xl shadow-lg w-fit h-auto md:w-2/5 p-1 md:p-3 border backdrop-opacity-30 backdrop-invert  shadow-lg border backdrop-filter backdrop-blur-lg shadow-lg">
             <!--content-->
               <div class=" m-auto">
               <!--body-->
               <!-- <i class='bx bx-upload text-5xl text-blue-500 text-center'></i> -->
-              <div class="absolute right-0 top-0 -mr-2 -mt-2 border cursor-pointer shadow-lg z-10 p-1 rounded-full p-2 bg-gray-900">
-                <i id="story-view-cancel" class='bx bx-arrow-back text-white'></i>
-                </div>
+             
                   <div class="text-center flex-auto justify-center ">
                     <div class="flex pr-1" id="status-counter">
                       <!-- <a class="w-8 mr-1 h-8 text-gray-700 rounded-full bg-white flex justify-center items-center" href="#slide-1">1</a> -->
                     </div>
-                    <div class="flex pr-1 w-full" id="status-counter-tile" style="width: -webkit-fill-available;">
+                    <div id="story-view-cancel" class="absolute left-0 top-0 -mr-2   cursor-pointer shadow-lg z-10 backdrop-opacity-10 backdrop-invert bg-white/30 shadow-lg">
+                      <i  class='bx bx-arrow-back text-white p-1 border rounded-full'></i>
+                      </div>
+                      
+                    <div class="flex pr-1 w-full mt-4 " id="status-counter-tile" style="width: -webkit-fill-available;">
                       <!-- <a class="w-8 mr-1 h-8 text-gray-700 rounded-full bg-white flex justify-center items-center" href="#slide-1">1</a> -->
                     </div>
                       <!-- TODO:Add the ajax form -->
@@ -329,7 +331,7 @@
                             <div class="flex mb-1 m-1 md:m-0">
                               <div class="flex items-center">
 
-                                <div class="rounded-full p-1 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 ">
+                                <div class="rounded-full p-1  bg-gradient-to-b from-blue-400 via-green-500 to-indigo-700 ">
                                   <div class="rounded-full bg-white wrapper overflow-hidden h-8 w-8">
                                     <button>
                                       <a class="story-icon">
@@ -344,7 +346,7 @@
                                   
                                 </div>
                                 <div id="story-username" class="capitalize text-sm md:text-base px-2 py-1 text-white"></div>
-                                <div id="story-time" class="text-xs py-1 mt-1 self-center text-gray-200">asd</div>
+                                <div id="story-time" class="text-xs py-1 mt-1 self-center text-gray-100">asd</div>
                               </div>
                            
                                   </div>
@@ -363,11 +365,11 @@
               <!--footer-->
               <div id="story-caption" class=" w-full text-white" data-story-seen-url="{% url 'feed:view_story' %}"></div>
               <div id="story-seen-add" class=" w-full text-white" data-story-seen-add-url="{% url 'feed:story_seen_add' %}"></div>
-              <input id="story-usernames" class="bg-black text-white border">
-              <input id="story-captions" class="bg-black text-white border">
-              <input id="story-id" class="bg-black text-white border">
-              <input id="story-img" class="bg-black text-white border">
-               <div id="story-seen-icon">
+              <input hidden id="story-usernames" class="bg-black text-white border">
+              <input hidden id="story-captions" class="bg-black text-white border">
+              <input hidden id="story-id" class="bg-black text-white border">
+              <input hidden id="story-img" class="bg-black text-white border">
+               <div id="story-seen-icon" data-story-seen-eye-icon-url="{% url 'feed:story_seen_eye' %}">
                     <!-- <a class="w-8 mr-1 h-8 text-gray-700 rounded-full bg-white flex justify-center items-center" href="#slide-1">1</a> -->
                </div>
       
@@ -384,40 +386,30 @@
       
               
               
-            <div class="absolute bg-black opacity-75 inset-0 z-0 w-100"></div>
-            <div class="relative mx-auto my-auto rounded-xl shadow-lg w-fit h-auto md:w-2/5 p-1 md:p-3 bg-gray-900">
+            <div class="absolute bg-black opacity-80 inset-0 z-0 w-100"></div>
+            <div class="relative mx-auto my-auto rounded-xl shadow-lg w-fit h-auto md:w-2/5 backdrop-opacity-10 backdrop-invert bg-white/30 shadow-lg  border">
             <!--content-->
-              <div class=" m-auto">
+              <div class=" m-auto  ">
               <!--body-->
               <!-- <i class='bx bx-upload text-5xl text-blue-500 text-center'></i> -->
-              <div class="absolute right-0 top-0 -mr-2 -mt-2 border cursor-pointer shadow-lg z-10 p-1 rounded-full p-2 bg-gray-900">
-                <i id="js-story-seen-cancel" class='bx bx-arrow-back text-white'></i>
+              <div id="js-story-seen-cancel" class="absolute right-0 top-0 -mr-2 -mt-2 border cursor-pointer shadow-lg z-10 p-1 rounded-full p-2  bg-gray-100">
+                <i  class='bx bx-arrow-back text-black'></i>
                 </div>
                   <div class="text-center flex-auto justify-center ">
                  
                 
                       <!-- TODO:Add the ajax form -->
                         <div class="md:flex-row px-0 md:px-3     " style="text-align: -webkit-center;">
-                        
-                        <div class="relative">
+                          <div id="story_view_count" class="rounded-l-lg bg-gradient-to-r from-indigo-500 text-white text-xs md:text-base text-start pl-0.5 md:pl-2 " >
+                            Viewed By
+                          </div>
 
-                          <div class="user-row flex flex-col w-full items-center justify-between cursor-pointer  p-4 duration-300 sm:flex-row sm:py-4 sm:px-8 hover:bg-[#f6f8f9]"
-                              data-story-seen-url="{% url 'feed:story_seen' %}">
-                            <div class="user-seen-view flex items-center w-full border text-center flex-col sm:flex-row sm:text-left">
-                                <div class="flex avatar-content mb-2.5 sm:mb-0 sm:mr-2.5 p-0.5">
-                                    <img class="avatar w-10 h-10 rounded-full" src="https://randomuser.me/api/portraits/men/32.jpg"/>
-                                    <a href="#" class="title font-medium no-underline text-white self-center px-2">Wade Warren</a>
-                                </div>
-                              
-                                
-                                
-                              </div>
-                              
+                
+                        <div class="relative">
+                        <!-- TODO:Users -->
+                          <div id="user-row" class="user-row flex flex-col w-full items-center justify-between cursor-pointer  duration-300 sm:py-2 sm:px-8 py-2 hover:bg-[#f6f8f9] overflow-auto">
+                              <!-- TODO:Users List Will be show here -->
                             </div>
-                            
-                            <input id="story_username" class="bg-black text-white border">
-                            <input id="story_caption_text" class="bg-black text-white border">
-                            <input id="story_id" class="bg-black text-white border">
                             
                         </div>
                       
@@ -453,7 +445,7 @@
   <script src="{% static 'js/main.js' %}"></script>
   <script src="{% static 'js/room.js' %}"></script>
   <script src="{% static 'js/index.js' %}"></script>
-
+  <script src="{% static 'js/story.js' %}"></script>
 </body>
 
 </html>

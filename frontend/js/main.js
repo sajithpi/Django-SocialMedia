@@ -740,7 +740,7 @@ $(document)
        // TODO:Creating Status tiles
         for (let i = response.count-1;i >=0; i --) {
         
-          status_counter_tile.innerHTML = `<button id="status${i}" class="w-full bg-gray-700 border-2 border-black mt-2" onclick="StoryView('${response_story.story[i].photo}', '${story_author_image}', '${response_story.username}', '${response_story.story[i].text}',0,${i},'${response_story.story[i].created_time}','tile')">
+          status_counter_tile.innerHTML = `<button id="status${i}" class="w-full bg-gray-700 border-2 border-black mt-2" onclick="StoryView('${response_story.story[i].photo}', '${story_author_image}', '${story_author}', '${response_story.story[i].text}',0,${i},'${response_story.story[i].created_time}','tile')">
                                           <div id="myBar${i}" class="h-1 bg-white w-full"></div></button>` + status_counter_tile.innerHTML
                                           // console.log("Story:",response.story.viewers.all)
 
@@ -780,12 +780,13 @@ $(document)
 // Fetching and displaying the story from ajax success part
 function JsonResponse_Story(i){
     // var myMoveInterval 
+    let story_author = document.getElementById(`story-author-name${story_id}`).value
     let story_author_image = document.getElementById(`story-author-img${story_id}`).value
     let story_seen_icon = document.getElementById("story-seen-icon")
     story_seen_icon.innerHTML = ""
     
-    story_seen_icon.innerHTML = `<button onclick="Story_SeenBy('${response_story.story[i].author}','${response_story.story[i].photo}','${response_story.story[i].text}','${index_value}')"><i id="story-id${index_value + 1}" class="bi bi-eye text-white"></i></button>`
-    console.log("Story_authorrrrr:",response_story.story[i].author)
+    story_seen_icon.innerHTML = `<button onclick="Story_SeenBy('${story_author}','${story_author_image}','${response_story.story[i].text}','${i}')"><i id="story-id${index_value + 1}" class="bi bi-eye text-white"></i></button>`
+    console.log("story_author_image:",story_author_image)
     console.log("SeenType:",SeenTypeFinished)
     console.log("View Type:",view_type)
     console.log("i:",i)
@@ -801,7 +802,7 @@ function JsonResponse_Story(i){
     if(view_type=='auto'){
       
       
-        StoryView(response_story.story[i].photo, story_author_image, response_story.story[i].author, response_story.story[i].text,time,i,'0/0/000','auto')
+        StoryView(response_story.story[i].photo, story_author_image, story_author, response_story.story[i].text,time,i,'0/0/000','auto')
         console.log("i value:",i)
         if(i === response_story.count-1){
           flag_last = 1
@@ -811,7 +812,7 @@ function JsonResponse_Story(i){
     } 
     else{
      
-      StoryView(response_story.story[i].photo, story_author_image,response_story.story[i].author, response_story.story[i].text,time,i,'0/0/000','manual')
+      StoryView(response_story.story[i].photo, story_author_image,story_author, response_story.story[i].text,time,i,'0/0/000','manual')
       // StatusSeenTimeout = setTimeout(()=>{
        
       //    SeenTypeFinished  = 1
@@ -856,12 +857,66 @@ function Story_SeenBy(username,story_img,story_caption,index){
   console.log("Story-index ",index)
   console.log("username:",username)
   
-  clearInterval(myTimeOut)
-      // document.getElementById("story-id").value = document.getElementById('story-id').value
-      // document.getElementById("story_username").value = document.getElementById('story-usernames').value
-      document.getElementById("story_caption_text").value = document.getElementById('story-captions').value
-      document.getElementById("story_id").value = document.getElementById('story-id').value
-    
+  clearInterval(myMoveInterval);
+      
+      // document.getElementById("story_caption_text").value = document.getElementById('story-captions').value
+      // document.getElementById("story_id").value = document.getElementById('story-id').value
+      var view_count_div = document.getElementById('story_view_count')
+      var story_seen_view = document.getElementById('user-row')
+      story_seen_view.innerHTML=""
+
+
+      $.ajax({
+        type:'POST',
+        url:$('#story-seen-icon').data('story-seen-eye-icon-url'),
+        data:{
+          'story_id':document.getElementById('story-id').value,
+          'story_caption':document.getElementById('story-captions').value
+        },
+        success:function(response){
+          if(response.message==='success'){
+            console.log("Story seen eye icon success")
+              console.log("view_user",response.view_username)
+              console.log("view_user_dp:",response.view_user_dp)
+              console.log("viewers count:",response.viewers_count)
+              // .innerText = `Viewed By ${response.viewers_count}`
+              view_count_div.innerText = "Viewed By " + response.viewers_count + " Users"
+              for(let k = 0;k<response.viewers_count;k++){
+
+                story_seen_view.innerHTML = ` <div class="user-seen-view flex flex-col items-center
+                                                          w-full border-b-4 text-center  sm:text-left  border  backdrop-opacity-50 backdrop-invert border backdrop-filter backdrop-blur-lg shadow-lg shadow-lg rounded-lg">
+                                        
+                                                    <div class="flex avatar-content mb-2.5 sm:mb-0 sm:mr-2.5 p-0.5 self-start">
+                                                    <div class="rounded-full p-0.5  bg-gradient-to-b from-blue-400 via-green-500 to-indigo-700 ">
+                                                    <div class="rounded-full bg-white wrapper overflow-hidden h-8 w-8">
+                                                      <button>
+                                                        <a class="story-icon">
+                              
+                                                          <img id="story-user" width="auto" height="auto"
+                                                              class="rounded-full object-scale-down "src="${response.view_user_dp[k]}">
+                                                          
+                                                        </a>
+                                                      
+                                                      </button>
+                                                    </div>
+                                                    
+                                                  </div>
+                                                      
+                                                    
+                                                      <a class="title font-medium no-underline text-white self-center px-2 text-sm md:text-base">${response.view_username[k]}</a>
+                                                   
+                                                  </div>
+                                              </div>` + story_seen_view.innerHTML
+                                            
+              }
+
+          }
+          else{
+            console.log(response.error)
+          }
+        }
+
+      })
    
     // view_type = "seen_by_user"
 

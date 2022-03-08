@@ -50,7 +50,7 @@ class Stories(models.Model):
     text = models.CharField(max_length=55,blank=True)
     created_time = models.DateTimeField(auto_now=True)
     photo = ImageField(upload_to="uploads/stories")
-    viewers = models.ManyToManyField(User, related_name="viewers")
+    viewers = models.ManyToManyField(Profile, related_name="viewers")
    
     # def __str__(self):
     #     return str(self.author.username + ' ') + str('- ' + self.text)

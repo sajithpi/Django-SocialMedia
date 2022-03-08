@@ -212,6 +212,10 @@ def View_story(request):
         print("story_author:",story_author)
         story = Stories.objects.filter(author__username=story_author).order_by("-created_time").values()
         story_seen = Stories.objects.filter(author__username=story_author).order_by("created_time")
+        a = []
+        for st in story_seen:
+            a.append(st.author_id)
+            print("id",a)
         # print("story count:",story))
         story_count = story.count()
         user = User.objects.get(id= request.user.id)
@@ -221,13 +225,32 @@ def View_story(request):
 
 def Story_Seen(request):
     if request.method == 'POST':
-        return JsonResponse({"message":"success"})
+        story_id = request.POST.get('story_id')
+        story_caption = request.POST.get('story_caption')
+        print("story_id:",story_id)
+        print("story_caption",story_caption)
+        story = Stories.objects.get(text=story_caption)
+        viewers = story.viewers.all()
+        viewers_count = viewers.count()
+        print("viewers:",viewers)
+        print("viewers count:",viewers_count)
+        # print("story:",list(story))
+        view_username = []
+        view_user_dp = []
+        for i in viewers:
+            print(i.user.username)
+            print(i.image.url)
+            view_username.append(i.user.username)
+            view_user_dp.append(i.image.url)
+
+        return JsonResponse({"message":"success",'view_username':view_username,'view_user_dp':view_user_dp,'viewers_count':viewers_count})
+        
     return JsonResponse({"message":"not"})
 def Story_Seen_Add(request):
     if request.method == 'POST':
         story_id = request.POST.get('story_id')
         story_text = request.POST.get('story_text')
-        user = User.objects.get(id=request.user.id)
+        user = Profile.objects.get(user__id=request.user.id)
         story = Stories.objects.get(text=story_text)
         print("story_text:",story_text)
         print("story_id",story_id)
@@ -467,5 +490,4 @@ def user_profile_notification(request,notification_pk,user_pk):
     notification.save()
 
     return redirect('profiles:detail', username=user.username)
-
 
