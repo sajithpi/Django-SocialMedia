@@ -26,8 +26,9 @@ class Profile(models.Model):
     # dob = models.DateTimeField(auto_created=True)
     bio = models.TextField(null=True,blank=True,max_length=255)
     contact = models.IntegerField(null=True,blank=True,default=1)
+
     place = models.CharField(null=True,blank=True,max_length=100)
-   
+    state = models.CharField(null=True,blank=True,max_length=100)
     country = models.CharField(null=True,blank=True,max_length=100)
    
 

@@ -28,19 +28,35 @@
         
             {% if notification.from_user != notification.to_user %}
                     
-                <div class="bg-gray-100  pl-4 py-1 rounded-lg shadow-md max-w-md border-b ">
+                <div class="bg-gray-100  pl-1 md:pl-4 py-1 rounded-lg shadow-md max-w-md border-b ">
                     
                     <div class="flex items-center mt-3 hover:bg-gray-100 rounded-lg  py-1 cursor-pointer">
                         {% if notification.post %}
 
-                                    <div class="flex flex-shrink-0 items-end">
+                                    <!-- <div class="flex flex-shrink-0 items-end">
                                         <a href="{% url 'feed:user_profile_notification' notification.pk notification.from_user.id %}">
                                         {% thumbnail notification.from_user.profile.image "39x59" crop="center" as im %}
                                                                     <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"
                                                                         class="rounded-full object-scale-down">
                                         {% endthumbnail %}
                                         </a>
-                                    </div>
+                                    </div> -->
+                                    <div class="rounded-full p-0.5  bg-gradient-to-b from-blue-400 via-green-500 to-indigo-700 ">
+                                        <div class="rounded-full wrapper overflow-hidden h-9 w-9">
+                                          <button>
+                                            <a href="{% url 'feed:user_profile_notification' notification.pk notification.from_user.id %}">
+                  
+                                            {% thumbnail notification.from_user.profile.image "39x39" crop="center" as im %}
+                                                <img src="{{ im.url }}" class="object-scale-down rounded-full border-solid border-white border-2">
+                                              {% endthumbnail %}
+                                              
+                                            </a>
+                                           
+                                          </button>
+                                        </div>
+                                        
+                                      </div>
+
                                     <div class="ml-3">
                                     
                                         {% if notification.notification_type == 1 %}

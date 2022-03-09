@@ -14,147 +14,224 @@
 <div class="fixed top-0 left-0 right-0 z-50 ">
   {% include 'includes/navbar.html' %}
 </div>
-<div class="flex  bg-gray-100 max-w-7xl mt-4">
+<div class="flex  bg-gray-100 max-w-7xl mt-16 md:mt-28">
   
  
   <div class="overflow-hidden  w-full h-fit z-40 md:z-30 my-3 backdrop-blur-sm bg-white/30 " style="backdrop-filter: blur(20px);">
-    <div class="w-auto bg-cover bg-center h-48"
-      style="background-image: url('https://images.unsplash.com/photo-1593642532454-e138e28a63f4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=869&q=80');">
-    </div>
+ 
     <!-- <img src="https://images.unsplash.com/photo-1593642532454-e138e28a63f4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=869&q=80" class="bg-cover" /> -->
-    <div class="flex justify-center -mt-8">
-
+    <div class="relative flex justify-center mt-4">
+      <a href="{{user.profile.image.url}}">
       {% thumbnail user.profile.image "100x100" crop="center" as im %}
-
-      <img src="{{ im.url }}" alt="" class="rounded-full border-solid border-white border-2 -mt-3">
+    
+      <img src="{{ im.url }}" alt="" class="rounded-full border-solid border-white border-2 -mt-3 grayscale ">
       {% endthumbnail %}
-    </div>
-    <div class="text-center px-3 pb-6 pt-2">
-      <h3 class="text-black text-sm bold font-sans capitalize">{{ user.username }}</h3>
-
-
-      {% else %}
-      <div class="mt-3 text-sm">Login to Update this user</div>
-      {% endif %}
-    </div>
-    <div class="flex justify-center pb-3 text-grey-dark">
-      <div class="text-center mr-3 border-r pr-3">
-        <h2 class="text-md md:text-xl">{{ total_posts }}</h2>
-        <span class="text-md md:text-md">Posts</span>
+    </a>
+    <button class="absolute bottom-4 right-28 md:right-52  rounded-full h-4 w-4 md:h-5 md:w-5 text-sm md:text-2xl
+    text-white font-semibold border-2 flex justify-center items-center font-mono hover:bg-blue-700">
+    <i class='bx bx-camera text-gray-500'></i>
+</button>
+</div>
+      <div class="flex flex-col gap-1 text-center">
+       
+          <div class="font-serif font-semibold">{{user.username | capfirst}}</div>
+          <span class="text-xs md:text-sm text-black font-semibold">{{user.profile.bio | capfirst}}</span>
+          <span class="text-xs md:text-sm text-gray-400">
+              
+              {% if user.profile.country %}
+                  {{user.profile.country}},
+              {% else %}
+                  Country,
+              {% endif %}
+              
+              {% if user.profile.state %}
+                  {{user.profile.state}},
+              {% else %}
+                  State,
+              {% endif %}
+                  
+              {% if user.profile.place %}
+                  {{user.profile.place}}
+              {% else %}
+                  City
+              {% endif %}
+                  
+          </span>
+          <span class="text-sm text-gray-400">{{user.email}}</span>
+        
+          {% else %}
+          <div class="mt-3 text-sm">Login to Update this user</div>
+          {% endif %}
       </div>
-      <div class="text-center">
-        <h2 class="text-md md:text-xl">{{ total_followers }}</h2>
-        <span class="text-md md:text-md">Followers</span>
-      </div>
+
+      <!-- TODO:POsts,Followers,Following Details -->
+      <div class="flex justify-center items-center mt-3 text-sm md:text-base">
+        <div class="font-semibold text-center mx-4 text-black">
+            {{total_posts}}
+            <div class="text-gray-400">Posts</div>
+        </div>
+        <div class="font-semibold text-center mx-4 text-black">
+           {{total_followers}}
+            <div class="text-gray-400">Followers</div>
+        </div>
+        <div class="font-semibold text-center mx-4 text-black">
+           {{total_following}}
+            <div class="text-gray-400">Folowing</div>
+        </div>
     </div>
 
 
     <!-- TODO:About -->
     <div class="my-3 text-gray-700">
       <div class="flex justify-between items-center">
-        <div class="text-sm md:text-2xl pl-1 md:pl-3 font-bold ">User Primary Details</div>
+        <div class="text-sm md:text-lg pl-1 md:pl-3 font-bold ">Personal Details</div>
 
       </div>
       <hr>
-      <div class="grid lg:grid-cols-2 text-sm mx-1 md:mx-3">
-        <div class="grid grid-cols-2 mt-3 self-center">
-          <div class="px-4 py-2 font-semibold">User Name</div>
-          <input class="px-1 md:px-4 py-1 md:py-2 text-sm md:text-base border-2 " type="text" name="username"
-            value="{{user.username}}" maxlength="150" required id="id_username">
+      <form class="w-full max-w-lg" method="post" enctype="multipart/form-data">
+          
+        {% csrf_token %}
+        <!-- {{form.as_p}} -->
+      <div class="flex flex-wrap -mx-3 mb-6">
+        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+            USER NAME
+          </label>
+          <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-2 px-4 mb-1 md:mb-3 leading-tight focus:outline-none focus:bg-white" type="text" name="username"
+          value="{{user.username}}" maxlength="150" required id="id_username">
         </div>
-        <div class="grid grid-cols-2 mt-3">
-          <div class="px-4 py-2 font-semibold self-center">Email.</div>
-          <div class="px-1 md:px-4 py-2 ">
-            <a class=" py-1 md:py-2 text-sm md:text-base  break-words"
-              href="mailto:{{user.email}}">{{user.email}}</a><br>
-              <a class=" md:py-2 text-sm md:text-base  " href="{% url 'profiles:reset' %}"><span
-                class="text-sm md:text-base">Reset
-                Password</span></a>
-          </div>
+        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="id_email">
+            Email
+          </label>
+          <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-2 px-4 mb-1 md:mb-3 leading-tight focus:outline-none focus:bg-white" id="email" type="text" placeholder="{{user.email}}">
         </div>
+     
       </div>
+      
+     
 
       <!-- TODO:Personal Details -->
       <div class="my-3 text-gray-700">
-        <div class="flex justify-between items-center">
-          <div class="text-sm md:text-2xl pl-1 md:pl-3 font-bold ">Personal Details</div>
-    
-          <!-- <a class="text-end md:text-cente pr-1 md:pr-3" href="..//..//..//til/templates/account/password_change.html"><span class="text-sm md:text-base">Reset
-                  Password</span></a> -->
-        </div>
-        <hr>
-
-
-
-        <form method="post" enctype="multipart/form-data">
-          {% csrf_token %}
-          <!-- {{ form.as_p }} -->
-          <div class="grid lg:grid-cols-2 text-sm mx-1 md:mx-3">
-
             <p class="hidden"><label for="id_user">User:</label>
               <select name="user" required id="id_user">
                 <option value="">---------</option>
                 <option value="{{user.id}}" selected>{{user.profile.user}}</option>
-
-
-
               </select></p>
-            <div class="grid grid-cols-2 mt-3 content-center">
-              <label class="px-4 py-2 font-semibold" for="id_image">Image:</label>
-              <p class=" py-2 font-semibold self-center">Currently:
-                <a class="text-xs break-words" href="{{user.profile.image}}">{{user.profile.image}}</a></p>
-
-            </div>
-            <div class="grid grid-cols-2 mt-3 content-center">
-              <p class="px-4 py-2 font-semibold">Change:
-                <input type="file" name="image" id="id_image"></p>
-
-            </div>
-            <div class="grid grid-cols-2 mt-3 h-auto">
-              <label class="px-4 py-2 font-semibold" for="id_gender">Bio:</label>
-              <textarea class="px-1 md:px-4 py-1 md:py-2 text-sm md:text-base mx-2 md:mx-0 border-2 h-fit" 
-                name="bio" maxlength="100" required id="id_bio">{{user.profile.bio}}</textarea>
-            </div>
-            <div class="grid grid-cols-2 mt-3 h-auto">
-              <label class="px-4 py-2 font-semibold" for="id_gender">Gender:</label>
-              <input class="px-1 md:px-4 py-1 md:py-2 text-sm md:text-base mx-2 md:mx-0 border-2 h-fit" type="text"
-                name="gender" value="{{user.profile.gender}}" maxlength="100" required id="id_gender">
-            </div>
-            <div class="grid grid-cols-2 mt-3">
-              <label class="px-4 py-2 font-semibold" for="id_contact">Contact:</label>
-              <input class="px-1 md:px-4 py-1 md:py-2 text-sm md:text-base mx-2 md:mx-0 border-2" type="number"
-                name="contact" value="{{user.profile.contact}}" required id="id_contact">
-            </div>
-
-            <div class="grid grid-cols-2 mt-3">
-              <label class="px-4 py-2 font-semibold" for="id_place">Place:</label>
-              <input class="px-1 md:px-4 py-1 md:py-2 text-sm md:text-base mx-2 md:mx-0 border-2" type="text"
-                name="place" value="{{user.profile.place}}" maxlength="100" required id="id_place">
-            </div>
-            <div class="grid grid-cols-2 mt-3">
-              <label class="px-4 py-2 font-semibold" for="id_country">Country:</label>
-              <input class="px-1 md:px-4 py-1 md:py-2 text-sm md:text-base mx-2 md:mx-0 border-2" type="text"
-                name="country" value="{{user.profile.country}}" maxlength="100" required id="id_country">
-            </div>
-
-
-
            
-          </div>
-          {% if request.user == user %}
-          <div class="grid mt-3 justify-center self-center">
-            <button
-              class="bg-blue-700 hover:bg-blue-300 text-white text-sm md:text-md font-bold w-auto p-2 focus:outline-none focus:shadow-outline rounded align-center"
-              type="submit">Update Details</button>
-          </div>
-          {% endif %}
+          <!-- New Form -->
+            <div class="flex flex-wrap -mx-3 mb-6">
+              <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="id_image">
+                  Image
+                </label>
+                <a href="{{user.profile.image.url}}">
+                  <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-2 px-4 mb-1 md:mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="{{user.profile.image}}">
+                </a>
+                
+              </div>
+              <div class="w-full md:w-1/2 px-3 self-center">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="id_change_photo">
+                  CHANGE PHOTO
+                </label>
+                <input class="form-control
+                block
+                w-full
+                px-3
+                py-1.5
+                text-base
+                font-normal
+                text-gray-700
+                bg-white bg-clip-padding
+                border border-solid border-gray-300
+                rounded
+                transition
+                ease-in-out
+                m-0
+                focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"  
+                type="file" name="image" id="id_image">
+              </div>
+            </div>
+          <!-- TODO:BIO -->
+            <div class="flex flex-wrap -mx-3 mb-2">
+              <div class="w-full px-3 mb-6 md:mb-0">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="id_gender">
+                  BIO
+                </label>
+                <textarea class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 md:py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"  name="bio" maxlength="100" required id="id_bio">{{user.profile.bio}}</textarea>
+                <p class="text-gray-600 text-xs italic">Make it as long and as crazy as you'd like</p>
+              </div>
+            </div>
+            <!--TODO:GENDER,CONTACT -->
+            <div class="flex flex-wrap -mx-3 mb-6">
+              <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="id_gender">
+                  GENDER
+                </label>
+                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-2 px-4 mb-1 md:mb-3 leading-tight focus:outline-none focus:bg-white" type="text"
+                name="gender" value="{{user.profile.gender}}" maxlength="100" required id="id_gender">
+              </div>
+              <div class="w-full md:w-1/2 px-3">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"for="id_contact">
+                  CONTACT
+                </label>
+                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="number"
+                name="contact" value="{{user.profile.contact}}" required id="id_contact">
+              </div>
+            </div>
+            <div class="flex flex-wrap -mx-3 mb-2">
+              <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="id_place">
+                  PLACE
+                </label>
+                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text"
+                name="place" value="{{user.profile.place}}" maxlength="100" required id="id_place">
+              </div>
+              <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="id_state">
+                  STATE
+                </label>
+                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text"
+                name="state" value="{{user.profile.state}}" maxlength="100" required id="id_state">
+              </div>
+              <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="id_country">
+                  COUNTRY
+                </label>
+                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text"
+                name="country" value="{{user.profile.country}}" maxlength="100" required id="id_country">
+              </div>
+            </div>
+            <div class="flex flex-wrap -mx-1 md:-mx-3 my-2 md:my-6 justify-center">
+              
+              <div class="w-1/2 md:w-1/4 self-center text-center">
+                <a class=" text-sm md:text-base  " href="{% url 'profiles:reset' %}">
+                <button class="bg-white text-sm hover:bg-gray-100 text-gray-800 font-semibold w-auto p-2 border border-gray-400 rounded shadow">
+                  Change Password
+                </button>
+                </a>
+              </div>
+              <div class="w-1/2 md:w-1/4 self-center text-center my-2">
+              
+                {% if request.user == user %}
+          
+                  <button
+                    class="bg-blue-700 hover:bg-blue-300 text-white text-sm font-semibold w-auto p-2 focus:outline-none focus:shadow-outline rounded align-center"
+                    type="submit">Update Details</button>
+              
+                {% endif %}
+              </div>
+            </div>
 
         </form>
+
 
         {% endblock body%}
       </div>
     </div>
 
+
+  
 
 
   </div>

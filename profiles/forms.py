@@ -10,7 +10,7 @@ class UserForm(forms.ModelForm):
         # place = forms.CharField()
         # occupation = forms.CharField()
         # fields = ('name', 'image', 'age', 'email', 'place', 'occupation','gender')
-        fields = ('user','image','gender','contact','place','country')
+        fields = ('user','image','gender','contact','place','state','country')
 
         widgets={
             'user' : forms.TextInput(attrs={'class':'form-control','placeholder':'Username'}),
@@ -19,6 +19,7 @@ class UserForm(forms.ModelForm):
             # 'dob' : forms.DateInput(attrs={'class':'form-control','placeholder':'Dob'}),
             'contact' : forms.NumberInput(attrs={'class':'form-control','placeholder':'Contact'}),
             'place' : forms.TextInput(attrs={'class':'form-control','placeholder':'Place'}),
+            'state' : forms.TextInput(attrs={'class':'form-control','placeholder':'State'}),
             'country' : forms.TextInput(attrs={'class':'form-control','placeholder':'Place'}),
            
 

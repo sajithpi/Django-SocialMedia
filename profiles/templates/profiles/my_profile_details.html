@@ -31,10 +31,17 @@
                 {% else %}
                     Country,
                 {% endif %}
+                
+                {% if user.profile.state %}
+                    {{user.profile.state}},
+                {% else %}
+                    State,
+                {% endif %}
+                    
                 {% if user.profile.place %}
                     {{user.profile.place}}
                 {% else %}
-                    Place
+                    City
                 {% endif %}
                     
             </span>

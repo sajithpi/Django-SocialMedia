@@ -75,6 +75,7 @@ class ProfilePersonalUpdate(UpdateView):
         context = super().get_context_data(**kwargs)
         context['total_posts'] = Post.objects.filter(author = user).count()
         context['total_followers'] = Follower.objects.filter(following = user).count()
+        context['total_following'] = Follower.objects.filter(followed_by = user).count()
         return context
 
     def form_valid(self, form):

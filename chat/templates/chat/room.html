@@ -16,27 +16,29 @@ Chat Room
     {{ request.user.username | json_script:"sender" }}
     {{ request.user.id | json_script:"sender_id" }}
 
-
- 
-
-
 <!-- Template -->
 
 <!-- component -->
-<div class="flex p:2 sm:p-6 justify-between flex flex-col h-screen max-w-screen-lg ">
-   <div class="mx-32 md:mx-72 lg:mx-96"></div>
+{% block body %}
+{% if request.user.is_authenticated %}
+<div class="fixed top-0 left-0 right-0 z-40 ">
+  {% include 'includes/navbar.html' %}
+</div>
+{% endif %}
+<div class="flex p:2 sm:p-6 justify-between flex flex-col h-screen max-w-screen-lg">
+   <div class="mx-32 md:mx-72 lg:mx-96 "></div>
 
-    <div class="flex-none static sm:items-center justify-between py-3 border-b-2 border-gray-200">
-       <div class="flex items-center space-x-4 ml-3">
-         <span class="text-xl md:text-3xl me-1"><a href="{% url 'chat:index' %}"><i class='bx bx-arrow-back'></i></a></span>
+    <div class="flex-none mt-20 static sm:items-center justify-between py-3 bg-gray-200 shadow-lg">
+       <div class="flex items-center space-x-1 ml-3">
+         <span class="text-xl md:text-3xl me-1"><a href="{% url 'feed:home' %}"><i class='bx bx-arrow-back'></i></a></span>
           
          {% thumbnail received_user.profile.image "100x100" crop="center" as img %}
             <img id="user_dp" src="{{img.url}}" alt="user image" class="w-10 h-10  rounded-full border border-gray-100 m-0 shadow-sm">
          {% endthumbnail %}
         
-          <div class="flex flex-col leading-tight">
+          <div class="flex">
              <div class="text-2xl mt-1 flex items-center">
-                <span class="text-gray-700 mr-3 text-lg md:text-xl">{{received_user.username | capfirst }}</span>
+                <span class="text-gray-700 mr-1 text-lg md:text-lg">{{received_user.username | capfirst }}</span>
                 <span class="text-green-500">
                    <svg width="10" height="10">
                       <circle cx="5" cy="5" r="5" fill="currentColor"></circle>
@@ -50,7 +52,8 @@ Chat Room
     </div>
    
     <!-- Chat Log -->
-    <div id="chat-log" class="flex-auto  w-full h-24 flex-col space-y-1 px-3 self-end overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch">
+    <div id="chat-log" class="flex-auto  w-full h-24 flex-col  self-end overflow-y-auto scrollbar-thumb-blue 
+                           scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch bg-gray-200 shadow-lg">
      
         
        
@@ -58,18 +61,23 @@ Chat Room
      
        
        <!-- Reading Messages From data base -->
-       <div id="chat_list"class="flex flex-col-reverse h-full mt-3 border overflow-y-auto">
+       <div id="chat_list"class="flex flex-col h-full overflow-y-auto bg-gray-200 shadow-lg">
 
        
          {% for chat in chats  %}
             {% if chat.content %}  
        
             <div class="text-center ">
-               {% ifchanged chat.timestamp.date %}
-                  <div class="my-3">
-                     <span class="bg-gray-300 border p-1 rounded-full text-xs md:text-sm">{{ chat.timestamp | date:"d F y"}}</span>
-                  </div>
-               {% endifchanged %}
+               
+             
+            
+                  {% ifchanged chat.timestamp.date %}
+                     <div class="my-3">
+                        <span class="bg-gray-300 border p-1 rounded-full text-xs md:text-sm">{{ chat.timestamp | date:"d F y"}}</span>
+                     </div>
+                  {% endifchanged %}
+          
+                  
             </div>
                {% if chat.sender.id == request.user.id %}
 
@@ -108,7 +116,7 @@ Chat Room
                                  </div>
                            {% endif %}
                                        
-                     <div class="chat-message mb-1">
+                     <div class="chat-message mb-1 ">
                   
                         <!-- {{received_user.image.url}} -->
                               <div class="flex items-end">
@@ -119,7 +127,7 @@ Chat Room
                                                    <img src="{{ img.url }}" width="25" height="25" alt="received_user profile avatar rounded-full" class=" rounded-full"></div>
                                                    {% endthumbnail %}
                                                 
-                                             <div class="m-auto"><span class="px-2 py-2 rounded-lg inline-block bg-gray-300 text-gray-600">{{chat.content}}</span></div>
+                                             <div class="m-auto"><span class="px-2 py-2 rounded-lg inline-block bg-gray-100 shadow-lg text-gray-600">{{chat.content}}</span></div>
                                        </div>
                                                    
                               </div>
@@ -136,7 +144,7 @@ Chat Room
   
     </div>
     <!-- Chat Buttons -->
-    <div class="border-t-2 border-gray-200 px-1 md:px-4 pt-0.5 md:pt-4 mt-4 mb-0 md:mb-2 sm:mb-0">
+    <div class=" border-gray-200 px-1 md:px-4 pt-0.5 md:pt-0.5 mt-0.5 mb-0 md:mb-2 sm:mb-0">
        <div class=" flex items-center">
        
       
@@ -167,6 +175,9 @@ Chat Room
                 <br>
        </div>
     </div>
+
+
+    
  
  </div>
  
@@ -213,7 +224,8 @@ Chat Room
           </div>
  
 
-
+  
+{% endblock body %}
  <script>
     
  </script>

@@ -45,16 +45,11 @@ chatSocket.onmessage = function(e) {
         messageElement.classList.add('message','sender')
         messageElement.innerHTML = `
         <div class="flex items-end justify-end">
-            <div class="flex flex-col space-y-2 text-xs max-w-xs mx-1 order-1 items-end">
+            <div class="flex flex-col space-y-2 text-xs max-w-xs mx-1 order-1 items-end bg-gray-200 shadow-lg">
                     <div><span class="px-4 py-2 rounded-lg inline-block rounded-br-none bg-blue-600 text-white ">${data.message}</span>
                     <span>
-                    <small>
-                       
-                  
+                    <small class="text-black">
                         ${strTime}
-                   
-                   
-                 
                     </small>
                  </span>
                     </div>
