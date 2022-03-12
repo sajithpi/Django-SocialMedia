@@ -6,7 +6,7 @@ def notification_counts(request):
         notification_count = notifications.count()
         for notification in notifications:
             if notification.from_user == request.user:
-                print("Notification user is same:",notification.from_user)
+                # print("Notification user is same:",notification.from_user)
                 notification_count -= 1
         
         return {'notifications' : notifications,'notification_count' : notification_count,}

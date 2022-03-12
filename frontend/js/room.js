@@ -121,6 +121,10 @@ $(document)
   e.preventDefault();
   console.log("I was clicked");
   $(".js-sendphoto-model").toggleClass("hidden");
+  let photos = "id_attachment"
+  let imgbox = "img-send-box"
+  type = 'post'
+  PhotoListener(photos,imgbox,type)
 })
 $(document)
   .on("click", ".js-toggle-photo-model-cancel", function (e) {
@@ -131,33 +135,6 @@ $(document)
   
 
 
-
-.on("change","#id_attachment", function(e){
-
-    e.preventDefault();
-    // Taking the image url path from input
-    var img_data = document.querySelector('input[type=file]')['files'][0];
-    
-    url = URL.createObjectURL(img_data);
-    var imgBox = document.getElementById("img-send-box");
-    console.log(url);
-    const reader = new FileReader();
-    reader.addEventListener(
-      "load",
-      function () {
-        console.log(reader.result);
-      },
-      false
-    );
-  
-    if (file) {
-      reader.readAsDataURL(img_data);
-    }
-    // displaying selected image in imagebox
-    imgBox.src = `${url}`;
-   
-
-})
 
      // TODO:Upload
 .on("click", ".js-send_image", function (e) {
@@ -260,3 +237,43 @@ $(document)
       processData: false,
     });
   })
+
+  
+ // Function For Story Image Listener
+function PhotoListener(image_id,image_preview_id,type){
+ 
+  var url = "";
+  var img_data = "";
+  var file = "";
+  let image = document.getElementById(image_id);
+  const image_preview = document.getElementById(image_preview_id);
+  
+  // TODO:Photo listener
+  image.addEventListener("change", function (e) {
+    e.preventDefault();
+    img_data = image.files[0];
+    url = URL.createObjectURL(img_data);
+    console.log(url);
+    const reader = new FileReader();
+    reader.addEventListener(
+      "load",
+      function () {
+        console.log(reader.result);
+      },
+      false
+    );
+  
+    if (file) {
+      reader.readAsDataURL(img_data);
+    }
+    image_preview.src = `${url}`;
+    if(type === 'story')
+      story_form.append("photo", image.files[0]);
+    else if(type === 'post'){
+      fd.append("photo", image.files[0]);
+    }
+    else if(type === 'update_post'){
+      updateForm.append("photo", image.files[0]);
+    }
+  });
+  }

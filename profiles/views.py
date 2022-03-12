@@ -43,11 +43,14 @@ class ProfileDetailView(DetailView):
         # U = User.objects.get(username=user)
         # U.set_password('appu123456789111')
         # U.save()
-        user = User.objects.get(id = self.request.user.id)
+        user = User.objects.get(username = self.kwargs['username'])
+
+        print("user:",self.kwargs['username'])
         email = user.email
         favorites = Favorites.objects.filter(user__id = self.request.user.id)
         context = super().get_context_data(**kwargs)
         context['total_posts'] = Post.objects.filter(author=user).count()
+        context['userss'] = User.objects.get(username = self.kwargs['username'])
         context['total_followers'] = Follower.objects.filter(following=user).count()
         context['total_following'] = Follower.objects.filter(followed_by = user).count()
         context['favorites'] = favorites

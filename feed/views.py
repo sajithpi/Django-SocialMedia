@@ -61,7 +61,7 @@ class HomePage(TemplateView):
                 print("Created Day:",created_date)
                 story = Stories.objects.get(id=story.id)
                 if current_date > created_date :
-                    #  story.delete()
+                     story.delete()
                      print("Story Time Exeeded 1 Day")
                 else:
                     print("Story Available")

@@ -52,7 +52,7 @@ class Room(LoginRequiredMixin, View):
            
         if RoomChat.objects.filter(sender = request.user.username, receiver = receiver):
                 room = RoomChat.objects.filter(sender=request.user.username,receiver=receiver).first()
-                chats = Chat.objects.filter(room=room).order_by("-timestamp")
+                chats = Chat.objects.filter(room=room).order_by("timestamp")
                 room_name = room.id
                 # unread_message = Chat.objects.filter(room=room).last()
                 unread_message = Chat.objects.filter(room=room,is_read=False)
@@ -70,7 +70,7 @@ class Room(LoginRequiredMixin, View):
                
         elif RoomChat.objects.filter(sender = receiver,receiver = request.user):
                 room = RoomChat.objects.filter(sender = receiver,receiver = request.user.username).first()
-                chats = Chat.objects.filter(room=room).order_by("-timestamp")
+                chats = Chat.objects.filter(room=room).order_by("timestamp")
                 room_name = room.id
                 room_profile = RoomChat.objects.get(id=room.id)
                 unread_message = Chat.objects.filter(room=room,is_read=False)

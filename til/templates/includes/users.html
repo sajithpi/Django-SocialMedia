@@ -11,34 +11,55 @@
     <div class="flex flex-col   shadow-md hover:shodow-lg rounded-2xl w-full h-full ">
         <div class="flex items-center justify-between">
             <div class="flex items-center mx-1 md:mx-3">
-                <div class="flex w-16 md:w-24 h-16 md:h-auto items-center ml-1 md:ml-5 ">
+                <!-- <div class="flex w-16 md:w-24 h-16 md:h-auto items-center ml-1 md:ml-5 ">
                     <a href="{% url 'profiles:user_profile' user.user.username %}" class="object-scale-down ">
                       
                         <img src="{{ user.image.url }}"
                             class="rounded-lg object-scale-down h-14 rounded-full border-solid border-2">
                       
                     </a>
-                </div>
+                </div> -->
+                <button class="flex  items-center ml-1 md:ml-5">
+                    <a  href="{% url 'profiles:user_profile' user.user.username %}">
+                  
+                      {% thumbnail user.image "31x31" crop="center" as img %}
+                        <img  src="{{ img.url }}"class="object-scale-down rounded-full border-solid border-white border-2">
+                      {% endthumbnail %}
+                 
+                    </a>
+                  </button>
                 <div class="flex flex-col ml-3">
-                    <div class=" text-sm md:text-base mt-3 font-semibold">{{user.user}}</div>
-                    
-                    {% if user.gender %}
-                        <span class="text-sm text-gray-600 leading-none mt-1 capitalize">{{user.gender}}</p>
-                    {% endif %}
-                    
-                    {% if user.country %}
-                        <span class="text-sm text-black leading-none mt-1 capitalize font-semibold">{{user.country}}</p>    
-                    {% endif %}
+                    <div class=" text-sm mt-3 font-semibold">{{user.user}}</div>
+
+                    <span class="text-xs text-gray-400">
+                
+                        {% if user.country %}
+                            {{user.country}},
+                        {% else %}
+                            Country,
+                        {% endif %}
                         
+                        {% if user.state %}
+                            {{user.state}},
+                        {% else %}
+                            State,
+                        {% endif %}
+                            
+                        {% if user.place %}
+                            {{user.place}}
+                        {% else %}
+                            City
+                        {% endif %}
+                            
+                    </span>
                         
                 </div>
             </div>
-            <div class="mx-4 md:mx-1 w-20 md:w-auto bg-blue-100 hover:bg-blue-200 rounded border-b-2 shadow-md ">
+            <div class="mx-4 md:mx-1 bg-blue-100 hover:bg-blue-200 rounded border-b-2 shadow-md ">
 
-                    <button  class="flex  text-gray-800 font-bold py-1 px-3 text-xs inline-flex items-center h-5">
+                    <button  class="flex  text-gray-800 font-bold px-0 text-xs inline-flex items-center ">
                         <a href="{% url 'chat:room' user.user %}" class="flex items-center">
-                           <div class="text-xs md:text-sm ">Message</div>
-                            <i class='bx bxs-paper-plane text-blue-700 text-base md:text-xl px-1'></i>
+                            <i class='bi bi-chat-left-dots text-blue-700 text-sm px-1'></i>
                         </a>
                     </button>
             </div>
