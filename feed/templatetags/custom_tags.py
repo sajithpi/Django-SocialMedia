@@ -2,7 +2,7 @@ from atexit import register
 import imp
 from django import template
 from django.http import request
-from feed.models import Notification
+from feed.models import Notification,Favorites
 from profiles.models import MessageModel, Profile
 
 register = template.Library()

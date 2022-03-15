@@ -51,6 +51,7 @@ class HomePage(TemplateView):
         posts= Post.objects.all().order_by('-id')[0:30]
         profile= Profile.objects.get(user=self.request.user)
         user = User.objects.get(id=self.request.user.id)
+        favorites = Favorites.objects.filter(user__id = self.request.user.id)
         try:
             stories = Stories.objects.order_by('author')
           
@@ -89,6 +90,7 @@ class HomePage(TemplateView):
         context['chats'] = chats
         context['stories'] = stories
         context['user_story'] = user_story
+        context['favorites'] = favorites
         
         return context
 class PostDetailView(DetailView):

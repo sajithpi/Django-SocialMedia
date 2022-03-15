@@ -32,7 +32,7 @@ class Index(LoginRequiredMixin, View):
             'rooms' : rooms,
             'chats' :chats,
         }
-        return render(request, 'chat/index.html',context)
+        return render(request, 'chat/chatlist.html',context)
 
     
 

@@ -20,7 +20,7 @@ homepage
         
         <!--TODO: Stories -->
 
-          <div class="flex stories pl-1 md:pl-5 py-1 rounded flex">
+          <div class="flex stories pl-1 md:pl-5 py-1 rounded flex border max-w-md">
             <!-- TODO:Your story -->
             <div class="storie-item flex flex-col mr-1 md:mr-6 flex flex-col items-center justify-end relative">
                   <div class="rounded-full p-0.5 md:p-1 bg-gradient-to-b from-blue-400 via-green-500 to-indigo-700 ">
@@ -105,15 +105,15 @@ homepage
   
 				  </div>
           <!-- TODO:Post Section -->
-          <div id="posts-container" >
+          <div id="posts-container" class="">
             {% if posts %}
               {% for post in posts  %}
                   
-                        {% include 'includes/post.html' with post=post  comment_form=comment_form profile=profile show_detail_link=True show_comment_list=False %}
+                        {% include 'includes/post.html' with post=post  comment_form=comment_form profile=profile show_detail_link=True show_comment_list=False favorites=favorites%}
         
               {% endfor %}
             {% else %}
-              <div class="max-w-3xl mx:4 md:mx-36 lg:mx-72">
+              <div class="">
                 <span class="text-sm md:text-lg font-bold ">No Posts For you</span>
                 <div class="mx-auto text-sm md:text-base">Do you like to post something?</div>
                 <button
@@ -131,7 +131,7 @@ homepage
         </div>
       </div>
       <!-- TODO:Chat List Section -->
-      <div class="px-0 md:px-3 border-2 max-h-screen sticky top-10 right-0 bg-gray-100 shadow-lg">
+      <div class="px-0 md:px-3 border-2 max-h-screen fixed top-16 right-0 bg-gray-100 shadow-lg">
        
         {% include 'chat/index.html' with rooms=rooms chats=chats room_users=room_users%}
       </div>

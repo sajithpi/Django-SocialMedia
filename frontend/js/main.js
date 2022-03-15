@@ -557,6 +557,12 @@ $(document)
    const post_id = $(this).attr('id')
    const url = $(this).data('like-url')
    let like_icon = document.getElementById(`like-icon${post_id}`)
+  //  For adding Processing Time
+   let like_div = document.getElementById(`like_div${post_id}`)
+
+   like_div.classList.add('animate-spin')
+   like_div.classList.add('w-5')
+   like_div.classList.add('w-7')
   //  like_icon.innerHTML = ""
    console.log("url:",url)
    var like_count = $(`#like_count${post_id}`).val()
@@ -573,6 +579,9 @@ $(document)
         },
         success:function(response) {
           if(response.message === 'success'){
+            like_div.classList.remove('animate-spin')
+            like_div.classList.remove('w-5')
+            like_div.classList.remove('w-7')
             console.log("success")
             console.log("response:",response.status)
             if(response.status === 'Dislike'){
@@ -598,8 +607,15 @@ $(document)
         },
       })
     })
-      
- 
+// For Selecting the comment Input box
+.on("click",".comment-button-icon",function (e) {
+  e.preventDefault()
+  const post_id = $(this).attr('id')
+  console.log("post id from comment button icon:",post_id)
+  let comment_input_box = document.getElementById(`comment-content${post_id}`)
+  comment_input_box.focus()
+  comment_input_box.select()
+})
 
 
  if(!!window.performance && window.performance.navigation.type === 2)
@@ -611,6 +627,8 @@ $(document)
 setTimeout(function(){
   $('#message').fadeOut('slow')
 }, 1000)
+
+
 
 
 
@@ -1094,3 +1112,4 @@ image.addEventListener("change", function (e) {
   }
 });
 }
+
