@@ -493,3 +493,6 @@ def user_profile_notification(request,notification_pk,user_pk):
 
     return redirect('profiles:detail', username=user.username)
 
+
+def ChatView(request):
+    return render(request,'chat/chat_template.html')

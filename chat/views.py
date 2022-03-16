@@ -163,3 +163,14 @@ def Send_Image(request,room_name):
         chat.save()
         return JsonResponse({"message":"success","current_sender":request.POST.get("sender"),"receiver":request.POST.get("receiver"),"sender_avatar":sender.profile.image.url})
     return JsonResponse({"message":"not"})
+
+
+def Delete_Message(request,room_name):
+    if request.method == 'POST':
+        msg_id = request.POST['msg_id']
+        print("msg_id:",msg_id)           
+        chat = Chat.objects.get(id=msg_id)
+        chat.delete()
+        print("chat message:",chat.content)
+        return JsonResponse({"message":"success","content":chat.content})
+    return JsonResponse({"message":"not"})

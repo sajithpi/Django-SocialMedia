@@ -18,16 +18,16 @@
 	
 {% include 'includes/background.html' %}
 
-<div class="flex justify-center  md:mb-1 mt-1 bg-transparent shadow-lg shadow-indigo-500/40  rounded items-center relative  border  w-full"
+<div class="flex justify-center  md:mb-1 mt-1 bg-transparent shadow-lg shadow-indigo-500/40  rounded items-center  border  w-full"
 	x-data="{
         comment : false,
     }">
 	
-	<div class="h-full relative post max-w-3xl">
+	<div class="h-full relative post ">
 	
 		<div class="px-2 py-2">
 			<div class="flex justify-between items-center">
-				<div class="relative flex">
+				<div class=" flex">
 					<a href="{% url 'profiles:user_profile' post.author.username %}">
 					<div class="bg-transparent flex">
 						<div class="w-6 md:w-10 ">
@@ -94,14 +94,14 @@
 				<div class="post-img{{post.id}} relative w-full h-full">
 					<a href="{% url 'feed:detail' post.id %}">
 						<img id="postImg{{post.id}}" src="{{ post.photo.url }}" alt="SocialBook"
-							class="w-full h-full object-cover object-scale-down">
+							class="w-full h-full">
 					</a>
 				</div>
 				{% else %}
-				<div class="post-img{{post.id}} relative w-full h-full">
+				<div class="post-img{{post.id}} w-full h-full border">
 				
 					<img src="{{ post.photo.url }}" alt="SocialBook"
-						class="w-full h-full object-cover object-scale-down">
+						class="w-2/4 h-full">
 
 				</div>
 

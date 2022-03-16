@@ -44,28 +44,32 @@ chatSocket.onmessage = function(e) {
 
         messageElement.classList.add('message','sender')
         messageElement.innerHTML = `
-        <div class="flex items-end justify-end">
-            <div class="flex flex-col space-y-2 text-xs max-w-xs mx-1 order-1 items-end bg-gray-200 shadow-lg">
-                    <div><span class="px-4 py-2 rounded-lg inline-block rounded-br-none bg-blue-600 text-white ">${data.message}</span>
-                    <span>
-                    <small class="text-black">
+        <div class="flex justify-end pt-2 pl-10">
+            <span class="bg-gradient-to-r from-indigo-700 via-indigo-600 to-indigo-800 h-auto text-gray-200 text-xs font-normal p-1 rounded-lg rounded-tr-none px-1 items-end flex justify-end " style="font-size: 10px;">
+                ${data.message}
+                <span class="text-gray-400 pl-1" style="font-size: 8px;"> 
                         ${strTime}
-                    </small>
+                   
                  </span>
-                    </div>
-            </div>
+                    
+            </span>
                         
         </div>  
         ` + messageElement.innerHTML
-        
+      
+
     }else{
         messageElement.classList.add('message','receiver')
         messageElement.innerHTML = `
-        <div class="flex items-end">
-            <div class="flex space-y-2 text-xs max-w-xs mx-2 order-2 items-start items-center">
-                <div><img src="${imgBox.src}" alt="received_user profile avatar" class="rounded-full avatar w-6 h-6 object-cover"></div>
-                <div class="m-auto pl-1"><span class="px-2 py-2 rounded-lg inline-block bg-gray-300 text-gray-600 ">${data.message}</span></div>
-            </div>
+        <div class="flex items-center pr-10 mt-1">
+          <img src="${imgBox.src}" class="rounded-full shadow-xl" width="15" height="15"> 
+          <span class="flex ml-1 h-auto  bg-gradient-to-r from-purple-900 via-violet-600 to-purple-900 text-gray-200 text-xs p-1 font-normal rounded-lg rounded-bl-none px-1 items-end" style="font-size: 10px;">
+              ${data.message}
+              <span class="text-gray-400 pl-1" style="font-size: 8px;">
+                ${strTime}
+              </span>
+          </span> 
+           
         </div>` + messageElement.innerHTML
 
     }
@@ -166,6 +170,16 @@ $(document)
     fd.append("receiver",receiver)
     fd.append("room_id",room_id)
 
+      // Getting current time
+      var time = new Date()
+      var hours = time.getHours()
+      var minute = time.getMinutes()
+      let AmPm = hours > 12 ? 'PM' : 'AM'
+      hours = hours % 12 
+      hours = hours ? hours : 12
+      minute = minute.toString().padStart(2,'O')
+      let strTime = hours + ':' + minute + '' + AmPm
+
     // TODO:Photo
 
     $btn.prop("disabled", true).text("Sending!");
@@ -187,13 +201,20 @@ $(document)
     
                 messageElement.classList.add('message','sender')
                 messageElement.innerHTML = `
-                <div class="flex items-end justify-end">
-                    <div class="flex flex-col space-y-2 text-xs max-w-xs mx-7 order-1 items-end">
-                            <div><span class="px-4 py-2 rounded-lg inline-block rounded-br-none bg-blue-600 text-white ">${text}</span></div>
-                            <img src='${document.getElementById("img-send-box").src}' class="w-22 h-16 md:w-48 md:h-32">
-                    </div>
-                                
-                </div>  
+                <div class="flex justify-end pt-2 pl-10">
+                   
+                            <div>
+                                 <span class="bg-gradient-to-r from-indigo-700 via-indigo-600 to-indigo-800 h-auto text-gray-200 text-xs font-normal p-1 rounded-lg rounded-tr-none px-1 items-end flex justify-end " style="font-size: 10px;">
+                                    ${text}
+                                    <span class="text-gray-400 pl-1" style="font-size: 8px;"> 
+                                      ${strTime}
+                                    </span>
+                                  </span>
+                            </div>            
+                </div> 
+                <div class="flex justify-end pt-2 pl-10">
+                <img src='${document.getElementById("img-send-box").src}' class="w-22 h-16 md:w-48 md:h-32">
+                </div> 
                 ` + messageElement.innerHTML
                 
             }else{

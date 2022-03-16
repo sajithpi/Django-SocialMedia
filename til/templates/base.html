@@ -13,6 +13,7 @@
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <link rel="stylesheet" href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/3.6.95/css/materialdesignicons.css">
   <link rel="stylesheet" type="text/css" href="{% static 'css/room.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/dropdown.css' %}">
 
@@ -21,16 +22,16 @@
 
 
 {% include 'includes/fonts.html' %}
-<body class="w-full">
+<body class="w-full min-h-screen">
 
   <!-- component -->
  
 
-  <div class="min-h-screen max-w-9xl flex flex-row  {% if request.user.is_authenticated %} bg-gray-100 {% else %} bg-gradient-to-r from-indigo-500 {% endif %}  " >
+  <div class=" max-w-9xl min-h-screen flex flex-row  {% if request.user.is_authenticated %} bg-gray-100 {% else %} bg-gradient-to-r from-indigo-500 {% endif %}  " >
    
     <!-- <div class="flex flex-col w-4/5 md:w-1/5 md:pr-0 pr-1 bg-white rounded-r-3xl overflow-hidden"> -->
     {% if request.user.is_authenticated %}
-      <div class="flex flex-col px-0 md:px-3 w-8 md:w-14 lg:w-32 h-screen md:px-1  mt-16 align-center bg-transparent shadow-lg shadow-indigo-500/40 rounded-r-3xl overflow-hidden fixed top-0 left-0 right-0 z-40">
+      <div class="flex flex-col px-0 md:px-3 w-8 md:w-14 lg:w-32 md:px-1  mt-16 align-center bg-transparent shadow-lg shadow-indigo-500/40 rounded-r-3xl overflow-hidden fixed top-0 left-0 right-0 z-40">
    
             <ul class="flex flex-col py-4 px-0 md:px-3 text-decoration:none ml-0 md:ml-1 lg:ml-4">
               <li class="text-decoration: none   ">
@@ -39,6 +40,14 @@
                   <span class="inline-flex items-center content-start md:content-center  h-12 w-auto text-lg text-gray-400"><i
                       class="bx bx-home text-indigo-500"></i></span>
                   <div class="text-xs md:text-sm font-medium  hidden lg:block">Home</div>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'chat:index' %}"
+                  class="flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 ">
+                  <span class="inline-flex items-center content-start md:content-center  h-12 w-auto text-lg text-gray-400"><i
+                      class="bx bxs-chat text-indigo-500"></i></span>
+                  <div class="text-xs md:text-sm font-medium  hidden lg:block">Chat Room</div>
                 </a>
               </li>
             
@@ -70,14 +79,13 @@
                 </a>
               </li>
               <li>
-                <a href="{% url 'chat:index' %}"
+                <a href="{% url 'feed:template' %}"
                   class="flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 ">
                   <span class="inline-flex items-center content-start md:content-center  h-12 w-auto text-lg text-gray-400"><i
                       class="bx bx-user-plus text-indigo-500"></i></span>
-                  <div class="text-xs md:text-sm font-medium  hidden lg:block">Chat Room</div>
+                  <div class="text-xs md:text-sm font-medium  hidden lg:block">Template</div>
                 </a>
               </li>
-
               <li>
 
                 <a href="{% url 'account_logout' %}"
@@ -91,7 +99,7 @@
             </ul>
       </div>
     {% endif %}
-    <div class="ml-8 md:ml-16 lg:ml-32 w-full">
+    <div class="ml-8 md:ml-16 lg:ml-36 w-full min-h-screen">
 
       {% block body %}
       
@@ -105,7 +113,7 @@
 
     {% if request.user.is_authenticated %}
           <!-- TODO:Upload Post -->
-      <div class="min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-40 outline-none focus:outline-none bg-no-repeat bg-center bg-cover  hidden js-model"  id="modal-id">
+      <div class="min-w-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-40 outline-none focus:outline-none bg-no-repeat bg-center bg-cover  hidden js-model"  id="modal-id">
         <div class="absolute bg-black opacity-75 inset-0 z-0 w-100"></div>
        
         <div class="relative mx-auto my-auto rounded-xl shadow-lg backdrop-opacity-10 backdrop-invert bg-white/30 shadow-lg border backdrop-filter backdrop-blur-xl w-fit h-auto md:w-2/5 p-1 md:p-3 ">
@@ -122,7 +130,7 @@
                     <!-- <div id="img-box"  class="w-1/2 h-12 md:h-1/4 md:w-1/2 relative mx-auto"></div> -->
                     <img id="img-box"  alt="Upload Photo" class="w-22 h-16 md:w-48 md:h-32 border relative mx-auto ext-xs md:text-sm text-white"></img>
                   
-                  <textarea class="js-post-text  text-xs md:text-sm text-white border-2 border-blue-500 mt-2 md:mt-4 w-3/5 h-9 md:h-11"  rows="2" placeholder="Post Description" maxlength="255"  required id="id_text" data-post-url="{% url 'feed:new_post' %} " ></textarea>
+                  <textarea class="js-post-text  text-xs md:text-sm text-black border-2 border-blue-500 mt-2 md:mt-4 w-3/5 h-9 md:h-11"  rows="2" placeholder="Post Description" maxlength="255"  required id="id_text" data-post-url="{% url 'feed:new_post' %} " ></textarea>
                           
                     
               </div>
@@ -147,7 +155,7 @@
       </div>
 
       <!-- TODO:Update Post -->
-      <div class="min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-40 outline-none focus:outline-none bg-no-repeat bg-center bg-cover  hidden js-update-model"  id="modal-id">
+      <div class="min-w-screen h-full animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-40 outline-none focus:outline-none bg-no-repeat bg-center bg-cover  hidden js-update-model"  id="modal-id">
         <div class="absolute bg-black opacity-75 inset-0 z-0 w-100"></div>
         <div class="relative mx-auto my-auto rounded-xl shadow-lg backdrop-opacity-10 backdrop-invert bg-white/30 shadow-lg border backdrop-filter backdrop-blur-xl w-fit h-auto md:w-2/5 p-1 md:p-3 ">
         <!--content-->
@@ -194,7 +202,7 @@
 
       <!-- TODO:Delete post -->
       <!-- component -->
-      <div class="min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-40  outline-none focus:outline-none bg-no-repeat bg-center bg-cover hidden js-delete-model"   id="modal-id">
+      <div class="min-w-screen h-full animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-40  outline-none focus:outline-none bg-no-repeat bg-center bg-cover hidden js-delete-model"   id="modal-id">
         <div class="absolute bg-black opacity-75 inset-0 z-0 w-100"></div>
         <div class="relative mx-auto my-auto rounded-xl shadow-lg  backdrop-opacity-10 backdrop-invert bg-white/30 shadow-lg border backdrop-filter backdrop-blur-xl  w-auto h-auto md:w-3/5 p-1 md:p-3 ">
         <!--content-->
@@ -232,7 +240,7 @@
 
        <!-- TODO:Update Comment post -->
       <!-- component -->
-      <div class="min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-40 outline-none focus:outline-none bg-no-repeat bg-center bg-cover hidden js-update-comment-model"   id="modal-id">
+      <div class="min-w-screen h-full animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-40 outline-none focus:outline-none bg-no-repeat bg-center bg-cover hidden js-update-comment-model"   id="modal-id">
         <div class="absolute bg-black opacity-75 inset-0 z-0 w-100"></div>
         <div class="relative mx-auto my-auto rounded-xl shadow-lg  bg-white  w-auto h-auto md:w-3/5 p-1 md:p-3 ">
         <!--content-->
@@ -265,7 +273,7 @@
       </div>
 
           <!-- TODO:Add Story -->
-          <div class="min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-40 outline-none focus:outline-none bg-no-repeat bg-center bg-cover  hidden js-story-model"  id="modal-id">
+          <div class="min-w-screen h-full animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-40 outline-none focus:outline-none bg-no-repeat bg-center bg-cover  hidden js-story-model"  id="modal-id">
             <div class="absolute bg-black opacity-75 inset-0 z-0 w-100"></div>
            
             <div class="relative mx-auto my-auto rounded-xl shadow-lg  backdrop-opacity-10 backdrop-invert bg-white/30 shadow-lg border backdrop-filter backdrop-blur-xl w-fit h-auto md:w-2/5 p-1 md:p-3 ">
@@ -307,7 +315,7 @@
           </div>
 
           <!-- TODO:Story View -->
-          <div class="min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-40 outline-none focus:outline-none bg-no-repeat bg-center bg-cover  hidden js-story-view-model"  id="modal-id">
+          <div class="min-w-screen h-full animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-40 outline-none focus:outline-none bg-no-repeat bg-center bg-cover  hidden js-story-view-model"  id="modal-id">
       
             
             
@@ -390,7 +398,7 @@
 
 
           <!-- TODO:Story Seen Users View -->
-          <div class="min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-40 outline-none focus:outline-none bg-no-repeat bg-center bg-cover  hidden js-story-seen-model"  id="modal-id">
+          <div class="min-w-screen h-full animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-40 outline-none focus:outline-none bg-no-repeat bg-center bg-cover  hidden js-story-seen-model"  id="modal-id">
       
               
               
@@ -454,6 +462,7 @@
   <script src="{% static 'js/room.js' %}"></script>
   <script src="{% static 'js/index.js' %}"></script>
   <script src="{% static 'js/story.js' %}"></script>
+  <script src="{% static 'js/chat.js' %}"></script>
 </body>
 
 </html>

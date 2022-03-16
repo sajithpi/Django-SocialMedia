@@ -4,11 +4,11 @@
 
 <html>
 <body>
-    <div id="search_room" class="mt-2">
-        <span class="text-sm md:text-base font-semibold my-0.5 md:my-1 mx-0.5 md:mx-2">Chat Rooms</span>
+    <div id="search_room" class="mt-2 text-xs md:text-base font-semibold my-0 md:my-1 mx-0 md:mx-2">
+        Chat Rooms
     </div>
     {% if chats %}
-    <div class="w-28 md:w-56 lg:w-80">
+    <div class="w-full">
         <div
             class="flex justify-between items-center m-0.5 md:m-2">
     
@@ -61,7 +61,8 @@
                             {% endif %}
 
                         </div>
-                        <div class="flex flex-col w-20 md:w-24 lg:w-44  ml-0 md:ml-2">
+                     
+                        <div class="hidden md:flex flex-col w-20 md:w-16 lg:w-32  ml-0 md:ml-2">
                             {% if request.user.username == room.sender %}
                             <a href="{% url 'chat:room' room.receiver %}" class="stretched-link text-decoration-none">
                                 <div class="text-xs  md:text-sm font-semibold overflow-hidden text-gray-700">
@@ -101,8 +102,8 @@
 
                         {% for chat in chats  %}
                         {% if chat.room.id == room.id %}
-                        <div class="flex flex-col my-3 ">
-                            <span class="text-xs text-gray-400 ">{{chat.timestamp | date:"g:i:a"}}</span>
+                        <div class="hidden md:flex flex-col my-3 ">
+                            <small class="text-xs text-gray-400 ">{{chat.timestamp | date:"g:i:a"}}</small>
 
 
                         </div>
@@ -111,6 +112,19 @@
 
 
                     </div>
+                </div>
+                <!-- TODO:It will display in mobile devices, it will change the appearence of chatrooms in mobile devices -->
+                <div class="block md:hidden flex-col w-auto ml-0 md:ml-2 text-center">
+                    {% if request.user.username == room.sender %}
+                    <a href="{% url 'chat:room' room.receiver %}" class="stretched-link text-decoration-none">
+                        <div class="block text-xs  md:text-sm font-semibold overflow-hidden text-gray-700 truncate">
+                            {{room.receiver |capfirst }}</div>
+                    </a>
+                    {% else %}
+                    <a href="{% url 'chat:room' room.sender %}" class="stretched-link">
+                        <div class="text-xs md:text-sm font-semibold block  truncate"><small>{{room.sender |capfirst }}</small></div>
+                    </a>
+                    {% endif %}
                 </div>
             </div>
             <hr>
@@ -127,7 +141,7 @@
     {% else %}
 
     <div class="py-10 h-screen bg-gray-300 px-2">
-        <div class="max-w-md mx-auto bg-gray-100 shadow-lg rounded-lg overflow-hidden md:max-w-lg">
+        <div class="max-w-md mx-auto bg-gray-100 shadow-lg rounded-lg overflow-hidden w-full">
             <div class="md:flex">
                 <div class="w-full p-1 md:p-4 bg-gray-300">
 

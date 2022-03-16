@@ -9,17 +9,19 @@
   <div class="fixed top-0 left-0 right-0 z-50">
     {% include 'includes/navbar.html' %}
   </div>
-  <div class=" z-20 max-w-screen-2xl">
+  <div class=" z-20 max-w-md mt-28 mx-auto">
     
     {% if request.user.is_authenticated %}
-            
+     
             {% if user_details %}
                 <h3 class="pb-3 text-base md:text-2xl  mx-1">Search Results for <span class="capitalize font-bold">{{keyword}}</span></p>
-                {% for user in user_details %}
-                    <p>{{user.username}}</p>
-                        {% include 'includes/users.html' with user=user  %}
-                    
-                {% endfor %} 
+                    <div class="overflow-auto">
+                        {% for user in user_details %}
+                        <p>{{user.username}}</p>
+                            {% include 'includes/users.html' with user=user  %}
+                        
+                        {% endfor %} 
+                    </div>
             {% else %}
                 <h3 class="py-3 mt-5 text-md md:text-2xl mx-1">No Results Found,Search Again</p></h3>
             {% endif %}

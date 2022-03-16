@@ -12,7 +12,7 @@
         {% include 'includes/navbar.html' %}
       </div>
 
-    <div class="mx-auto  w-52 md:w-72 lg:w-80 mt-24 border  bg-gray-100 shadow-lg h-auto pt-1">
+    <div class="mx-auto  w-52 md:w-72 lg:w-80 mt-24 border  bg-gray-100 shadow-lg h-4/6 pt-1">
 
         <!-- Heading -->
         <div id="search_room" class="mt-2 rounded-xl border shadow-lg ">
@@ -73,7 +73,7 @@
                                 {% endif %}
     
                             </div>
-                            <div class="flex flex-col w-20 md:w-24 lg:w-44  ml-0 md:ml-2">
+                            <div class="flex flex-col w-28 md:w-24 lg:w-44  ml-0 md:ml-2">
                                 {% if request.user.username == room.sender %}
                                 <a href="{% url 'chat:room' room.receiver %}" class="stretched-link text-decoration-none">
                                     <div class="text-xs  md:text-sm font-semibold overflow-hidden text-gray-700">
@@ -138,7 +138,7 @@
     <!-- TODO:If ChatLists are Empty -->
         {% else %}
     
-        <div class="py-10 h-screen bg-gray-300 px-2">
+        <div class="py-10 bg-gray-300 px-2">
             <div class="max-w-md mx-auto bg-gray-100 shadow-lg rounded-lg overflow-hidden md:max-w-lg">
                 <div class="md:flex">
                     <div class="w-full p-1 md:p-4 bg-gray-300">

@@ -12,15 +12,16 @@ homepage
 {% block body %}
 
     {% if request.user.is_authenticated %}
-    <div class="fixed top-0 left-0 right-0 z-40 ">
-      {% include 'includes/navbar.html' %}
-    </div>
-    <div class="flex mt-20 z-20 max-w-md md:max-w-7xl  ">
-      <div  class="mx-0.5  lg:mx-9">
+    <!-- TODO:Navbar -->
+      <div class="fixed top-0 left-0 right-0 z-40 ">
+        {% include 'includes/navbar.html' %}
+      </div>
+      <div class="flex mt-20 z-20  w-3/4">
+        <div  class="mx-0.5  lg:mx-9">
         
-        <!--TODO: Stories -->
+    <!--TODO: Stories -->
 
-          <div class="flex stories pl-1 md:pl-5 py-1 rounded flex border max-w-md">
+          <div class="flex stories pl-1 md:pl-5 py-1 rounded flex  ">
             <!-- TODO:Your story -->
             <div class="storie-item flex flex-col mr-1 md:mr-6 flex flex-col items-center justify-end relative">
                   <div class="rounded-full p-0.5 md:p-1 bg-gradient-to-b from-blue-400 via-green-500 to-indigo-700 ">
@@ -130,13 +131,14 @@ homepage
             {% endif %}
         </div>
       </div>
-      <!-- TODO:Chat List Section -->
-      <div class="px-0 md:px-3 border-2 max-h-screen fixed top-16 right-0 bg-gray-100 shadow-lg">
-       
-        {% include 'chat/index.html' with rooms=rooms chats=chats room_users=room_users%}
-      </div>
+      
 
     </div> 
+    <!-- TODO:Chat List Section -->
+    <div class="block px-0 md:px-3 border-2 max-h-screen fixed top-16 right-0 bg-gray-100 shadow-lg w-1/5 md:w-1/4">
+       
+      {% include 'chat/index.html' with rooms=rooms chats=chats room_users=room_users%}
+    </div>
   {% else %}
     {% include 'includes/login.html' %}
   {% endif %}
