@@ -2,29 +2,52 @@
 
 {% block body %}
 
-<div class="h-screen bg-gray-300">
-<div class="flex justify-center items-center h-screen ">
-    <div class="w-96 h-96 bg-white rounded shadow-2xl">
-        <nav class="w-full h-10 bg-blue-500 rounded-tr rounded-tl flex justify-between items-center">
-            <div class="flex justify-center items-center"> <i class="mdi mdi-arrow-left font-normal text-gray-300 ml-1"></i> <img src="https://i.imgur.com/IAgGUYF.jpg" class="rounded-full ml-1" width="25" height="25"> <span class="text-xs font-medium text-gray-300 ml-1">Alex cairo</span> </div>
-            <div class="flex items-center"> <i class="mdi mdi-video text-gray-300 mr-4"></i> <i class="mdi mdi-phone text-gray-300 mr-2"></i> <i class="mdi mdi-dots-vertical text-gray-300 mr-2"></i> </div>
-        </nav>
-        <div class="overflow-auto px-1 py-1" style="height: 19rem;" id="journal-scroll">
-
-            <div class="flex justify-center"> <span class="text-gray-500 text-xs" style="font-size: 8px;">Call ended at 02:33 am</span> </div>
-            <div class="flex items-center pr-10 mt-1"> <img src="https://i.imgur.com/IAgGUYF.jpg" class="rounded-full shadow-xl" width="15" height="15"> <span class="flex ml-1 h-auto bg-gray-900 text-gray-200 text-xs p-1 font-normal rounded-sm px-1 items-end" style="font-size: 10px;">How often should i take the medicine? <span class="text-gray-400 pl-1" style="font-size: 8px;">01:25am</span></span> </div>
-            <div class="flex justify-end pt-2 pl-10"> <span class="bg-green-900 h-auto text-gray-200 text-xs font-normal p-1 rounded-sm px-1 items-end flex justify-end " style="font-size: 10px;">Twice a day, at breakfast and before bed <span class="text-gray-400 pl-1" style="font-size: 8px;">02.30am</span></span> </div>
-            <div class="flex items-center pr-10 pt-2"> <img src="https://i.imgur.com/IAgGUYF.jpg" class="rounded-full shadow-xl" width="15" height="15"> <span class="flex ml-1 h-auto bg-gray-900 text-gray-200 text-xs font-normal rounded-sm px-1 p-1 items-end" style="font-size: 10px;">Thanks a lot doc<span class="text-gray-400 pl-1" style="font-size: 8px;">01:25am</span></span> </div>
-
-            <div class=" " id="chatmsg"> </div>
-        </div>
-        <div class="flex justify-between items-center p-1 ">
-            <div class="relative"> <i class="mdi mdi-emoticon-excited-outline absolute top-1 left-1 text-gray-400" style="font-size: 17px !important;font-weight: bold;"></i> <input type="text" class="rounded-full pl-6 pr-12 py-2 focus:outline-none h-auto placeholder-gray-100 bg-gray-900 text-white" style="font-size: 11px;width: 250px;" placeholder="Type a message..." id="typemsg"> <i class="mdi mdi-paperclip absolute right-8 top-1 transform -rotate-45 text-gray-400"></i> <i class="mdi mdi-camera absolute right-2 top-1 text-gray-400"></i> </div>
-            <div class="w-7 h-7 rounded-full bg-blue-300 text-center items-center flex justify-center hover:bg-gray-900 hover:text-white"> <i class="mdi mdi-microphone "></i> </div>
-            <div class="w-7 h-7 rounded-full bg-blue-300 text-center items-center flex justify-center"> <button class="w-7 h-7 rounded-full text-center items-center flex justify-center focus:outline-none hover:bg-gray-900 hover:text-white" onclick="sendbtn();"><i class="mdi mdi-send "></i></button> </div>
+<div class="py-10 h-screen bg-gray-300 px-2">
+    <div class="max-w-md mx-auto bg-gray-100 shadow-lg rounded-lg overflow-hidden md:max-w-lg">
+        <div class="md:flex">
+            <div class="w-full p-4">
+                <div class="relative"> <input type="text" class="w-full h-12 rounded focus:outline-none px-3 focus:shadow-md" placeholder="Search..."> <i class="fa fa-search absolute right-3 top-4 text-gray-300"></i> </div>
+                <ul>
+                    <li class="flex justify-between items-center bg-white mt-2 p-2 hover:shadow-lg rounded cursor-pointer transition">
+                        <div class="flex ml-2"> <img src="https://i.imgur.com/aq39RMA.jpg" width="40" height="40" class="rounded-full">
+                            <div class="flex flex-col ml-2"> <span class="font-medium text-black">Jessica Koel</span> <span class="text-sm text-gray-400 truncate w-32">Hey, Joel, I here to help you out please tell me</span> </div>
+                        </div>
+                        <div class="flex flex-col items-center"> <span class="text-gray-300">11:26</span> <i class="fa fa-star text-green-400"></i> </div>
+                    </li>
+                    <li class="flex justify-between items-center bg-white mt-2 p-2 hover:shadow-lg rounded cursor-pointer transition">
+                        <div class="flex ml-2"> <img src="https://i.imgur.com/eMaYwXn.jpg" width="40" height="40" class="rounded-full">
+                            <div class="flex flex-col ml-2"> <span class="font-medium text-black">Komeial Bolger</span> <span class="text-sm text-gray-400 truncate w-32">I will send you all documents as soon as possible</span> </div>
+                        </div>
+                        <div class="flex flex-col items-center"> <span class="text-gray-300">12:26</span> <i class="fa fa-star text-green-400"></i> </div>
+                    </li>
+                    <li class="flex justify-between items-center bg-white mt-2 p-2 hover:shadow-lg rounded cursor-pointer transition">
+                        <div class="flex ml-2"> <img src="https://i.imgur.com/zQZSWrt.jpg" width="40" height="40" class="rounded-full">
+                            <div class="flex flex-col ml-2"> <span class="font-medium text-black">Tamaara Suiale</span> <span class="text-sm text-gray-400 truncate w-32">Are you going to business trip next week</span> </div>
+                        </div>
+                        <div class="flex flex-col items-center"> <span class="text-gray-300">8:26</span> <i class="fa fa-star text-green-400"></i> </div>
+                    </li>
+                    <li class="flex justify-between items-center bg-white mt-2 p-2 hover:shadow-lg rounded cursor-pointer transition">
+                        <div class="flex ml-2"> <img src="https://i.imgur.com/agRGhBc.jpg" width="40" height="40" class="rounded-full">
+                            <div class="flex flex-col ml-2"> <span class="font-medium text-black">Sam Nielson</span> <span class="text-sm text-gray-400 truncate w-32">I suggest to start new business soon</span> </div>
+                        </div>
+                        <div class="flex flex-col items-center"> <span class="text-gray-300">7:16</span> <i class="fa fa-star text-green-400"></i> </div>
+                    </li>
+                    <li class="flex justify-between items-center bg-white mt-2 p-2 hover:shadow-lg rounded cursor-pointer transition">
+                        <div class="flex ml-2"> <img src="https://i.imgur.com/uIgDDDd.jpg" width="40" height="40" class="rounded-full">
+                            <div class="flex flex-col ml-2"> <span class="font-medium text-black">Caroline Nexon</span> <span class="text-sm text-gray-400 truncate w-32">We need to start new reseatch center.</span> </div>
+                        </div>
+                        <div class="flex flex-col items-center"> <span class="text-gray-300">9:26</span> <i class="fa fa-star text-green-400"></i> </div>
+                    </li>
+                    <li class="flex justify-between items-center bg-white mt-2 p-2 hover:shadow-lg rounded cursor-pointer transition">
+                        <div class="flex ml-2"> <img src="https://i.imgur.com/tT8rjKC.jpg" width="40" height="40" class="rounded-full">
+                            <div class="flex flex-col ml-2"> <span class="font-medium text-black">Patrick Koeler</span> <span class="text-sm text-gray-400 truncate w-32">May be yes</span> </div>
+                        </div>
+                        <div class="flex flex-col items-center"> <span class="text-gray-300">3:26</span> <i class="fa fa-star text-green-400"></i> </div>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
-</div>
 </div>
 {% endblock body %}
     

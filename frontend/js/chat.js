@@ -6,11 +6,15 @@ $(document)
     const msg_id = $(this).attr('id')
     console.log("msg_id:",msg_id)
     let message_btn = document.getElementById(`message_btn${msg_id}`)
-    message_btn.classList.replace('bg-blue-600','bg-red-300')
-    let chat_head = document.getElementById('chat_head')
-    chat_head.classList.add('bg-blue-500')
+    message_btn.classList.replace('from-indigo-700','from-green-700')
+    message_btn.classList.replace('via-indigo-600','vi-green-600')
+    message_btn.classList.replace('to-indigo-800','to-green-800')
     let trash_message = document.getElementById('trash_message')
     trash_message.classList.replace('hidden','visible')
+    trash_message.addEventListener("click",function (e) {
+        e.preventDefault()
+        console.log("clicked")
+    })
     trash_message.addEventListener("click",function (e) {
         e.preventDefault()        
         console.log("clicked trash")
@@ -28,7 +32,13 @@ $(document)
 
                     console.log("successfully deleted message")
                     console.log("message:",response.content)
-                    $(`.message_tile${msg_id}`).fadeOut(); 
+                    $(`#message_btn${msg_id}`).fadeOut(); 
+                    try {
+                        $(`#media_message${msg_id}`).fadeOut();
+                      }
+                      catch(err) {
+                        console.log("No media exist with this message")
+                      }
                 }
                 else{
                     console.log(response.error())
@@ -38,3 +48,4 @@ $(document)
     })
 
 })
+

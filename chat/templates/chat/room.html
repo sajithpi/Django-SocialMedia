@@ -25,20 +25,34 @@ Chat Room
 
 
 
-<div class="h-screen bg-gray-300">
-   <div class="flex justify-center items-center h-screen ">
-       <div class="w-96 h-96 bg-white rounded shadow-2xl">
-           <nav class="w-full h-10 bg-gradient-to-r from-indigo-500 via-purple-700 to-indigo-500 rounded-tr rounded-tl flex justify-between items-center">
+<div class="h-screen bg-gray-300 my-4">
+   <div class="flex justify-center items-center bg-white h-screen ">
+       <div class="w-4/5 h-fit rounded shadow-2xl">
+           <nav class="w-full h-10 bg-gradient-to-r from-indigo-700 via-indigo-600 to-indigo-800 rounded-lg rounded-bl-none rounded-br-none flex justify-between items-center">
                <div class="flex justify-center items-center"> <i class="mdi mdi-arrow-left font-normal text-gray-300 ml-1"></i>
                    <!-- <img src="https://i.imgur.com/IAgGUYF.jpg" class="rounded-full ml-1" width="25" height="25">  -->
+                   
                    {% thumbnail received_user.profile.image "100x100" crop="center" as img %}
                    <img id="user_dp" src="{{img.url}}" alt="user image"  class="w-8 h-8 rounded-full">
                    {% endthumbnail %}
-                   <span class="text-xs font-medium text-gray-300 ml-1">{{received_user.username | capfirst }}</span> 
+                   <span class="text-xs font-medium text-white ml-1">{{received_user.username | capfirst }}</span> 
                </div>
-               <div class="flex items-center"> <i class="mdi mdi-video text-gray-300 mr-4"></i> <i class="mdi mdi-phone text-gray-300 mr-2"></i> <i class="mdi mdi-dots-vertical text-gray-300 mr-2"></i> </div>
+               <div class="flex items-center">
+
+                  
+                  <button >
+                     <i class='mdi mdi-video text-gray-300 hover:text-gray-700 ' ></i>
+                  </button>
+                  <button >
+                     <i class='mdi mdi-dots-vertical text-gray-300 hover:text-gray-700 ' ></i>
+                  </button>
+               </div>
+            
+             
+                       
            </nav>
-           <div id="chat-log" class="overflow-auto px-1 py-1" style="height: 19rem;" id="journal-scroll">
+   
+           <div id="chat-log" class="overflow-auto px-1 py-1" style="height: 24rem;" id="journal-scroll">
                {{ received_user.profile.image.url|json_script:"user_avatar" }}
                <div id="chat_list">
 
@@ -57,13 +71,14 @@ Chat Room
                                  
                                     {% if chat.photo %}
                                           <div class="flex items-end justify-end">
-                                             <img class="w-22 h-16 md:w-48 md:h-32 mr-14" src="{{chat.photo.url}}" alt="Photo Attachements">
+                                             <img id="media_message{{chat.id}}" class="w-22 h-16 md:w-48 md:h-32 justify-end" src="{{chat.photo.url}}" alt="Photo Attachements">
                                           </div>
                                     {% endif %}
-                                    <div class="chat-message mb-1" >
+                                    <div class="message_btn chat-message mb-1" id="{{chat.id}}">
                                        <div class="flex justify-end pt-2 pl-10"> 
-                                          <span class="bg-gradient-to-r from-indigo-700 via-indigo-600 to-indigo-800
-                                           h-auto text-white text-xs font-normal p-1 rounded-lg rounded-tr-none px-1 items-end flex justify-end " style="font-size: 10px;">
+                                          <span id="message_btn{{chat.id}}" class="bg-gradient-to-r from-indigo-700 via-indigo-600 to-indigo-800
+                                                      h-auto text-white text-xs font-normal p-1 rounded-lg rounded-tr-none px-1 items-end flex justify-end "
+                                                style="font-size: 10px;" >
                                              {{chat.content}}
                                              <span class="text-gray-400 pl-1" style="font-size: 8px;">     {% load tz %}
                                                 {% timezone "Asia/Kolkata" %}
@@ -77,7 +92,7 @@ Chat Room
                                        
                                        {% if chat.photo %}
                                           <div class="flex items-end">
-                                             <img class="w-22 h-16 md:w-48 md:h-32 ml-14" src="{{chat.photo.url}}" alt="Photo Attachements">
+                                             <img class="w-22 h-16 md:w-48 md:h-32 items-end" src="{{chat.photo.url}}" alt="Photo Attachements">
                                           </div>
                                        {% endif %}
                                        <div class="chat-message mb-1 my-1">
@@ -114,11 +129,11 @@ Chat Room
                </div>
            </div>
               <!-- Chat Buttons -->
-           <div class="flex justify-center items-center p-1 ">
+           <div class="flex justify-center items-center p-1 bg-gray-300 shadow-lg rounded-bl-lg rounded-br-lg">
                <div class="relative">
                   <div class="relative"> 
                      <i class="mdi mdi-emoticon-excited-outline absolute top-1 left-1 text-white" style="font-size: 17px !important;font-weight: bold;"></i> 
-                     <input  id="chat-message-input" type="text" class="rounded-full pl-6 pr-12 py-2 focus:outline-none h-auto placeholder-gray-100 bg-gray-400 text-white" style="font-size: 11px;width: 250px;" placeholder="Type a message..." id="typemsg"> 
+                     <input  id="chat-message-input" type="text" class="rounded-full pl-6 pr-12 py-2 focus:outline-none h-auto placeholder-gray-100 bg-gray-400 text-white" style="font-size: 11px;width: 225px;" placeholder="Type a message..." id="typemsg"> 
                      <i id="id_image" class="mdi mdi-camera absolute right-2 top-1 text-white"></i>
                    </div>
                   
@@ -131,6 +146,13 @@ Chat Room
                   </button>
                   {{request.user.id|json_script:"user_id"}}
                   {{ room.id | json_script:"room_id" }}
+               </div>
+               <div id="trash_message" class="hidden w-7 h-7 rounded-full  bg-gradient-to-r from-purple-900 via-violet-600 to-purple-900 text-center items-center flex justify-center"
+                    data-message-delete-url="{% url 'chat:delete_message' received_user.username %}"> 
+                  <button  class="w-7 h-7 rounded-full text-center items-center flex justify-center focus:outline-none hover:bg-gray-900 hover:text-white" >
+                     <i class='bx bx-trash text-gray-100 hover:text-gray-500' ></i>
+                  </button>
+
                </div>
            </div>
        </div>
