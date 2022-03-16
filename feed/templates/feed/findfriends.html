@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load thumbnail %}
 {% block title %}
     Find Friends
 {% endblock title %}
@@ -9,28 +9,105 @@
   <div class="fixed top-0 left-0 right-0 z-50">
     {% include 'includes/navbar.html' %}
   </div>
-  <div class=" z-20 max-w-md mt-28 mx-auto">
-    
-    {% if request.user.is_authenticated %}
-     
-            {% if user_details %}
-                <h3 class="pb-3 text-base md:text-2xl  mx-1">Search Results for <span class="capitalize font-bold">{{keyword}}</span></p>
-                    <div class="overflow-auto">
-                        {% for user in user_details %}
-                        <p>{{user.username}}</p>
-                            {% include 'includes/users.html' with user=user  %}
-                        
-                        {% endfor %} 
-                    </div>
-            {% else %}
-                <h3 class="py-3 mt-5 text-md md:text-2xl mx-1">No Results Found,Search Again</p></h3>
-            {% endif %}
-        
-    {% else %}
-            {% include 'includes/login.html' %}
-    {% endif %}                
+    <div class="py-10 h-screen px-2 mt-20">
+        <div class="max-w-md mx-auto bg-gray-100 shadow-lg rounded-lg overflow-hidden md:max-w-lg">
+            <div class="w-full">
+                {% if request.user.is_authenticated %}
+                    {% if user_details %}
+                        <div class="w-full p-4">
+                            <div class="flex-auto flex items-center justify-center ">
+                                <div class="ml-8">
+                                    <form action="{% url 'feed:search' %}" method="get" >
+                                        <label for="search" class="sr-only text-xs md:text-sm">Search</label>
+                                        <div class="w-full h-7 sm:w-full md:h-10  bg-white border rounded-lg flex justify-between items-center relative mx-1 pl-3  pr-2">
+                       
+                                            <input type="search" name="keyword" id="search" placeholder="{% if keyword %}{{keyword}}{% else %}Search{% endif %}"
+                                                class="w-full outline-none focus:outline-none active:outline-none  "/>
+                                            <button type="submit" class=" outline-none focus:outline-none active:outline-none self-center">
+                                                <div class="items-center mt-1 ">
+                                                    <i class='bx bx-search-alt-2 text-base md:text-xl' ></i>
+                                                </div>
+                                                
+                                            </button>
+                                       
+                                      </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <ul>
+                                <div class="text-xs text-gray-700 font-semibold my-2">{{user_details.count}} Results</div>
+                                {% for user in user_details %}
+                                
+                                    <li class="flex justify-between items-center bg-gray-100 shadow-md mt-2 p-2 hover:shadow-lg rounded cursor-pointer transition">
+                                        <div class="flex ml-2 items-center">
+                                             <!-- <img src="{{user.image.url}}" width="40" height="25" class="rounded-full"> -->
+                                             {% thumbnail user.image "100x100" crop="center" as img %}
+                                                <img  src="{{ img.url }}"class="rounded-full border-solid border-white border-2 w-12 h-12">
+                                            {% endthumbnail %}
+                                      
+                                            <div class="flex flex-col ml-2 justify-center"> 
+                                                <span class="font-medium text-black">{{user | title}}</span>
+                                                <span class="text-xs text-gray-400">
+                                                    {% if user.bio %}
+                                                        {{user.bio | title}}
+                                                    {% endif %}
+                                                </span>
+                                                 <span class="text-xs text-gray-400  truncate w-32">
+                                                    {% if user.country %}
+                                                        {{user.country | title}},
+                                                    
+                                                    {% endif %}
+                                                    
+                                                    {% if user.state %}
+                                                        {{user.state | title}},
+                                                
+                                                    {% endif %}
+                                                        
+                                                    {% if user.place %}
+                                                        {{user.place | title}}
+                
+                                                    {% endif %}
+
+                                                    
+                                                </span> 
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% endfor %} 
+                            </ul>
+                        </div>
+                    {% else %}
+                    
+                        <div class="py-1 mt-2 text-md md:text-xl mx-1 text-center">
+                            <i class='block bx bx-sad text-blue-700 text-4xl'></i>
+                            <span class="block">No Results Found,Search Again</span>
+                        </div>
+                        <div class="flex-auto flex items-center justify-center mb-4">
+                            <div class="">
+                                <form action="{% url 'feed:search' %}" method="get" >
+                                    <label for="search" class="sr-only text-xs md:text-sm">Search</label>
+                                    <div class="w-full h-7 sm:w-full md:h-10  bg-white border rounded-lg flex justify-between items-center relative mx-1 pl-3  pr-2">
+                   
+                                        <input type="search" name="keyword" id="search" placeholder="{{keyword}}"
+                                            class="w-full outline-none focus:outline-none active:outline-none  "/>
+                                        <button type="submit" class=" outline-none focus:outline-none active:outline-none self-center">
+                                            <div class="items-center mt-1 ">
+                                                <i class='bx bx-search-alt-2 text-base md:text-xl' ></i>
+                                            </div>
+                                            
+                                        </button>
+                                   
+                                  </div>
+                                </form>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    {% include 'includes/login.html' %}
+                {% endif %} 
+            </div>
+        </div>
     </div>
-      
 {% endblock body %}
 
     
