@@ -16,7 +16,7 @@
         <div class="max-w-md mx-auto bg-gray-100 shadow-lg rounded-lg overflow-hidden md:max-w-lg">
             <div class="md:flex">
                 <div class="w-full p-4">
-                     <div id="search_room" class="mt-2 shadow-lg ">
+                     <div id="search_room" class="mt-2 w-min">
                             <div class="text-sm md:text-lg font-semibold my-0.5 md:my-1 mx-0.5 md:mx-2">Messages</div>
                         </div>
                     <!-- TODO:Displaying ChatList -->
@@ -24,7 +24,7 @@
                         <ul>
                             {% for room in rooms.all %}
                             <li class="flex justify-between items-center shadow-md  mt-2 p-2 hover:shadow-lg rounded cursor-pointer transition">
-                                <div class="flex ml-2"> 
+                                <div class="flex ml-2 items-center"> 
                                     <!-- <img src="https://i.imgur.com/aq39RMA.jpg" width="40" height="40" class="rounded-full"> -->
                                     <!-- TODO:User image -->
                                     {% if request.user.username == room.sender %}

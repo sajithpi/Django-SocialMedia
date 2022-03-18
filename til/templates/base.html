@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/3.6.95/css/materialdesignicons.css">
   <link rel="stylesheet" type="text/css" href="{% static 'css/room.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/dropdown.css' %}">
-
+  <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
 </head>
 
 
@@ -99,7 +99,7 @@
             </ul>
       </div>
     {% endif %}
-    <div class="ml-8 md:ml-16 lg:ml-36 w-full min-h-screen">
+    <div class="{% if user.is_authenticated %}ml-8 md:ml-16 lg:ml-36 {% endif %}w-full min-h-screen">
 
       {% block body %}
       
@@ -347,7 +347,7 @@
                             <div class="flex mb-1 m-1 md:m-0">
                               <div class="flex items-center">
 
-                                <div class="rounded-full p-1  bg-gradient-to-b from-blue-400 via-green-500 to-indigo-700 ">
+                                <div class="rounded-full p-1  bg-gradient-to-b from-blue-700 via-indigo-400 to-indigo-700  ">
                                   <div class="rounded-full bg-white wrapper overflow-hidden h-8 w-8">
                                     <button>
                                       <a class="story-icon">
@@ -385,7 +385,7 @@
               <input hidden id="story-captions" class="bg-black text-white border">
               <input hidden id="story-id" class="bg-black text-white border">
               <input hidden id="story-img" class="bg-black text-white border">
-               <div id="story-seen-icon" data-story-seen-eye-icon-url="{% url 'feed:story_seen_eye' %}">
+               <div class="hidden" id="story-seen-icon" data-story-seen-eye-icon-url="{% url 'feed:story_seen_eye' %}">
                     <!-- <a class="w-8 mr-1 h-8 text-gray-700 rounded-full bg-white flex justify-center items-center" href="#slide-1">1</a> -->
                </div>
       
@@ -416,7 +416,7 @@
                 
                       <!-- TODO:Add the ajax form -->
                         <div class="md:flex-row px-0 md:px-3     " style="text-align: -webkit-center;">
-                          <div id="story_view_count" class="rounded-l-lg bg-gradient-to-r from-indigo-500 text-white text-xs md:text-base text-start pl-0.5 md:pl-2 " >
+                          <div id="story_view_count" class="rounded-l-lg bg-gradient-to-b from-blue-700 via-indigo-400 to-indigo-700 text-white text-xs md:text-base text-start pl-0.5 md:pl-2 " >
                             Viewed By
                           </div>
 

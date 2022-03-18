@@ -649,9 +649,11 @@ $(document)
 $(document)
   .on("click", ".js-story-model-cancel", function (e) {
     e.preventDefault();
-    console.log("I was clicked");
+    console.log("I was clicked story cancel");
+
     // clearTimeout(myTimeOut)
     $(".js-story-model").addClass("hidden");
+
   })
 
 
@@ -722,6 +724,7 @@ $(document)
   $(".js-story-view-model").toggleClass("hidden")
   story_id = $(this).attr('id')
   let story_author = document.getElementById(`story-author-name${story_id}`).value
+  let user = document.getElementById(`request-user-name`).value
   let status_counter_tile = document.getElementById('status-counter-tile')
   let story_author_image = document.getElementById(`story-author-img${story_id}`).value
   let story_image_button = document.getElementById('story-image')
@@ -781,6 +784,8 @@ $(document)
   story_loading = "false"
   // clearTimeout(myTimeOut)
   clearInterval(myMoveInterval);
+  let story_seen_icon = document.getElementById("story-seen-icon")
+  story_seen_icon.classList.replace("visible","hidden")
   $('.js-story-view-model').addClass('hidden')
 
 })
@@ -798,12 +803,21 @@ $(document)
 // Fetching and displaying the story from ajax success part
 function JsonResponse_Story(i){
     // var myMoveInterval 
+    let user = document.getElementById(`request-user-name`).value
     let story_author = document.getElementById(`story-author-name${story_id}`).value
+    console.log("user:",user)
+    console.log("story_author:",story_author)
     let story_author_image = document.getElementById(`story-author-img${story_id}`).value
-    let story_seen_icon = document.getElementById("story-seen-icon")
-    story_seen_icon.innerHTML = ""
+    if(story_author == user){
+
+      let story_seen_icon = document.getElementById("story-seen-icon")
+      console.log("author and user is same")
+     story_seen_icon.classList.replace("hidden","visible")
+      
+      story_seen_icon.innerHTML = ""
+      story_seen_icon.innerHTML = `<button onclick="Story_SeenBy('${story_author}','${story_author_image}','${response_story.story[i].text}','${i}')"><i id="story-id${index_value + 1}" class="bi bi-eye text-white"></i></button>`
+    }
     
-    story_seen_icon.innerHTML = `<button onclick="Story_SeenBy('${story_author}','${story_author_image}','${response_story.story[i].text}','${i}')"><i id="story-id${index_value + 1}" class="bi bi-eye text-white"></i></button>`
     console.log("story_author_image:",story_author_image)
     console.log("SeenType:",SeenTypeFinished)
     console.log("View Type:",view_type)

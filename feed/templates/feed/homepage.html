@@ -17,14 +17,14 @@ homepage
         {% include 'includes/navbar.html' %}
       </div>
       <div class="flex mt-20 z-20  w-3/4">
-        <div  class="mx-0.5  lg:mx-9">
+        <div  class="mx-0.5  lg:mx-12">
         
     <!--TODO: Stories -->
 
           <div class="flex stories pl-1 md:pl-5 py-1 bg-gray-100 shadow-lg rounded flex  ">
             <!-- TODO:Your story -->
             <div class="storie-item flex flex-col  mr-1 md:mr-6 flex flex-col items-center justify-end relative">
-                  <div class="rounded-full p-0.5 bg-gradient-to-b from-blue-400 via-green-500 to-indigo-700  ">
+                  <div class="rounded-full p-0.5 bg-gradient-to-b from-blue-700 via-indigo-400 to-indigo-700  ">
                     <div class="rounded-full bg-white wrapper overflow-hidden h-7 w-7 md:h-12 md:w-12 ">
                       <button>
                         
@@ -39,9 +39,10 @@ homepage
                           {% thumbnail user.profile.image "51x51" crop="center" as img %}
                             <img id="story-icon{{story.id}}" src="{{ img.url }}"class="object-scale-down rounded-full border-solid border-white border-2">
                           {% endthumbnail %}
-                           
+                          <input  hidden id="request-user-name" type="text" value="{{request.user.username}}">
                           {% if request.user == user_story.author %}
-                          <input  hidden id="story-author-name{{user_story.id}}" type="text" value="{{request.user.username}}">
+                         
+                          <input  hidden id="story-author-name{{user_story.id}}" type="text" value="{{user.username}}">
                           <input  hidden id="story-author-img{{user_story.id}}" type="text" value="{{user.profile.image.url}}">
                       {% endif %}
                         </a>
