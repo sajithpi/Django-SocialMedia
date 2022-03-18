@@ -4,11 +4,11 @@
 
 <html>
 <body>
-    <div id="search_room" class="mt-2 text-xs md:text-lg font-semibold my-0 md:my-1 ml-4">
+    <div id="search_room" class="mt-2 text-xs md:text-lg font-semibold my-0 md:my-1 ml-2 md:ml-4">
         Messages
     </div>
     {% if chats %}
-    <div class="w-full">
+    <div class="w-full overflow-y-scroll">
         <div
             class="flex justify-between items-center m-0.5 md:m-2">
     
@@ -37,8 +37,8 @@
 
 
             <div
-                class="flex flex-col shadow-md mt-2 p-2 hover:shadow-lg rounded cursor-pointer transition w-full h-full p-0  border bg-gray-100 hover:bg-gray-200 rounded-lg overflow-hidden my-0.5 md:my-1 mx-0.5 md:mx-2">
-                <div class="flex items-center justify-between mx-auto">
+                class="flex flex-col shadow-md mt-2 py-2 hover:shadow-lg rounded cursor-pointer transition w-full h-full p-0  border bg-gray-100 hover:bg-gray-300 rounded-lg overflow-hidden my-0.5 md:my-1 mx-0.5">
+                <div class="flex items-center justify-between ml-1  md:ml-3">
                     <div class="flex items-center mx-0 md:mx-3">
                         <div class="flex w-7 h-7 md:w-10 md:h-10 items-center mx-0 md:mx-1">
 
@@ -62,7 +62,7 @@
 
                         </div>
                      
-                        <div class="hidden md:flex flex-col w-20 md:w-16 lg:w-32  ml-0 md:ml-2">
+                        <div class="hidden md:flex flex-col w-24 md:w-20 lg:w-40  mx-0.5">
                             {% if request.user.username == room.sender %}
                             <a href="{% url 'chat:room' room.receiver %}" class="stretched-link text-decoration-none">
                                 <div class="text-xs  md:text-sm font-semibold overflow-hidden text-gray-700">

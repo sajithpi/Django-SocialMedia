@@ -210,12 +210,20 @@ xmlns:o="urn:schemas-microsoft-com:office:office">
                                                 <tr class="cta-mod-wrapper">
                                                   <td style="word-wrap:break-word;font-size:0px;padding:25px 0px 0px;" align="center">
                                                     <div style="cursor:auto;color:#555;font-family:Helvetica;font-size:13px;text-align:center;">
-                                                      <a href="https://www.trunkclub.com/messenger" class="cta-mod" style="color: #fff; text-decoration: none; border-radius: 40px; padding: 16px 40px; font-size: 16px; letter-spacing: 1px; font-weight: 300;">Hi {{name}}</a>
+                                                      <a href="https://www.trunkclub.com/messenger" class="cta-mod" style="color: #fff; text-decoration: none; border-radius: 40px; font-size: 16px; letter-spacing: 1px; font-weight: 300;">
+                                                        Hi 
+                                                        {% if name %}
+                                                        {{name}}
+                                                        {% else %}
+                                                        User
+                                                        {% endif %}
+                                                         
+                                                      </a>
                                                     </div>
                                                   </td>
                                                 </tr>
                                                 <tr>
-                                                  <td style="font-size:0px;padding:10px 5px;padding-top:30px;"
+                                                  <td style="font-size:0px;padding:10px 5px;padding-top:7px;"
                                                   align="center">
                                                     <div style="cursor:auto;color:#ffffff;font-family:Georgia;font-size:23px;text-align:center;">
                                                       Welcome to SocialBook
@@ -319,8 +327,8 @@ xmlns:o="urn:schemas-microsoft-com:office:office">
                                             <tbody>
                                               <tr>
                                                 <td style="width:170px;">
-                                                  <img alt="Chat with your stylist" title="" src="https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
-                                                  style="border:none;border-radius:50%;display:block;font-size:13px;outline:none;text-decoration:none;width:100%;height:auto;"
+                                                  <img alt="Chat with your stylist" title="" src="https://images.unsplash.com/photo-1592329347810-258afdd206bb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1031&q=80"
+                                                  style="border:none;display:block; border-radius: 25px;font-size:13px;outline:none;text-decoration:none;width:100%;height:auto;"
                                                   width="170">
                                                 </td>
                                               </tr>
@@ -376,8 +384,8 @@ xmlns:o="urn:schemas-microsoft-com:office:office">
                                             <tbody>
                                               <tr>
                                                 <td style="width:170px;">
-                                                  <img alt="Review your trunk" title="" height="auto" src="https://res.cloudinary.com/trunk-club/image/upload/f_auto,q_auto/v1503346407/public_site/Emails/templates/welcome-stream-1a-womens-chat.png"
-                                                  style="border:none;border-radius:0px;display:block;font-size:13px;outline:none;text-decoration:none;width:100%;height:auto;"
+                                                  <img alt="Real Time Message" title="" height="auto" src="https://images.unsplash.com/photo-1519944518895-f08a12d6dfd5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+                                                  style="border:none;border-radius:0px; border-radius: 25px;display:block;font-size:13px;outline:none;text-decoration:none;width:100%;height:auto;"
                                                   width="170">
                                                 </td>
                                               </tr>
@@ -433,8 +441,8 @@ xmlns:o="urn:schemas-microsoft-com:office:office">
                                             <tbody>
                                               <tr>
                                                 <td style="width:170px;">
-                                                  <img alt="Try everything on" title="" height="auto" src="https://img.freepik.com/free-vector/button-icons-like-social-media-sites-long-shadow-that-looks-simple_68708-498.jpg?w=900"
-                                                  style="border:none;border-radius:0px;display:block;font-size:13px;outline:none;text-decoration:none;width:100%;height:auto;"
+                                                  <img alt="Like Comment" title="" height="auto" src="https://images.unsplash.com/photo-1553532435-93d532a45f15?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
+                                                  style="border:none; border-radius: 25px;display:block;font-size:13px;outline:none;text-decoration:none;width:100%;height:auto;"
                                                   width="170">
                                                 </td>
                                               </tr>
@@ -490,8 +498,8 @@ xmlns:o="urn:schemas-microsoft-com:office:office">
                                             <tbody>
                                               <tr>
                                                 <td style="width:170px;">
-                                                  <img alt="Make your selections" title="" height="auto" src="https://res.cloudinary.com/trunk-club/image/upload/f_auto,q_auto/v1503350118/public_site/Emails/templates/welcome-stream-1a-womens-make.png"
-                                                  style="border:none;border-radius:0px;display:block;font-size:13px;outline:none;text-decoration:none;width:100%;height:auto;"
+                                                  <img alt="Make your selections" title="" height="auto" src="https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=838&q=80"
+                                                  style="border:none; border-radius: 25px;display:block;font-size:13px;outline:none;text-decoration:none;width:100%;height:auto;"
                                                   width="170">
                                                 </td>
                                               </tr>
@@ -509,14 +517,15 @@ xmlns:o="urn:schemas-microsoft-com:office:office">
                                       <tr>
                                         <td style="word-wrap:break-word;font-size:0px;padding:10px 25px;padding-bottom:0px;"
                                         align="left">
-                                          <div style="cursor:auto;color:#4A4A4A;font-family:Helvetica;font-size:18px;font-weight:bold;line-height:27px;text-align:left;">04. Make your selections</div>
+                                          <div style="cursor:auto;color:#4A4A4A;font-family:Helvetica;font-size:18px;font-weight:bold;line-height:27px;text-align:left;">04. SocialBook Stories </div>
                                         </td>
                                       </tr>
                                       <tr>
                                         <td style="word-wrap:break-word;font-size:0px;padding:10px 25px;padding-top:0px;"
                                         align="left">
-                                          <div style="cursor:auto;color:#999999;font-family:Helvetica;font-size:18px;line-height:27px;text-align:left;">Returns are simple and free! Pack items back in the trunk with the included return
-                                            label and schedule a pick-up or drop the trunk at any UPS Store.</div>
+                                          <div style="cursor:auto;color:#999999;font-family:Helvetica;font-size:13px;line-height:27px;text-align:left;">
+                                            We provide a special feature for our users, this features will allows the users post photos that automatically disappear within 24 hours
+                                          </div>
                                         </td>
                                       </tr>
                                     </tbody>

@@ -29,7 +29,7 @@ urlpatterns = [
     path("story_seen_add/",views.Story_Seen_Add,name="story_seen_add"),
     path("story_seen/",views.Story_Seen,name="story_seen_eye"),
     path("chat/",views.ChatView,name="template"),
-   
+    path("notification_clear/",views.Notification_Clear,name="notification_clear"),
 
 
    

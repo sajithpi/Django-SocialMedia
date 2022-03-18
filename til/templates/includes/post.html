@@ -18,7 +18,7 @@
 	
 {% include 'includes/background.html' %}
 
-<div class="flex justify-center  md:mb-1 mt-1 bg-transparent shadow-lg shadow-indigo-500/40  rounded items-center  border  w-full"
+<div class="flex justify-center  md:mb-1 mt-1 bg-gray-200 shadow-lg shadow-indigo-500/40  rounded items-center  border  w-full"
 	x-data="{
         comment : false,
     }">
@@ -163,7 +163,7 @@
 						<div class="flex post-text mr-3 mt-0.5">
 							<input type="hidden" class="post{{post.id}}" id="{{post.id}}" value="{{post.id}}">
 									<span class="text-black-500 text-xs md:text-base font-bold">
-												{{request.user|capfirst}}
+												{{post.author.username|capfirst}}
 									</span>
 									<div id="post-text{{post.id}}"
 										class="w-auto post-text{{post.id}} text-black-500  ml-1 text-xs md:text-base  capitalize mr-3 truncate">

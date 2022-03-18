@@ -49,3 +49,24 @@ $(document)
 
 })
 
+.on("click","#notification_clear",function(e){
+    e.preventDefault()
+    console.log("Clicked")
+    var notification_clear_value = "clear all"
+    $.ajax({
+        type:'POST',
+        url:$("#notification_clear").data('notification-clear-url'),
+        data:{
+            'notification_value':notification_clear_value,
+        },
+        success:function(response){
+            if(response.message==='success'){
+                console.log("success")
+                $(".notification_list").fadeOut()
+            }
+            else{
+                console.log(response.err)
+            }
+        }
+    })
+})

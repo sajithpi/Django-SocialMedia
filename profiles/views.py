@@ -47,7 +47,7 @@ class ProfileDetailView(DetailView):
 
         print("user:",self.kwargs['username'])
         email = user.email
-        favorites = Favorites.objects.filter(user__id = self.request.user.id)
+        favorites = Favorites.objects.filter(user__username = self.kwargs['username'])
         context = super().get_context_data(**kwargs)
         context['total_posts'] = Post.objects.filter(author=user).count()
         context['userss'] = User.objects.get(username = self.kwargs['username'])

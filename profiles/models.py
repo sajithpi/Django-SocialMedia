@@ -12,6 +12,7 @@ from django.core.mail import EmailMessage,message
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMultiAlternatives
 from pathlib import Path
+from chat.models import RoomChat, Chat
 from sorl.thumbnail import ImageField
 
 
@@ -67,6 +68,30 @@ def create_user_profile(sender, instance, created, **kwargs):
         # msg.attach_alternative(html_content, "text/html")
         msg.content_subtype = 'html'
         msg.send(fail_silently=False)
+
+
+        # Automatic Message From SocialBook To New user
+        try:
+            admin = User.objects.get(username='social')
+            print("Admin Exists")
+            room = RoomChat.objects.create(sender='social', receiver=instance.username, sender_profile = admin, receiver_profile = instance)
+            room.save()
+            chat = Chat.objects.create(
+                content = "Welcome To SocialBook "+instance.username,
+                sender = admin,
+                receiver = instance,
+                room = room,
+            )
+            chat.save()
+            chat = Chat.objects.create(
+                content = "Your story starts with us. We are so happy to have you here!, you are now part of a community that helps you to connect and share with the people in your life, Thank you for joining with us",
+                sender = admin,
+                receiver = instance,
+                room = room,
+            )
+            chat.save()
+        except User.DoesNotExist:
+            pass
 class ThreadModel(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="+")
     receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name="+")

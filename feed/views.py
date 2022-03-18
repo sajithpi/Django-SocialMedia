@@ -496,3 +496,16 @@ def user_profile_notification(request,notification_pk,user_pk):
 
 def ChatView(request):
     return render(request,'chat/chat_template.html')
+def Notification_Clear(request):
+    if request.method == 'POST':
+        value = request.POST['notification_value']
+        print("notification_value:",value)
+        try:
+            notifications = Notification.objects.filter(to_user__username = request.user.username)
+            notifications.delete()
+            print("Notification Deleted Successfully")
+        except Notification.DoesNotExist:
+            pass
+
+        return JsonResponse({"message":"success"})
+    return JsonResponse({"message":"not"})

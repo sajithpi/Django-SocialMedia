@@ -28,14 +28,14 @@ Chat Room
 <div class="h-screen bg-gray-300 my-4">
    <div class="flex justify-center items-center bg-white h-screen ">
        <div class="w-4/5 h-fit rounded shadow-2xl">
-           <nav class="w-full h-10 bg-gradient-to-r from-indigo-700 via-indigo-600 to-indigo-800 rounded-lg rounded-bl-none rounded-br-none flex justify-between items-center">
+           <nav class="w-full h-10 bg-gray-300 shadow-lg  rounded-lg rounded-bl-none rounded-br-none flex justify-between items-center">
                <div class="flex justify-center items-center"> <i class="mdi mdi-arrow-left font-normal text-gray-300 ml-1"></i>
                    <!-- <img src="https://i.imgur.com/IAgGUYF.jpg" class="rounded-full ml-1" width="25" height="25">  -->
                    
                    {% thumbnail received_user.profile.image "100x100" crop="center" as img %}
                    <img id="user_dp" src="{{img.url}}" alt="user image"  class="w-8 h-8 rounded-full">
                    {% endthumbnail %}
-                   <span class="text-xs font-medium text-white ml-1">{{received_user.username | capfirst }}</span> 
+                   <span class="text-xs md:text-sm font-medium text-gray-700 ml-1 ">{{received_user.username | capfirst }}</span> 
                </div>
                <div class="flex items-center">
 
