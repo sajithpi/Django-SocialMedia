@@ -21,7 +21,7 @@ homepage
         
     <!--TODO: Stories -->
 
-          <div class="flex stories pl-1 md:pl-5 py-1 bg-gray-100 shadow-lg rounded flex  ">
+          <div class="flex stories pl-1 md:pl-5 py-1 bg-white shadow-lg rounded flex  ">
             <!-- TODO:Your story -->
             <div class="storie-item flex flex-col  mr-1 md:mr-6 flex flex-col items-center justify-end relative">
                   <div class="rounded-full p-0.5 bg-gradient-to-b from-blue-700 via-indigo-400 to-indigo-700  ">
@@ -136,12 +136,12 @@ homepage
 
     </div> 
     <!-- TODO:Chat List Section -->
-    <div class="block px-0 md:px-3 border-2 max-h-screen fixed top-16 right-0 bg-gray-100 shadow-lg w-1/5 md:w-1/4">
+    <div class="block px-0 md:px-3 border-2 max-h-screen fixed top-16 right-0 bg-white shadow-lg w-1/5 md:w-1/4">
        
       {% include 'chat/index.html' with rooms=rooms chats=chats room_users=room_users%}
     </div>
   {% else %}
-    {% include 'includes/login.html' %}
+    {% include 'account/login.html' %}
   {% endif %}
   
 

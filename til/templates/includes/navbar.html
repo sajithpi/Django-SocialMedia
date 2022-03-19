@@ -3,7 +3,7 @@
   
  
 
-   <nav class="w-auto bg-gray-50 shadow-lg shadow-indigo-500/40 shadow border-b border-gray-400 absolute inset-x-0 top-0 h-16 z-30  ">
+   <nav class="w-auto bg-white shadow-lg border-t-1 shadow-indigo-500/40 shadow border-b border-gray-400 absolute inset-x-0 top-0 h-16 z-30  ">
        
     <div class="w-auto border-gray-400 ml-8 md:ml-64 z-50">
         {% include 'includes/alert.html' %}
@@ -40,25 +40,23 @@
         <div class="lg:ml-4 flex items-center self-center mr-0 md:mr-3">
             <!-- TODO:Home Icon -->
             <button
-                class="flex-shrink-0 pr-1 md:pr-4 border-transparent text-gray-700 rounded-full hover:text-gray-600 focus:outline-none "
-                aria-label="Notifications">
+                class="flex-shrink-0 pr-1 md:pr-4 border-transparent text-gray-700 rounded-full hover:text-gray-600 focus:outline-none ">
                 <a href="{% url 'feed:home' %} "
                 class="flex flex-col md:flex-row items-center h-12  text-gray-500 hover:text-gray-800 ">
                 <span class="inline-flex items-center content-start md:content-center  h-12 text-gray-400"><i
-                    class="bx bx-home text-indigo-500 text-xl md:text-2xl"></i></span>
+                    class="bx bx-home text-indigo-500 text-lg md:text-2xl"></i></span>
       
               </a>
             </button>
             {% if request.user.is_authenticated %}
 
-            <!-- User Profile -->
+            <!-- Chat Rooms -->
                 <button
-                    class="flex-shrink-0 pr-1 md:pr-4 border-transparent text-gray-700 rounded-full hover:text-gray-600 focus:outline-none "
-                    aria-label="Notifications">
-                    <a href="{% url 'profiles:user_profile' request.user.username %}"
+                    class="flex-shrink-0 pr-1 md:pr-4 border-transparent text-gray-700 rounded-full hover:text-gray-600 focus:outline-none">
+                    <a href="{% url 'chat:index' %}"
                     class="flex flex-col md:flex-row items-center h-12 transform  text-gray-500 hover:text-gray-800 ">
-                    <span class="inline-flex items-center content-start md:content-center w-7 h-12 text-gray-400"><i
-                        class="bx bx-user-circle text-indigo-500 text-xl md:text-2xl"></i></span>
+                    <span class="inline-flex items-center content-start md:content-center w-6 h-12 text-gray-400"><i
+                        class="bx bxs-chat text-indigo-500 text-lg md:text-2xl"></i></span>
                     <!-- <div class="text-xs md:text-sm font-medium  hidden md:block">Profile</div> -->
                 </a>
                 </button>
@@ -69,8 +67,8 @@
 
                 <div x-data="{ dropdownOpen: false }" class="relative my-36  pr-1 md:pr-4">
                     <button @click="dropdownOpen = !dropdownOpen" class="relative flex-shrink-0 pt-1 border-transparent text-gray-700 rounded-full hover:text-gray-600 focus:outline-none">
-                        <i class='bx bx-notification text-indigo-500 text-xl md:text-2xl'></i>
-                        <span class="absolute inset-0 object-left-top -ml-6">
+                        <i class='bx bx-notification text-indigo-500 text-lg md:text-2xl'></i>
+                        <span class="absolute inset-0 object-left-top -ml-4">
                             <div class="inline-flex items-center px-0.5 rounded-full text-xs bg-red-500 text-white">
                              <small>{{notification_count}}</small>
                             </div>
@@ -107,7 +105,7 @@
                     <a href="{% url 'account_logout' %}"
                     class="flex flex-col md:flex-row items-center h-12 text-gray-500 hover:text-gray-800 ">
                     <span class="inline-flex items-center content-start md:content-center  h-12  text-gray-400"><i
-                        class="bx bx-log-out text-indigo-500 text-xl md:text-2xl"></i></span>
+                        class="bx bx-log-out text-indigo-500 text-lg md:text-2xl"></i></span>
                 
                 </a>
                 </button>

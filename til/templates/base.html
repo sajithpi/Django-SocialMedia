@@ -27,16 +27,16 @@
   <!-- component -->
  
 
-  <div class=" max-w-9xl min-h-screen flex flex-row  {% if request.user.is_authenticated %} bg-gray-100 {% else %} bg-gradient-to-r from-indigo-500 {% endif %}  " >
+  <div class=" max-w-9xl min-h-screen flex flex-row  {% if request.user.is_authenticated %} bg-white {% else %} bg-gradient-to-r from-indigo-500 {% endif %}  " >
    
     <!-- <div class="flex flex-col w-4/5 md:w-1/5 md:pr-0 pr-1 bg-white rounded-r-3xl overflow-hidden"> -->
     {% if request.user.is_authenticated %}
-      <div class="flex flex-col px-0 md:px-3 w-8 md:w-14 lg:w-32 md:px-1  mt-16 align-center bg-transparent shadow-lg shadow-indigo-500/40 rounded-r-3xl overflow-hidden fixed top-0 left-0 right-0 z-40">
+      <div class="flex flex-col px-0 md:px-3 w-8 md:w-14 lg:w-32 md:px-1  mt-16 align-center bg-gray-50 shadow-lg shadow-indigo-500/40 rounded-r-3xl overflow-hidden fixed top-0 left-0 right-0 z-40">
    
             <ul class="flex flex-col py-4 px-0 md:px-3 text-decoration:none ml-0 md:ml-1 lg:ml-4">
               <li class="text-decoration: none   ">
                 <a href="{% url 'feed:home' %} "
-                  class="flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 bg-gray-100 hover:bg-gray-200 rounded-lg shadow-none hover:shadow-lg">
+                  class="flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 bg-gray-50 hover:bg-gray-200 rounded-lg shadow-none hover:shadow-lg">
                   <span class="inline-flex items-center content-start md:content-center  h-12 w-auto text-lg text-gray-400"><i
                       class="bx bx-home text-indigo-500"></i></span>
                   <div class="text-xs md:text-sm font-medium  hidden lg:block">Home</div>
@@ -44,7 +44,7 @@
               </li>
               <li>
                 <a href="{% url 'chat:index' %}"
-                  class="flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 bg-gray-100 hover:bg-gray-200 rounded-lg shadow-none  hover:text-gray-800 ">
+                  class="flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 bg-gray-50 hover:bg-gray-200 rounded-lg shadow-none  hover:text-gray-800 ">
                   <span class="inline-flex items-center content-start md:content-center  h-12 w-auto text-lg text-gray-400"><i
                       class="bx bxs-chat text-indigo-500"></i></span>
                   <div class="text-xs md:text-sm font-medium  hidden lg:block">Chat Room</div>
@@ -54,7 +54,7 @@
               <li>
 
                 <a href="{% url 'profiles:user_profile' request.user.username %}"
-                  class="flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 bg-gray-100 hover:bg-gray-200 rounded-lg shadow-none  hover:text-gray-800 ">
+                  class="flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 bg-gray-50 hover:bg-gray-200 rounded-lg shadow-none  hover:text-gray-800 ">
                   <span class="inline-flex items-center content-start md:content-center  h-12 w-auto text-lg text-gray-400"><i
                       class="bx bx-user-circle text-indigo-500"></i></span>
                   <div class="text-xs md:text-sm font-medium  hidden lg:block">Profile</div>
@@ -63,7 +63,7 @@
               </li>
               <li>
                 <a href="{% url 'feed:new_post' %}"
-                  class="js-model-icon  flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 bg-gray-100 hover:bg-gray-200 rounded-lg shadow-none  hover:text-gray-800 ">
+                  class="js-model-icon  flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 bg-gray-50 hover:bg-gray-200 rounded-lg shadow-none  hover:text-gray-800 ">
                   <span class="inline-flex items-center content-start md:content-center  h-12 w-auto text-lg text-gray-400"><i
                       class="bx bx-message-alt-add text-indigo-500"></i></span>
                       
@@ -72,24 +72,16 @@
               </li>
               <li>
                 <a href="{% url 'feed:find' %}"
-                  class="flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 bg-gray-100 hover:bg-gray-200 rounded-lg shadow-none  hover:text-gray-800 ">
+                  class="flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 bg-gray-50 hover:bg-gray-200 rounded-lg shadow-none  hover:text-gray-800 ">
                   <span class="inline-flex items-center content-start md:content-center  h-12 w-auto text-lg text-gray-400"><i
                       class="bx bx-user-plus text-indigo-500"></i></span>
                   <div class="text-xs md:text-sm font-medium  hidden lg:block">Find Friends</div>
                 </a>
               </li>
               <li>
-                <a href="{% url 'feed:template' %}"
-                  class="flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 bg-gray-100 hover:bg-gray-200 rounded-lg shadow-none  hover:text-gray-800 ">
-                  <span class="inline-flex items-center content-start md:content-center  h-12 w-auto text-lg text-gray-400"><i
-                      class="bx bx-user-plus text-indigo-500"></i></span>
-                  <div class="text-xs md:text-sm font-medium  hidden lg:block">Template</div>
-                </a>
-              </li>
-              <li>
 
                 <a href="{% url 'account_logout' %}"
-                  class="flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 bg-gray-100 hover:bg-gray-200 rounded-lg shadow-none  hover:text-gray-800 ">
+                  class="flex flex-col md:flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 bg-gray-50 hover:bg-gray-200 rounded-lg shadow-none  hover:text-gray-800 ">
                   <span class="inline-flex items-center content-start md:content-center  h-12 w-auto text-lg text-gray-400"><i
                       class="bx bx-log-out text-indigo-500"></i></span>
                   <div class="text-xs md:text-sm font-medium hidden lg:block">Logout</div>
@@ -463,6 +455,7 @@
   <script src="{% static 'js/index.js' %}"></script>
   <script src="{% static 'js/story.js' %}"></script>
   <script src="{% static 'js/chat.js' %}"></script>
+  <script src="{% static 'js/signin_login.js' %}"></script>
 </body>
 
 </html>

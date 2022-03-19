@@ -18,7 +18,7 @@
 	
 {% include 'includes/background.html' %}
 
-<div class="flex justify-center  md:mb-1 mt-1 bg-gray-200 shadow-lg shadow-indigo-500/40  rounded items-center  border  w-full"
+<div class="flex justify-center  md:mb-1 mt-1 bg-white shadow-lg shadow-indigo-500/40  rounded items-center  border  w-full"
 	x-data="{
         comment : false,
     }">
@@ -98,10 +98,10 @@
 					</a>
 				</div>
 				{% else %}
-				<div class="post-img{{post.id}} w-full h-full border">
+				<div class="post-img{{post.id}} relative w-full h-full">
 				
 					<img src="{{ post.photo.url }}" alt="SocialBook"
-						class="w-2/4 h-full">
+						class="w-full h-full">
 
 				</div>
 
@@ -208,7 +208,7 @@
 						<!-- End System Like and tools Feed -->
 						<!-- TODO: Existing Comments Listing -->
 					{% if show_comment_list == True %}
-							<div class=" pl-1 py-1 md:pl-4  " id="comment_list{{post.id}}">
+							<div class=" pl-1 py-1 md:pl-4  overflow-auto max-h-80" id="comment_list{{post.id}}">
 								{% if post.comment_set.all %}
 									{% for comment in post.comment_set.all reversed %}
 									<div id="comment-container{{comment.id}}" class=" pl-1  md:pl-4 ">

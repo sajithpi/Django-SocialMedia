@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load account socialaccount %}
 {% load i18n %}
-
+{% load static %}
 {% block head_title %}{% trans "Signup" %}{% endblock %}
 
 {% block body %}
@@ -20,10 +20,11 @@
 <div class="relative min-h-screen flex ">
   <div class="flex flex-col sm:flex-row items-center md:items-start sm:justify-center md:justify-start flex-auto min-w-0 bg-white">
     <div class="sm:w-1/2 xl:w-3/5 h-full hidden md:flex flex-auto items-center justify-center p-10 overflow-hidden bg-purple-900 text-white bg-no-repeat bg-cover relative"
-      style="background-image: url(https://images.unsplash.com/photo-1579451861283-a2239070aaa9?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80);">
+      style="background-image: url(../../../media/uploads/icons/SocialBook.png);background-position: center;">
       <div class="absolute bg-gradient-to-b from-indigo-600 to-blue-500 opacity-75 inset-0 z-0"></div>
       <div class="w-full  max-w-md z-10">
-        <div class="sm:text-4xl xl:text-5xl font-bold leading-tight mb-6">SocialBook</div>
+        <div class="sm:text-4xl xl:text-5xl font-bold leading-tight mb-6">SocialBooks</div>
+        <!-- <img src="../../../media/uploads/icons/SocialBook.png" class="w-12" alt=""> -->
         <div class="sm:text-sm xl:text-md text-gray-200 font-normal"> We Help You To Connect People In Your Life</div>
       </div>
       <!---remove custom style-->
@@ -40,10 +41,10 @@
     <li></li>
  </ul>
     </div>
-    <div class="md:flex md:items-center md:justify-center w-full sm:w-auto md:h-full w-2/5 xl:w-2/5 p-8  md:p-10 lg:p-14 sm:rounded-lg md:rounded-none bg-white">
+    <div class="md:flex md:items-center md:justify-center w-full sm:w-auto md:h-full w-2/5 xl:w-2/5 px-8 py-4  md:px-10 lg:px-28 sm:rounded-lg md:rounded-none bg-white">
       <div class="max-w-md w-full space-y-8">
         <div class="text-center">
-          <h2 class="mt-6 text-3xl font-bold text-gray-900">
+          <h2 class="text-3xl font-bold text-gray-900">
             Welcome!
           </h2>
           <p class="mt-2 text-sm text-gray-500">Please sign in to your account</p>
@@ -86,17 +87,17 @@
               required id="id_login" type="email" name="login" placeholder="E-mail address" autocomplete="email" >
           </div>
           <div class=" content-center relative">
-            <div class="absolute right-3 mt-4">
-              <i id="passwordShow" class="passwordShow bi bi-eye text-blue-500 hover:text-blue-700 text-xl"></i>
+            <div id="passwordShowlogin1" class="absolute right-3 mt-4">
+              <i  class="passwordShowicon bi bi-eye text-blue-500 hover:text-blue-700 text-xl"></i>
             </div>
             <label  for="id_password" class="ml-3 text-sm font-bold text-gray-700 tracking-wide">
               Password
             </label>
               <input
                 class="w-full content-center text-base px-4 py-2 border-b rounded-2xl border-gray-300 focus:outline-none focus:border-indigo-500"
-                id="pasword_id" type="password" name="password" autocomplete="current-password" 
-                placeholder="Enter your password" value="*****|">
-                <button id="passwordShow" class="passwordShow self-center text-xs md:text-sm font-bold text-blue-700 hover:bg-blue-100 leading-normal cursor-pointer border-l-2"></button>
+                id="pasword_id" type="password" name="password" 
+                placeholder="Enter your password" >
+
       
             
           </div>
@@ -107,16 +108,16 @@
               </a>
             </div>
           </div>
-          <div class="my-4">
+          <div class="my-3">
             <button type="submit"
               class="primaryAction w-64 flex justify-center bg-gradient-to-r from-indigo-500 to-blue-600  hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 p-1  rounded-full tracking-wide font-semibold  shadow-lg cursor-pointer transition ease-in duration-500">
               Sign in
             </button>
           </div>
-          <p class="flex flex-col items-center justify-center text-center text-md text-gray-500">
+          <p class="flex  items-center justify-center text-center text-sm text-gray-500">
             <span>Don't have an account?</span>
             <a href="/accounts/signup"
-              class="text-indigo-400 hover:text-blue-500 no-underline hover:underline cursor-pointer transition ease-in duration-300">Sign
+              class="flex text-indigo-400 hover:text-blue-500 no-underline hover:underline cursor-pointer transition ease-in duration-300 ml-3">Sign
               up</a>
           </p>
         </form>

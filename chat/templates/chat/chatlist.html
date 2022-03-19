@@ -13,7 +13,7 @@
       </div>
 
     <div class="py-10 h-screen px-2 mt-20">
-        <div class="max-w-md mx-auto bg-gray-100 shadow-lg rounded-lg overflow-hidden md:max-w-lg">
+        <div class="max-w-md mx-auto bg-gray-50 shadow-lg rounded-lg overflow-hidden md:max-w-lg">
             <div class="md:flex">
                 <div class="w-full p-4">
                      <div id="search_room" class="mt-2 w-min">
@@ -23,8 +23,8 @@
                     {% if chats %}
                         <ul>
                             {% for room in rooms.all %}
-                            <li class="flex justify-between items-center shadow-md  mt-2 p-2 hover:shadow-lg rounded cursor-pointer transition">
-                                <div class="flex ml-2 items-center"> 
+                            <li class="flex justify-between items-center shadow-md  mt-2 p-2 bg-gray-50 hover:bg-gray-200 hover:shadow-lg rounded cursor-pointer transition">
+                                <div class="flex ml-2 items-center w-full"> 
                                     <!-- <img src="https://i.imgur.com/aq39RMA.jpg" width="40" height="40" class="rounded-full"> -->
                                     <!-- TODO:User image -->
                                     {% if request.user.username == room.sender %}
@@ -44,16 +44,16 @@
         
                                     </a>
                                     {% endif %}
-                                    <div class="flex flex-col ml-2"> 
+                                    <div class="flex flex-col ml-2 w-full"> 
                                         <!-- <span class="font-medium text-black">Jessica Koel</span>  -->
                                         <!-- TODO:Username -->
                                         {% if request.user.username == room.sender %}
-                                            <a href="{% url 'chat:room' room.receiver %}" class="stretched-link text-decoration-none">
+                                            <a href="{% url 'chat:room' room.receiver %}" class="text-decoration-none">
                                                 <div class="text-xs  md:text-sm font-semibold overflow-hidden text-gray-700">
                                                     {{room.receiver |capfirst }}</div>
                                             </a>
                                         {% else %}
-                                            <a href="{% url 'chat:room' room.sender %}" class="stretched-link">
+                                            <a href="{% url 'chat:room' room.sender %}" class="">
                                                 <div class="text-xs md:text-sm font-semibold">{{room.sender |capfirst }}</div>
                                             </a>
                                         {% endif %}

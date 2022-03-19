@@ -800,6 +800,7 @@ $(document)
 
 
 
+
 // Fetching and displaying the story from ajax success part
 function JsonResponse_Story(i){
     // var myMoveInterval 
