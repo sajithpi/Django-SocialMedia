@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'sorl.thumbnail',
     'admin_honeypot',
     'django_filters',
+    'decouple',
     'storages',
     'whitenoise'
    
