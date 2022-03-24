@@ -10,6 +10,7 @@ from django.template import context
 from django.views.generic import TemplateView
 from django.views.generic import  DetailView, View,ListView,FormView
 from django.views.generic.edit import CreateView, UpdateView
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from profiles.models import MessageModel, Profile, ThreadModel
 from feed.models import Favorites
@@ -18,18 +19,20 @@ from django.db.models import Q
 import datetime
 from chat.models import Chat, RoomChat
 from django.shortcuts import get_object_or_404, redirect, render
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from .forms import CommentForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 
-
-class HomePage(TemplateView):
+class HomePage(LoginRequiredMixin,TemplateView):
     http_method_names = ["get"]
     template_name = "feed/homepage.html"
+    # login_url = 'account/login.html'
+    # redirect_field_name = 'feed/homepage.html'
     # model = Post
     # context_object_name = "posts"
     # queryset = Post.objects.all().order_by('-id')[0:30]
+ 
 
    
     def dispatch(self, request, *args, **kwargs):
@@ -42,7 +45,7 @@ class HomePage(TemplateView):
             return render(request,'feed/homepage.html')
             # return render(request,'includes/login.html')
 
-
+    
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
 

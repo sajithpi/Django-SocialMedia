@@ -45,7 +45,7 @@ chatSocket.onmessage = function(e) {
         messageElement.classList.add('message','sender')
         messageElement.innerHTML = `
         <div class="flex justify-end pt-2 pl-10">
-            <span class="bg-gradient-to-r from-indigo-700 via-indigo-600 to-indigo-800 h-auto text-gray-200 text-xs font-normal p-1 rounded-lg rounded-tr-none px-1 items-end flex justify-end " style="font-size: 10px;">
+            <span class="bg-gradient-to-r from-indigo-700 via-indigo-600 to-indigo-800 h-auto text-gray-200 text-xs font-normal p-1 rounded-lg rounded-tr-none px-1 items-end flex justify-end " style="font-size: 12px;">
                 ${data.message}
                 <span class="text-gray-400 pl-1" style="font-size: 8px;"> 
                         ${strTime}
@@ -63,7 +63,7 @@ chatSocket.onmessage = function(e) {
         messageElement.innerHTML = `
         <div class="flex items-center pr-10 mt-1">
           <img src="${imgBox.src}" class="rounded-full shadow-xl" width="15" height="15"> 
-          <span class="flex ml-1 h-auto  bg-gradient-to-r from-purple-900 via-violet-600 to-purple-900 text-gray-200 text-xs p-1 font-normal rounded-lg rounded-bl-none px-1 items-end" style="font-size: 10px;">
+          <span class="flex ml-1 h-auto  bg-gradient-to-r from-purple-900 via-violet-600 to-purple-900 text-gray-200 text-xs p-1 font-normal rounded-lg rounded-bl-none px-1 items-end" style="font-size: 12px;">
               ${data.message}
               <span class="text-gray-400 pl-1" style="font-size: 8px;">
                 ${strTime}

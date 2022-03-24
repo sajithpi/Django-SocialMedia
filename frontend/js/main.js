@@ -82,7 +82,7 @@ $(document)
     $(".js-model").addClass("hidden");
   })
 
-  // TODO:Upload
+  // TODO:Upload New Post
 .on("click", ".js-submit", function (e) {
     e.preventDefault();
     const text = $(".js-post-text").val().trim();
@@ -135,7 +135,7 @@ $(document)
     });
   })
 
-// TODO:Follow Unfollow
+// TODO:Follow Unfollow User
 .on("click", ".js-follow", function (e) {
   e.preventDefault();
   console.log("Clicked");
@@ -170,7 +170,7 @@ $(document)
 })
 
   
-  // TODO:Delete toggle 
+  // TODO:Delete Post toggle Icon
 
 .on("click",".delete-icon",function(e){
   e.preventDefault();
@@ -218,7 +218,7 @@ $(document)
 
 })
 
- // TODO:Delete Comment toggle 
+ // TODO:Delete Comment toggle Icon
 
  .on("click",".delete-comment-icon",function(e){
   e.preventDefault();
@@ -284,7 +284,7 @@ $(document)
 
 
 
-// TODO:Update
+// TODO:Update Post Icon
 .on("click",".update-icon",function(e){
   e.preventDefault()
   $(".js-update-model").toggleClass("hidden")
@@ -488,7 +488,7 @@ $(".comment-form").submit(function(e){
 
 
 
-// TODO:Update Button
+// TODO:Update Form 
 $(document)
 .on("click",".js-update-post",function(e){
   e.preventDefault();

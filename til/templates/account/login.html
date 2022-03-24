@@ -17,13 +17,16 @@
 
 
 
+{% if not request.user.is_authenticated %}
+ 
+
 <div class="relative min-h-screen flex ">
   <div class="flex flex-col sm:flex-row items-center md:items-start sm:justify-center md:justify-start flex-auto min-w-0 bg-white">
     <div class="sm:w-1/2 xl:w-3/5 h-full hidden md:flex flex-auto items-center justify-center p-10 overflow-hidden bg-purple-900 text-white bg-no-repeat bg-cover relative"
       style="background-image: url(../../../media/uploads/icons/SocialBook.png);background-position: center;">
       <div class="absolute bg-gradient-to-b from-indigo-600 to-blue-500 opacity-75 inset-0 z-0"></div>
       <div class="w-full  max-w-md z-10">
-        <div class="sm:text-4xl xl:text-5xl font-bold leading-tight mb-6">SocialBooks</div>
+        <div class="sm:text-4xl xl:text-5xl font-bold  mb-2">SocialBook</div>
         <!-- <img src="../../../media/uploads/icons/SocialBook.png" class="w-12" alt=""> -->
         <div class="sm:text-sm xl:text-md text-gray-200 font-normal"> We Help You To Connect People In Your Life</div>
       </div>
@@ -52,7 +55,7 @@
         {% get_providers as socialaccount_providers %}
 
         {% if socialaccount_providers %}
-        <div class="socialaccount_ballot flex flex-row justify-center items-center space-x-3">
+        <div class="socialaccount_ballot flex flex-row justify-center items-center space-x-3 mt-2">
           <a href="/accounts/google/login/?process=login" target="_blank"
             class="socialaccount_provider google  w-11 h-11 items-center justify-center inline-flex rounded-2xl font-bold text-lg   bg-gray-200 hover:bg-gray-300 hover:shadow-lg cursor-pointer transition ease-in duration-300"><img
               >
@@ -66,16 +69,16 @@
       <p>{% blocktrans %}If you have not created an account yet, then please
       <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
       {% endif %}
-        <div class="flex items-center justify-center space-x-2">
+        <div class="flex items-center justify-center space-x-2 mt-1">
           <span class="h-px w-16 bg-gray-200"></span>
           <span class="text-gray-300 font-normal">or continue with</span>
           <span class="h-px w-16 bg-gray-200"></span>
         </div>
-        <form  class=" login" method="POST" action="{% url 'account_login' %}">
+        <form  class="login mt-1" method="POST" action="{% url 'account_login' %}">
           {% csrf_token %}
           <input type="hidden" name="remember" value="true">
-          <div class="relative">
-            <div class="absolute right-3 mt-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500"
+          <div class="relative mt-12">
+            <div class="absolute right-3 mt-7"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500"
                 fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -86,9 +89,9 @@
               class=" w-full text-base px-4 py-2 border-b border-gray-300 focus:outline-none rounded-2xl focus:border-indigo-500"
               required id="id_login" type="email" name="login" placeholder="E-mail address" autocomplete="email" >
           </div>
-          <div class=" content-center relative">
-            <div id="passwordShowlogin1" class="absolute right-3 mt-4">
-              <i  class="passwordShowicon bi bi-eye text-blue-500 hover:text-blue-700 text-xl"></i>
+          <div class=" content-center relative mt-3">
+            <div id="passwordShowlogin1" class="absolute right-3 mt-7">
+              <i  class="passwordShowiconLogin bi bi-eye text-blue-500 hover:text-blue-700 text-xl"></i>
             </div>
             <label  for="id_password" class="ml-3 text-sm font-bold text-gray-700 tracking-wide">
               Password
@@ -101,7 +104,23 @@
       
             
           </div>
-          <div class="flex items-center justify-between">
+          {% if form.errors %}     
+            {% for field in form  %}
+               {% for error in field.errors %}
+              <div class="alert alert-danger text-red-600 text-sm my-3">
+                  <strong>{{ error | escape }}</strong>
+              </div> 
+              {% endfor %}
+            {% endfor %}
+            
+            {% for error in form.non_field_errors %}
+                <div class="alert alert-danger text-red-600 text-sm my-3">
+                      <strong>{{error | escape }}</strong>
+                </div>
+              
+            {% endfor %}
+            {% endif %}  
+          <div class="flex items-center justify-between mt-3">
             <div class="text-sm">
               <a href="{% url 'account_reset_password' %}" class="text-indigo-400 hover:text-blue-500">
                 Forgot your password?
@@ -120,11 +139,14 @@
               class="flex text-indigo-400 hover:text-blue-500 no-underline hover:underline cursor-pointer transition ease-in duration-300 ml-3">Sign
               up</a>
           </p>
+          
         </form>
       </div>
     </div>
   </div>
 </div>
+{% endif %}
+  
 
 
 

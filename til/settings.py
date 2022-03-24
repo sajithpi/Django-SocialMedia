@@ -10,8 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+from ctypes import cast
+from email.policy import default
 import os
 from pathlib import Path
+
+from django import conf
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,12 +28,12 @@ PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-@l$m-3e0m(1*g86-_$xtv$oaw#^2jg4x8(^1tsa68!_!m8jf9%'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['socialbook79.herokuapp.com','127.0.0.1']
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media/')
@@ -53,6 +58,10 @@ INSTALLED_APPS = [
     'followers',
     'chat',
     'sorl.thumbnail',
+    'admin_honeypot',
+    'django_filters',
+    'storages',
+    'whitenoise'
    
 
 ]
@@ -60,14 +69,21 @@ INSTALLED_APPS = [
 SITE_ID = 1
 
 MIDDLEWARE = [
+     'whitenoise.middleware.WhiteNoiseMiddleware',
+     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+     'django_session_timeout.middleware.SessionTimeoutMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+SESSION_EXPIRE_SECONDS = 3600  # 1 hour
+SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
+SESSION_TIMEOUT_REDIRECT = 'accounts/login'
 
 ROOT_URLCONF = 'til.urls'
 
@@ -149,7 +165,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
 SITE_ID = 2
@@ -172,12 +188,12 @@ AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend"
 )
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST      = 'smtp.gmail.com'
-EMAIL_PORT      = 587
-EMAIL_USE_TLS   = True
-EMAIL_HOST_USER = 'hellosocialbook@gmail.com'
-EMAIL_HOST_PASSWORD = 'socialbook@1593'
+EMAIL_BACKEND = config('EMAIL_BACKEND')
+EMAIL_HOST      = config('EMAIL_HOST')
+EMAIL_PORT      = config('EMAIL_PORT', cast=int)
+EMAIL_USE_TLS   = config('EMAIL_USE_TLS', cast=bool)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
 
 # Static Files

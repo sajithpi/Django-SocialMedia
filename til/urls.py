@@ -25,7 +25,8 @@ from chat import urls as chat_urls
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/',include('admin_honeypot.urls', namespace="admin_honeypot")),
+    path('socialbooksecurelogin/', admin.site.urls),
     path("",include(feed_urls, namespace="feed")),
     path("",include(profiles_urls, namespace="profiles")),
     url("",include("allauth.urls")),

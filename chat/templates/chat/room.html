@@ -76,9 +76,9 @@ Chat Room
                                     {% endif %}
                                     <div class="message_btn chat-message mb-1" id="{{chat.id}}">
                                        <div class="flex justify-end pt-2 pl-10"> 
-                                          <span id="message_btn{{chat.id}}" class="bg-gradient-to-r from-indigo-700 via-indigo-600 to-indigo-800
+                                          <span id="message_btn{{chat.id}}" class="sender_msg bg-gradient-to-r from-indigo-700 via-indigo-600 to-indigo-800
                                                       h-auto text-white text-xs font-normal p-1 rounded-lg rounded-tr-none px-1 items-end flex justify-end "
-                                                style="font-size: 10px;" >
+                                                style="font-size: 12px;" >
                                              {{chat.content}}
                                              <span class="text-gray-400 pl-1" style="font-size: 8px;">     {% load tz %}
                                                 {% timezone "Asia/Kolkata" %}
@@ -104,7 +104,7 @@ Chat Room
                                           <span class="flex ml-1 h-auto 
                                           bg-gradient-to-r from-purple-900 via-violet-600 to-purple-900
                                           text-white text-xs p-1 font-normal px-1 items-end rounded-lg rounded-bl-none" 
-                                             style="font-size: 10px;">
+                                             style="font-size: 12px;">
                                              {{chat.content}}
                                              <span class="text-gray-400 pl-1" style="font-size: 8px;">
                                                 {% timezone "Asia/Kolkata" %}

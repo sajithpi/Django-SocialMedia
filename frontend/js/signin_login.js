@@ -8,10 +8,12 @@ $(document)
         $('#pasword_id').prop('type','text')
         $('.passwordShowicon').removeClass('bi-eye')
         $('.passwordShowicon').addClass('bi-eye-slash')
+        console.log("Clicked eye")
     }else{
         $('#pasword_id').prop('type','password')
         $('.passwordShowicon').addClass('bi-eye')
         $('.passwordShowicon').removeClass('bi-eye-slash')
+        console.log("Clicked slash")
     }
   })
 

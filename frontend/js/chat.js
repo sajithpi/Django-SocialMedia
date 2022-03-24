@@ -1,14 +1,22 @@
-
+// Chat Mesage Delete
 $(document)
 .on('click','.message_btn',function (e) {
     e.preventDefault()
     console.log("Clicked")
     const msg_id = $(this).attr('id')
     console.log("msg_id:",msg_id)
+    // $('.sender_msg').removeClass('from-green-700')
+    // $('.sender_msg').removeClass('vi-green-600')
+    // $('.sender_msg').removeClass('to-green-800')
+    // $('.sender_msg').addClass('from-indigo-700')
+    // $('.sender_msg').addClass('via-indigo-600')
+    // $('.sender_msg').addClass('to-indigo-800')
     let message_btn = document.getElementById(`message_btn${msg_id}`)
     message_btn.classList.replace('from-indigo-700','from-green-700')
     message_btn.classList.replace('via-indigo-600','vi-green-600')
     message_btn.classList.replace('to-indigo-800','to-green-800')
+
+  
     let trash_message = document.getElementById('trash_message')
     trash_message.classList.replace('hidden','visible')
     trash_message.addEventListener("click",function (e) {
@@ -48,7 +56,7 @@ $(document)
     })
 
 })
-
+// Notification List Clear
 .on("click","#notification_clear",function(e){
     e.preventDefault()
     console.log("Clicked")
