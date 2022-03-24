@@ -70,8 +70,8 @@ INSTALLED_APPS = [
 SITE_ID = 1
 
 MIDDLEWARE = [
-     'whitenoise.middleware.WhiteNoiseMiddleware',
-     'whitenoise.middleware.WhiteNoiseMiddleware',
+   
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
      'django_session_timeout.middleware.SessionTimeoutMiddleware',
