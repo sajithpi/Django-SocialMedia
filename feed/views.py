@@ -1,10 +1,7 @@
 from ast import Store
 from email import message
-import re
-from turtle import pos, st
 from django import views
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect, request 
 from django.http.response import HttpResponseBadRequest, JsonResponse,HttpResponse
 from django.template import context
 from django.views.generic import TemplateView
@@ -12,7 +9,7 @@ from django.views.generic import  DetailView, View,ListView,FormView
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from profiles.models import MessageModel, Profile, ThreadModel
+from profiles.models import Profile, ThreadModel
 from feed.models import Favorites
 from .models import Comment, Notification, Post,Like, Stories
 from django.db.models import Q
