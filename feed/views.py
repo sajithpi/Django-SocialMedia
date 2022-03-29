@@ -291,7 +291,7 @@ def Like_post(request):
            
             )
             notification.save()
-
+            
         like, created = Like.objects.get_or_create(user=user,post_id=post_id)
         if not created:
             if like.value == 'Like':
